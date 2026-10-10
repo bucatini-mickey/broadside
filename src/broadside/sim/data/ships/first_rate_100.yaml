@@ -1,0 +1,49 @@
+# Stat block for a 100-gun First Rate ship of the line - the largest
+# warships of the age, fleet flagships. Figures follow HMS Victory as she
+# was armed at Trafalgar (1805): 56.7 m (186 ft) on the gundeck, 15.8 m
+# (51 ft 10 in) beam, about 820 men. See docs/design/06_research_references.md.
+#
+# Her three main batteries are worked on covered gundecks; only the
+# quarterdeck and forecastle guns stand on the open weather deck (the
+# waist between them was spanned by gangways - not modelled separately).
+
+name: "100-Gun First Rate"
+ship_class: first_rate_100
+rate: "First Rate"
+
+length_m: 56.7
+beam_m: 15.8
+draught_m: 6.4
+tonnage_bm: 2142
+max_crew: 821
+
+guns:
+  - type: "32-pounder long gun"
+    count: 30
+    deck: "lower gundeck"
+  - type: "24-pounder long gun"
+    count: 28
+    deck: "middle gundeck"
+  - type: "12-pounder long gun"
+    count: 30
+    deck: "upper gundeck"
+  - type: "12-pounder long gun"
+    count: 12
+    deck: "quarterdeck"
+  - type: "12-pounder long gun"
+    count: 2
+    deck: "forecastle"
+  - type: "68-pounder carronade"
+    count: 2
+    deck: "forecastle"
+
+sail_plan: "full-rigged ship (fore, main, and mizzen masts, all square-rigged, plus jibs and spanker)"
+
+deck_grid:
+  width: 57
+  height: 17
+
+notes: >
+  A fleet flagship: slow, enormously strong, and crewed like a small town.
+  At 1 m per cell her weather deck alone is ~57 x 17 cells, and a watch on
+  deck is well over a hundred people.

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "broadside"
+version = "0.1.0"
+description = "A terminal-based simulation of Napoleonic-era ship and fleet command"
+requires-python = ">=3.10"
+dependencies = [
+    # Pinned below 3.0 - see the comment in requirements.txt: esper 3.x
+    # dropped the instantiable esper.World class in favour of implicit
+    # global-module-state worlds, which is a worse fit for this project.
+    "esper>=2.4,<3.0",
+    "blessed>=1.20",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Lets pytest find the package without an editable install.
+pythonpath = ["src"]

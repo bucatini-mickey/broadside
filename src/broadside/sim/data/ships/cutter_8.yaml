@@ -1,0 +1,39 @@
+# Stat block for an 8-gun naval cutter: the smallest thing in these seas
+# with a commissioned officer in her and a pennant at the masthead. One
+# mast, a very large fore-and-aft sail plan for her size, eight small
+# carriage guns, and thirty-odd men.
+#
+# Period navies used cutters for dispatches, inshore reconnaissance,
+# revenue work and the endless business of carrying orders between
+# squadrons. They were famously weatherly - they would lie closer to the
+# wind than any square-rigged ship - and famously wet.
+#
+# Figures are representative of a Royal Navy hired or purpose-built cutter
+# of the 1790s-1800s (around 20 m, 8 x 4-pounders, 30-40 men).
+
+name: "8-Gun Cutter"
+ship_class: cutter_8
+rate: "Unrated (Cutter)"
+
+length_m: 20.4
+beam_m: 7.2
+draught_m: 2.6
+tonnage_bm: 120
+max_crew: 34
+
+guns:
+  - type: "4-pounder long gun"
+    count: 8
+    deck: "main deck"
+
+sail_plan: "single-masted cutter"
+
+deck_grid:
+  width: 13
+  height: 6
+
+notes: >
+  The teaching ship: few enough guns that every one of them can be
+  followed by eye, few enough men that you can know all their names, and
+  handy enough that the wheel does what you ask of it at once. Weatherly,
+  wet, and no match for anything that can see her.

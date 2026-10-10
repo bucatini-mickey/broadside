@@ -1,0 +1,877 @@
+# Chronicle of world 1805
+
+World 1805: 3600 x 1500 km, 70 settlements, 8 nations, 809 events of history (1650-1805). You are Capt. Thomas Hardy of the Dauntless, Albion. At war with: Zormaxa, Rulnau.
+
+## Nations
+
+- **Touhi** - Ckhiyusi merchant republic; seat Zu Ki; 15 ports; navy ~36 ships of force.
+- **Laskii** - Tyveri duchy; seat Te Tä; 1 ports; navy ~3 ships of force.
+- **Zormaxa** - Kokgen commonwealth; seat Nomes; 12 ports; navy ~32 ships of force.
+- **Kake** - Kukisese republic; seat Sas'sotunpo; 1 ports; navy ~7 ships of force.
+- **Ddeje** - Beyrbaddar grand despotate; seat Jai Gy; 12 ports; navy ~30 ships of force.
+- **Dina** - Rikan merchant republic; seat Lostides; 8 ports; navy ~23 ships of force.
+- **Rulnau** - Pojin commonwealth; seat Za Pajmi; 19 ports; navy ~44 ships of force.
+- **Albion** (you) - Ŝoônojsian republic; seat Lususissir; 2 ports; navy ~50 ships of force.
+
+## Famous ships
+
+- *Duuchat* (Dina, launched 1710) - wrecked 1720
+- *Ola* (Kake, launched 1713) - wrecked 1734
+- *Sisoru* (Touhi, launched 1728) - wrecked 1765
+- *Chohi* (Touhi, launched 1729)
+- *Mäsavu* (Laskii, launched 1731) - wrecked 1766
+- *Kolika* (Albion, launched 1732) - wrecked 1745
+- *Sas'sodemi* (Kake, launched 1734) - wrecked 1757
+- *Paipana* (Dina, launched 1735)
+- *Mbopa* (Ddeje, launched 1739)
+- *Ifo* (Rulnau, launched 1745)
+- *Bajsbor* (Albion, launched 1747)
+- *Fornu* (Albion, launched 1755)
+- *Hälhasäni* (Laskii, launched 1756) - wrecked 1802
+- *Dataja* (Ddeje, launched 1760)
+- *Tako* (Kake, launched 1763)
+- *Hälha* (Laskii, launched 1776)
+- *Reähei* (Laskii, launched 1778)
+- *Ĝastel* (Kake, launched 1780)
+- *Pailesa* (Dina, launched 1781)
+- *Z'hojn* (Kake, launched 1782)
+- *Nänat* (Dina, launched 1798)
+- *Zinkal* (Rulnau, launched 1799)
+- *Posşqipado* (Zormaxa, launched 1801)
+- *Koliŝolo* (Albion, launched 1802)
+- *Tamossa* (Laskii, launched 1805)
+
+## Admirals
+
+- Kötyn Hynmiintila of Laskii - killed at the Battle of Ve A
+- Kexchini Hopalloxteso of Dina - killed at the Battle of Pede Guulous
+- Inge Gibisy of Ddeje - killed at the Battle of Nigy
+- Chotuku Zusa of Touhi - killed at the Battle of Luras
+- Tine Hopalchas of Dina - killed at the Battle of Ky Nyl
+- Kenki Zapojan of Rulnau - killed at the Battle of Javajorajn
+- Zuyra Ingekyrli of Ddeje - killed at the Battle of Jai Gy
+- Kenen Kimä of Laskii - killed at the Battle of Kopuky
+- Deto Diduladan of Kake - killed at the Battle of Ty Xogi
+- Firsoseto Rubaso of Albion - killed at the Battle of Rerla
+- Lomeno Teka of Kake - killed at the Battle of Ty Xogi
+- Shanmi Rashansi of Touhi - killed at the Battle of No A
+- Nuuttetnen Noka of Laskii - killed at the Battle of Tou Yikun
+- Iela Hynmyto of Laskii - killed at the Battle of Iänäjä
+- Meqsün Senonaisnon of Zormaxa - killed at the Battle of Ngytu Nya
+- R'ko R'tididu of Kake - killed at the Battle of Pinu
+- Homiro Tsitukiq of Touhi - killed at the Battle of So Yikun
+- Imiq Mkhzakisa of Touhi
+- Neris Satoj of Rulnau - killed at the Battle of Nigy
+- Mitkki Sänijiu of Laskii - killed at the Battle of Lususissir
+
+## Events
+
+- **1650** The merchant republic of Touhi holds 16 ports; its seat is Zu Ki.
+- **1650** The duchy of Laskii holds 7 ports; its seat is Te Tä.
+- **1650** The commonwealth of Zormaxa holds 12 ports; its seat is Nomes.
+- **1650** The republic of Kake holds 3 ports; its seat is Sas'sotunpo.
+- **1650** The grand despotate of Ddeje holds 7 ports; its seat is Jai Gy.
+- **1650** The merchant republic of Dina holds 11 ports; its seat is Lostides.
+- **1650** The commonwealth of Rulnau holds 11 ports; its seat is Za Pajmi.
+- **1650** The republic of Albion holds 3 ports; its seat is Lususissir.
+- **1651** Dina launches the Paamex ('Eagle'), 74 guns.
+- **1653** War between Touhi and Kake.
+- **1653** Battle of Llarari: Touhi defeats Kake; 1 of 14 ships lost.
+- **1654** War between Ddeje and Dina.
+- **1654** Battle of Yikhanronkun: Touhi defeats Kake; 1 of 14 ships lost.
+- **1654** Battle of Kuoki: Touhi defeats Kake; 4 of 22 ships lost.
+- **1654** Kake besieges Mirrinki but is beaten off.
+- **1654** Battle of Jai Gy: Dina defeats Ddeje; 0 of 6 ships lost.
+- **1655** Battle of Zu Ma: Touhi defeats Kake; 7 of 24 ships lost.
+- **1655** Battle of Tayupa: Touhi defeats Kake; 1 of 11 ships lost.
+- **1655** Plague in Balu Budd.
+- **1656** Battle of Ririkhchu: Kake defeats Touhi; 0 of 12 ships lost.
+- **1656** Battle of Dojtosohu'i: Touhi defeats Kake; 1 of 21 ships lost.
+- **1656** The Paamex of Dina is lost in a storm.
+- **1657** Battle of Rakhuma: Touhi defeats Kake; 2 of 25 ships lost.
+- **1657** Touhi takes Lajdazun from Kake.
+- **1657** Battle of Tunya Bateth: Dina defeats Ddeje; 3 of 14 ships lost.
+- **1657** Battle of Nigy: Dina defeats Ddeje; 3 of 20 ships lost.
+- **1658** Battle of C'noŝi: Touhi defeats Kake; 5 of 20 ships lost.
+- **1658** Touhi takes Linonka from Kake.
+- **1658** Battle of Lostides: Dina defeats Ddeje; 2 of 15 ships lost.
+- **1658** Battle of Sw Bu: Dina defeats Ddeje; 3 of 24 ships lost.
+- **1658** Albion launches the Forŝolo ('Red Vengeance'), 100 guns.
+- **1658** The Forŝolo of Albion is lost in a storm.
+- **1659** War between Laskii and Albion.
+- **1659** Battle of Kuo Tsa: Touhi defeats Kake; 1 of 6 ships lost.
+- **1659** Battle of Mirrinsatsu: Touhi defeats Kake; 0 of 4 ships lost.
+- **1659** Battle of Mbasiliyru: Dina defeats Ddeje; 0 of 4 ships lost.
+- **1659** Battle of Paasiliru: Albion defeats Laskii; 4 of 25 ships lost.
+- **1659** Laskii besieges Lidisocerôu but is beaten off.
+- **1660** Battle of Redol Nonka: Kake defeats Touhi; 3 of 14 ships lost.
+- **1660** Battle of Mako: Touhi defeats Kake; 0 of 17 ships lost.
+- **1660** Battle of Koputu: Albion defeats Laskii; 0 of 3 ships lost.
+- **1660** Touhi launches the Kahu ('Bold Sea'), 74 guns.
+- **1661** Battle of Noŝ'nroj: Touhi defeats Kake; 5 of 22 ships lost.
+- **1661** Battle of Fano: Albion defeats Laskii; 1 of 12 ships lost.
+- **1661** Albion takes Pitnekk from Laskii.
+- **1662** Battle of Mihanonka: Touhi defeats Kake; 4 of 25 ships lost.
+- **1662** Battle of Laka: Touhi defeats Kake; 2 of 23 ships lost.
+- **1662** Peace of Rakama ends the war between Touhi and Kake.
+- **1662** Battle of Tuise: Dina defeats Ddeje; 1 of 11 ships lost.
+- **1662** Peace of Tutaich ends the war between Ddeje and Dina.
+- **1662** Battle of Forocerôu: Laskii defeats Albion; 2 of 19 ships lost.
+- **1663** Battle of Sufeĝe: Albion defeats Laskii; 2 of 22 ships lost.
+- **1664** Battle of Maapaliti: Albion defeats Laskii; 0 of 6 ships lost.
+- **1664** Laskii takes Pitnekk from Albion.
+- **1665** Battle of Koputu: Albion defeats Laskii; 6 of 24 ships lost.
+- **1665** Laskii besieges Lidisocerôu but is beaten off.
+- **1665** Laskii launches the Vonpyl ('Faith'), 110 guns.
+- **1666** War between Touhi and Rulnau.
+- **1666** Battle of Kejme: Laskii defeats Albion; 3 of 12 ships lost.
+- **1666** Laskii takes Kejosujdij from Albion.
+- **1666** Battle of Runĝo: Touhi defeats Rulnau; 3 of 12 ships lost.
+- **1666** Rulnau besieges Rakama but is beaten off.
+- **1666** Visi Hynmyto is made admiral of Laskii.
+- **1667** Peace of Te Tä ends the war between Laskii and Albion.
+- **1667** Battle of Mirrinsatsu: Rulnau defeats Touhi; 0 of 3 ships lost.
+- **1667** Lata Ngobawe is made admiral of Ddeje.
+- **1668** Battle of Pinvon: Rulnau defeats Touhi; 3 of 14 ships lost.
+- **1668** Nenvo Hynkätmukkkki is made admiral of Laskii.
+- **1669** Battle of Shu Ma: Touhi defeats Rulnau; 0 of 9 ships lost.
+- **1669** Battle of Bossisovon: Touhi defeats Rulnau; 1 of 22 ships lost.
+- **1670** Battle of Soma: Touhi defeats Rulnau; 2 of 9 ships lost.
+- **1670** Dina launches the Laxte ('Red Triumph'), 100 guns.
+- **1670** Plague in Lususissir.
+- **1671** Battle of Bossis Non: Touhi defeats Rulnau; 2 of 10 ships lost.
+- **1671** Battle of Sotsa: Touhi defeats Rulnau; 4 of 21 ships lost.
+- **1671** Rulnau takes Si Ko from Touhi.
+- **1671** Henio Pojosi'an is made admiral of Kake.
+- **1672** Dina launches the Hoythis ('True Wind'), 110 guns.
+- **1673** Battle of Sochi: Touhi defeats Rulnau; 0 of 19 ships lost.
+- **1673** Peace of Ayun Ri ends the war between Touhi and Rulnau.
+- **1675** War between Ddeje and Albion.
+- **1675** Battle of Nigy: Albion defeats Ddeje; 6 of 25 ships lost.
+- **1675** Battle of Jairhudd: Albion defeats Ddeje; 0 of 6 ships lost.
+- **1675** R'ko Acas is made admiral of Kake.
+- **1676** War between Dina and Rulnau.
+- **1676** Battle of Tunyada: Albion defeats Ddeje; 0 of 19 ships lost.
+- **1676** Battle of Mbasingilbyr: Albion defeats Ddeje; 0 of 15 ships lost.
+- **1676** Battle of Kapäsokos: Dina defeats Rulnau; 0 of 10 ships lost.
+- **1676** Battle of Bossisoleva: Dina defeats Rulnau; 0 of 6 ships lost.
+- **1677** Battle of Jai Gy: Albion defeats Ddeje; 3 of 14 ships lost.
+- **1677** Battle of Menrajn: Rulnau defeats Dina; 0 of 13 ships lost.
+- **1677** Battle of Nitixonesnot: Rulnau defeats Dina; 1 of 8 ships lost.
+- **1677** Plague in Ayun Ri.
+- **1678** War between Laskii and Dina.
+- **1678** Battle of Tunyada: Albion defeats Ddeje; 1 of 22 ships lost.
+- **1678** Albion besieges Nigy but is beaten off.
+- **1678** Battle of Jazojj Zen: Rulnau defeats Dina; 4 of 17 ships lost.
+- **1678** Battle of Molbuĝa: Rulnau defeats Dina; 1 of 8 ships lost.
+- **1678** Dina besieges Pinu but is beaten off.
+- **1678** Battle of Lostinandit: Dina defeats Laskii; 4 of 24 ships lost.
+- **1679** War between Dina and Albion.
+- **1679** Battle of Falinar: Albion defeats Ddeje; 1 of 9 ships lost.
+- **1679** Battle of Kyschaguulous: Dina defeats Rulnau; 5 of 23 ships lost.
+- **1679** Battle of This Mounko: Dina defeats Laskii; 1 of 22 ships lost.
+- **1679** Battle of Lesissir: Dina defeats Albion; 4 of 16 ships lost.
+- **1679** Battle of Nitixonesnot: Albion defeats Dina; 0 of 8 ships lost.
+- **1679** Albion besieges Kos Guulous but is beaten off.
+- **1680** Battle of Balu Budd: Ddeje under Lata Ngobawe defeats Albion; 4 of 24 ships lost.
+- **1680** Battle of Imounko: Dina defeats Laskii; 1 of 5 ships lost.
+- **1681** Battle of Baja Zilij: Albion defeats Ddeje; 2 of 24 ships lost.
+- **1681** Battle of Swdumby: Albion defeats Ddeje; 2 of 10 ships lost.
+- **1681** Albion takes Tunyada from Ddeje.
+- **1681** Battle of Mesalu: Dina defeats Rulnau; 0 of 6 ships lost.
+- **1681** Rulnau besieges Kapäs Xogi but is beaten off.
+- **1681** Battle of Xintisoliikk: Dina defeats Laskii; 5 of 24 ships lost.
+- **1682** Battle of Lewubateth: Albion defeats Ddeje; 3 of 15 ships lost.
+- **1682** Battle of Sufeo: Albion defeats Ddeje; 2 of 11 ships lost.
+- **1682** Ddeje besieges Lidisocerôu but is beaten off.
+- **1682** Battle of Raa Neso: Dina defeats Rulnau; 4 of 17 ships lost.
+- **1682** Battle of Ivon: Rulnau defeats Dina; 1 of 16 ships lost.
+- **1682** Battle of Pätä: Dina defeats Laskii; 1 of 8 ships lost.
+- **1682** Dina takes Petttä from Laskii.
+- **1682** Albion besieges Gänete but is beaten off.
+- **1682** The Laxte of Dina is lost in a storm.
+- **1683** Battle of Rerla: Albion defeats Ddeje; 0 of 11 ships lost.
+- **1683** Battle of Naanvaliru: Dina defeats Laskii; 2 of 17 ships lost.
+- **1683** Battle of Kos Des: Dina defeats Laskii; 1 of 17 ships lost.
+- **1683** Battle of Sepia: Albion defeats Dina; 1 of 18 ships lost.
+- **1683** Battle of Sepizojkar: Albion defeats Dina; 0 of 6 ships lost.
+- **1684** Battle of Ko Oo: Albion defeats Ddeje; 3 of 21 ships lost.
+- **1684** Ddeje takes Tunyada from Albion.
+- **1684** Battle of Gousla: Rulnau defeats Dina; 0 of 4 ships lost.
+- **1684** Battle of Hälha Tis: Dina defeats Laskii; 1 of 20 ships lost.
+- **1685** War between Kake and Albion.
+- **1685** Battle of Tunyada: Albion defeats Ddeje; 1 of 22 ships lost.
+- **1685** Albion besieges Tuise but is beaten off.
+- **1685** Peace of Nigy ends the war between Ddeje and Albion.
+- **1685** Battle of Lalaguulous: Dina defeats Rulnau; 2 of 17 ships lost.
+- **1685** Rulnau besieges Pede Guulous but is beaten off.
+- **1685** Battle of Rytä: Dina defeats Laskii; 0 of 18 ships lost.
+- **1685** Dina takes Kinhä Näjä from Laskii.
+- **1685** Battle of Ragur: Albion defeats Dina; 3 of 20 ships lost.
+- **1685** Dina besieges Lidisocerôu but is beaten off.
+- **1685** Naône Sajnilu is made admiral of Albion.
+- **1685** The Vonpyl of Laskii is lost in a storm.
+- **1686** War between Rulnau and Albion.
+- **1686** Battle of Kynyl: Dina defeats Rulnau; 3 of 22 ships lost.
+- **1686** Rulnau takes Kinhä Näjä from Dina.
+- **1686** Peace of Nitixonesnot ends the war between Dina and Rulnau.
+- **1686** Battle of Lax Nandit: Laskii under Visi Hynmyto defeats Dina; 0 of 3 ships lost.
+- **1686** Laskii takes No Nandit from Dina.
+- **1686** Battle of Nitixonesnot: Albion under Naône Sajnilu defeats Dina; 2 of 16 ships lost.
+- **1686** Albion takes Kapäs Xogi from Dina.
+- **1686** Battle of Ŝetan: Kake under R'ko Acas defeats Albion; 3 of 25 ships lost.
+- **1686** Battle of A Gaj: Rulnau defeats Albion; 3 of 24 ships lost.
+- **1686** Battle of Ginle U: Albion defeats Rulnau; 0 of 8 ships lost.
+- **1687** War between Laskii and Albion.
+- **1687** Laskii besieges Petttä but is beaten off.
+- **1687** Battle of Lususissir: Dina defeats Albion; 1 of 4 ships lost.
+- **1687** Battle of Lidisocerôu: Albion defeats Kake; 0 of 10 ships lost.
+- **1687** Kake takes Lidisocerôu from Albion.
+- **1687** Battle of Rulleva: Rulnau defeats Albion; 0 of 11 ships lost.
+- **1687** Battle of Zaronrin: Albion defeats Rulnau; 0 of 18 ships lost.
+- **1687** Rulnau takes Kapäs Xogi from Albion.
+- **1687** Battle of Röiti: Laskii under Visi Hynmyto defeats Albion; 0 of 4 ships lost.
+- **1687** Albion besieges Rytä but is beaten off.
+- **1688** Battle of No Nandit: Dina defeats Laskii; 3 of 19 ships lost.
+- **1688** Battle of Nitixonesnot: Dina defeats Laskii; 2 of 24 ships lost.
+- **1688** Battle of Petttä: Albion defeats Dina; 3 of 17 ships lost.
+- **1688** Battle of Sas'sotunpo: Albion defeats Kake; 4 of 15 ships lost.
+- **1688** Battle of Ojkironrin: Albion defeats Rulnau; 1 of 6 ships lost.
+- **1688** Battle of Zauninos: Albion defeats Rulnau; 1 of 19 ships lost.
+- **1688** Albion takes Si Ko from Rulnau.
+- **1688** Battle of Bozilij: Albion defeats Laskii; 0 of 3 ships lost.
+- **1688** Laskii takes Si Ko from Albion.
+- **1689** Battle of Ke Nekk: Laskii defeats Dina; 1 of 4 ships lost.
+- **1689** Battle of Gänete: Dina defeats Albion; 0 of 4 ships lost.
+- **1689** Battle of Bo Zojkar: Rulnau defeats Albion; 1 of 9 ships lost.
+- **1689** Battle of Rulopajmi: Albion defeats Rulnau; 1 of 7 ships lost.
+- **1689** Monkaizon Houphinogotir is made admiral of Zormaxa.
+- **1689** Kake launches the Mejkil ('Hope'), 98 guns.
+- **1690** Battle of Zala: Dina defeats Albion; 1 of 7 ships lost.
+- **1690** Battle of Petttä: Dina defeats Albion; 0 of 6 ships lost.
+- **1690** Battle of Ze Mite: Albion defeats Kake; 4 of 22 ships lost.
+- **1690** Battle of Kaŝi: Albion defeats Kake; 3 of 15 ships lost.
+- **1690** Battle of Nengasozen: Rulnau defeats Albion; 1 of 15 ships lost.
+- **1690** Battle of Raakusoj: Rulnau defeats Albion; 2 of 15 ships lost.
+- **1690** Battle of Faaoo: Albion defeats Laskii; 3 of 14 ships lost.
+- **1690** Battle of Notis: Albion defeats Laskii; 0 of 5 ships lost.
+- **1690** Chotuku Mkhzachkhsi is made admiral of Touhi.
+- **1690** Laskii launches the Reälit ('Swift Valour'), 74 guns.
+- **1690** Plague in Neqhinonais.
+- **1691** Battle of Gänete: Dina defeats Laskii; 0 of 22 ships lost.
+- **1691** Battle of Kojs'on Zun: Albion defeats Kake; 2 of 15 ships lost.
+- **1691** Battle of Jojna: Rulnau defeats Albion; 4 of 24 ships lost.
+- **1691** Battle of Asujdij: Albion defeats Laskii; 3 of 21 ships lost.
+- **1691** Kötyn Hynmiintila is made admiral of Laskii.
+- **1692** Battle of Lu Näjä: Laskii under Kötyn Hynmiintila defeats Dina; 5 of 18 ships lost.
+- **1692** Battle of Kapäsolipox: Dina defeats Laskii; 1 of 6 ships lost.
+- **1692** Battle of Las Des: Albion defeats Dina; 2 of 10 ships lost.
+- **1692** Battle of Nitixonesnot: Albion defeats Dina; 0 of 13 ships lost.
+- **1692** Albion takes Nitixonesnot from Dina.
+- **1692** Rulnau takes Nitixonesnot from Albion.
+- **1692** Battle of Tinnekk: Albion defeats Laskii; 0 of 5 ships lost.
+- **1692** Battle of Kinhäräs: Albion defeats Laskii; 0 of 11 ships lost.
+- **1693** War between Laskii and Zormaxa.
+- **1693** Battle of Chanila: Laskii under Kötyn Hynmiintila defeats Dina; 1 of 6 ships lost.
+- **1693** Battle of Hetzes Da: Dina defeats Laskii; 1 of 7 ships lost.
+- **1693** Laskii besieges Chanides but is beaten off.
+- **1693** Peace of Rytä ends the war between Laskii and Dina.
+- **1693** Battle of Kolinar: Dina defeats Albion; 6 of 25 ships lost.
+- **1693** Battle of Gecerôu: Albion defeats Kake; 0 of 3 ships lost.
+- **1693** Battle of Nasno: Albion defeats Kake; 3 of 11 ships lost.
+- **1693** Peace of Sas'sotunpo ends the war between Kake and Albion.
+- **1693** Battle of Si Ko: Albion defeats Laskii; 2 of 21 ships lost.
+- **1693** Battle of Pyntä: Albion defeats Laskii; 1 of 8 ships lost.
+- **1693** Battle of Neqhinonais: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 0 of 10 ships lost.
+- **1694** Battle of Paihaa: Dina defeats Albion; 0 of 4 ships lost.
+- **1694** Battle of Dazojkar: Albion defeats Rulnau; 0 of 4 ships lost.
+- **1694** Peace of Rytä ends the war between Laskii and Albion.
+- **1694** Battle of Dakor: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 1 of 9 ships lost.
+- **1694** The Mejkil of Kake is lost in a storm.
+- **1695** Battle of Tujbunora: Albion defeats Rulnau; 2 of 9 ships lost.
+- **1695** Battle of Röiti: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 0 of 4 ships lost.
+- **1695** Battle of Röinäjä: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 1 of 9 ships lost.
+- **1695** Laskii takes Kirdolor from Zormaxa.
+- **1696** Battle of Kebio: Albion defeats Dina; 0 of 3 ships lost.
+- **1696** Battle of Ty Xogi: Dina defeats Albion; 1 of 13 ships lost.
+- **1696** Peace of Chanides ends the war between Dina and Albion.
+- **1696** Battle of Rinlojoja: Albion defeats Rulnau; 1 of 16 ships lost.
+- **1696** Peace of Jazojj Zen ends the war between Rulnau and Albion.
+- **1696** Battle of Ve A: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 2 of 14 ships lost.
+- **1696** Kexchini Hopalloxteso is made admiral of Dina.
+- **1697** War between Kake and Ddeje.
+- **1697** Battle of Naanva Tä: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 3 of 13 ships lost.
+- **1697** Battle of Vozun: Ddeje defeats Kake; 0 of 13 ships lost.
+- **1697** Ddeje takes Lidisocerôu from Kake.
+- **1698** Battle of Myräs: Zormaxa under Monkaizon Houphinogotir defeats Laskii; 2 of 15 ships lost.
+- **1698** Zormaxa takes Kirdolor from Laskii.
+- **1698** Zormaxa launches the Houphin ('Shield'), 74 guns.
+- **1699** Battle of Lidisocerôu: Ddeje defeats Kake; 3 of 15 ships lost.
+- **1699** Battle of Tuise: Ddeje defeats Kake; 0 of 16 ships lost.
+- **1699** Inge Gibisy is made admiral of Ddeje.
+- **1700** War between Touhi and Laskii.
+- **1700** Battle of Duxgatogqkon: Zormaxa defeats Laskii; 0 of 8 ships lost.
+- **1700** Battle of Nigy: Kake under Henio Pojosi'an defeats Ddeje; 1 of 21 ships lost.
+- **1700** Battle of Mashkhru: Touhi under Chotuku Mkhzachkhsi defeats Laskii; 1 of 16 ships lost.
+- **1700** Battle of Notu: Touhi under Chotuku Mkhzachkhsi defeats Laskii; 0 of 5 ships lost.
+- **1700** Chotuku Zusa is made admiral of Touhi.
+- **1701** War between Zormaxa and Kake.
+- **1701** Battle of Pitnekk: Zormaxa defeats Laskii; 0 of 16 ships lost.
+- **1701** Battle of Nijvin: Ddeje defeats Kake; 1 of 22 ships lost.
+- **1701** Battle of Tedono: Ddeje defeats Kake; 4 of 20 ships lost.
+- **1701** Battle of Va Räs: Touhi under Chotuku Mkhzachkhsi defeats Laskii; 4 of 15 ships lost.
+- **1701** Touhi besieges Rytä but is beaten off.
+- **1701** Battle of Posşqinene: Zormaxa defeats Kake; 1 of 16 ships lost.
+- **1701** Battle of Padopho: Zormaxa defeats Kake; 1 of 7 ships lost.
+- **1701** The Reälit of Laskii is lost in a storm.
+- **1702** Battle of Ko Ras: Zormaxa defeats Laskii; 2 of 10 ships lost.
+- **1702** Battle of Monjykkinäjä: Zormaxa defeats Laskii; 4 of 20 ships lost.
+- **1702** Zormaxa takes Koputu from Laskii.
+- **1702** Battle of Tou Shkhru: Touhi under Chotuku Zusa defeats Laskii; 0 of 3 ships lost.
+- **1702** Battle of Vaan Lo: Touhi under Chotuku Zusa defeats Laskii; 2 of 14 ships lost.
+- **1702** Battle of Miha Zun: Zormaxa defeats Kake; 3 of 20 ships lost.
+- **1703** Battle of Te Tä: Zormaxa defeats Laskii; 6 of 24 ships lost.
+- **1703** Zormaxa besieges Si Ko but is beaten off.
+- **1703** Peace of Dakor ends the war between Laskii and Zormaxa.
+- **1703** Battle of Sosiu: Ddeje defeats Kake; 2 of 25 ships lost.
+- **1703** Kake besieges Lidisocerôu but is beaten off.
+- **1703** Battle of Ri Tsa: Touhi under Chotuku Zusa defeats Laskii; 2 of 13 ships lost.
+- **1703** Battle of Ezun: Zormaxa defeats Kake; 2 of 16 ships lost.
+- **1703** Laskii launches the Kinhänul ('High Hope'), 100 guns.
+- **1704** Battle of E'ujzun: Ddeje defeats Kake; 0 of 3 ships lost.
+- **1704** Battle of Murikhchu: Touhi under Chotuku Zusa defeats Laskii; 0 of 23 ships lost.
+- **1704** Battle of Mirikhchu: Touhi under Chotuku Zusa defeats Laskii; 4 of 16 ships lost.
+- **1704** Battle of Tesdulononka: Zormaxa defeats Kake; 4 of 18 ships lost.
+- **1705** Battle of Larosajn: Kake under Henio Pojosi'an defeats Ddeje; 2 of 8 ships lost.
+- **1705** Battle of E'uj Nonka: Ddeje defeats Kake; 0 of 11 ships lost.
+- **1705** Peace of Jaijw ends the war between Kake and Ddeje.
+- **1705** Battle of Luras: Touhi under Chotuku Zusa defeats Laskii; 2 of 17 ships lost.
+- **1705** Kake besieges Girnais but is beaten off.
+- **1705** Kake launches the Ĝon'n ('Lion'), 74 guns.
+- **1706** Battle of Tumo Ma: Touhi defeats Laskii; 1 of 16 ships lost.
+- **1707** War between Touhi and Albion.
+- **1707** Battle of Duxgatosö: Zormaxa defeats Kake; 0 of 4 ships lost.
+- **1707** Battle of Nisuzojkar: Touhi defeats Albion; 0 of 11 ships lost.
+- **1707** Albion takes Lajdazun from Touhi.
+- **1708** Battle of Tesdulav'l: Zormaxa defeats Kake; 3 of 15 ships lost.
+- **1708** Battle of Kadusissir: Touhi defeats Albion; 0 of 3 ships lost.
+- **1708** Battle of Gosfaj Me: Touhi defeats Albion; 2 of 9 ships lost.
+- **1709** War between Ddeje and Rulnau.
+- **1709** Battle of Pä Lo: Touhi defeats Laskii; 0 of 24 ships lost.
+- **1709** Touhi besieges Kejosujdij but is beaten off.
+- **1709** Peace of Zu Ma ends the war between Touhi and Laskii.
+- **1709** Battle of Dunposoŝi: Zormaxa defeats Kake; 5 of 21 ships lost.
+- **1709** Battle of Ugironkun: Albion defeats Touhi; 1 of 17 ships lost.
+- **1709** Battle of Nitixonesnot: Ddeje defeats Rulnau; 6 of 25 ships lost.
+- **1709** Battle of Bwdumby: Ddeje defeats Rulnau; 0 of 4 ships lost.
+- **1710** Battle of Dennene: Zormaxa defeats Kake; 3 of 14 ships lost.
+- **1710** Peace of Duxgatosö ends the war between Zormaxa and Kake.
+- **1710** Battle of Yikhansu: Touhi defeats Albion; 2 of 11 ships lost.
+- **1710** Albion takes Rakama from Touhi.
+- **1710** Battle of Mennon: Rulnau defeats Ddeje; 4 of 21 ships lost.
+- **1710** Rulnau takes Tuise from Ddeje.
+- **1710** Dina launches the Duuchat ('Fortune'), 90 guns.
+- **1711** Battle of Sotsa: Touhi defeats Albion; 5 of 20 ships lost.
+- **1711** Battle of Zana: Ddeje defeats Rulnau; 2 of 18 ships lost.
+- **1711** Tine Hopalchas is made admiral of Dina.
+- **1712** Battle of Mironkun: Touhi defeats Albion; 0 of 25 ships lost.
+- **1712** Albion besieges Ayun Ri but is beaten off.
+- **1712** Kenki Zapojan is made admiral of Rulnau.
+- **1713** Battle of Sotsa: Touhi defeats Albion; 1 of 15 ships lost.
+- **1713** Battle of Lususissir: Touhi defeats Albion; 0 of 5 ships lost.
+- **1713** Battle of Javajja: Rulnau under Kenki Zapojan defeats Ddeje; 5 of 22 ships lost.
+- **1713** Battle of Nengasozen: Rulnau under Kenki Zapojan defeats Ddeje; 0 of 9 ships lost.
+- **1713** Rulnau takes Nigy from Ddeje.
+- **1713** Zuyra Ingekyrli is made admiral of Ddeje.
+- **1713** Kake launches the Ola ('Iron Shield'), 64 guns.
+- **1713** The Kinhänul of Laskii is lost in a storm.
+- **1714** War between Touhi and Ddeje.
+- **1714** Battle of Ritsa: Albion defeats Touhi; 0 of 21 ships lost.
+- **1714** Battle of Jaijw: Rulnau under Kenki Zapojan defeats Ddeje; 1 of 25 ships lost.
+- **1714** Rulnau besieges Jaijw but is beaten off.
+- **1715** Battle of Zu Ma: Touhi defeats Albion; 0 of 20 ships lost.
+- **1715** Battle of Javajorajn: Ddeje under Zuyra Ingekyrli defeats Rulnau; 0 of 16 ships lost.
+- **1715** Ddeje takes Pinu from Rulnau.
+- **1715** Battle of Swtaich: Ddeje under Zuyra Ingekyrli defeats Touhi; 0 of 3 ships lost.
+- **1715** Ddeje besieges Zu Ma but is beaten off.
+- **1716** Battle of Shu Satsu: Touhi defeats Albion; 1 of 23 ships lost.
+- **1716** Battle of Jairhudd: Rulnau defeats Ddeje; 0 of 4 ships lost.
+- **1716** Battle of Tujbun Non: Rulnau defeats Ddeje; 5 of 24 ships lost.
+- **1716** Rulnau takes Balu Budd from Ddeje.
+- **1716** Battle of Balusiu: Touhi defeats Ddeje; 1 of 17 ships lost.
+- **1717** Battle of Ri Tsa: Albion defeats Touhi; 0 of 23 ships lost.
+- **1717** Battle of Baluso: Rulnau defeats Ddeje; 2 of 19 ships lost.
+- **1717** Battle of Run Kusoj: Rulnau defeats Ddeje; 2 of 22 ships lost.
+- **1717** Peace of Pinu ends the war between Ddeje and Rulnau.
+- **1717** Ddeje takes Sharaki from Touhi.
+- **1718** Battle of Nugur: Touhi defeats Albion; 1 of 13 ships lost.
+- **1718** Albion besieges Ayun Yikun but is beaten off.
+- **1719** Battle of Mupa: Touhi defeats Albion; 4 of 23 ships lost.
+- **1719** Touhi takes Rakama from Albion.
+- **1719** Peace of Tou Yikun ends the war between Touhi and Albion.
+- **1719** Battle of Tou Yikun: Touhi defeats Ddeje; 5 of 24 ships lost.
+- **1719** Kenen Kimä is made admiral of Laskii.
+- **1719** The Hoythis of Dina is lost in a storm.
+- **1720** Battle of Leke Nya: Touhi defeats Ddeje; 2 of 15 ships lost.
+- **1720** Peace of Ri Tsa ends the war between Touhi and Ddeje.
+- **1720** The Duuchat of Dina is lost in a storm.
+- **1723** War between Kake and Dina.
+- **1723** Battle of Kos Guulous: Dina under Tine Hopalchas defeats Kake; 5 of 19 ships lost.
+- **1723** Battle of Kyscha Guulous: Dina under Tine Hopalchas defeats Kake; 4 of 21 ships lost.
+- **1724** War between Laskii and Zormaxa.
+- **1724** Battle of Na Nonka: Kake under Henio Pojosi'an defeats Dina; 1 of 6 ships lost.
+- **1724** Battle of Tyda: Dina under Tine Hopalchas defeats Kake; 5 of 22 ships lost.
+- **1724** Battle of Paakuun: Zormaxa defeats Laskii; 1 of 17 ships lost.
+- **1724** Battle of Zego: Zormaxa defeats Laskii; 1 of 8 ships lost.
+- **1724** Zormaxa takes Kejosujdij from Laskii.
+- **1725** Battle of Mihaka: Dina under Kexchini Hopalloxteso defeats Kake; 2 of 18 ships lost.
+- **1725** Battle of Zal Tunpo: Dina under Tine Hopalchas defeats Kake; 2 of 14 ships lost.
+- **1725** Kake besieges Petttä but is beaten off.
+- **1725** Battle of Kejosujdij: Laskii under Kenen Kimä defeats Zormaxa; 0 of 4 ships lost.
+- **1725** Deto Diduladan is made admiral of Kake.
+- **1725** The Kahu of Touhi is lost in a storm.
+- **1726** Battle of Dakor: Zormaxa defeats Laskii; 3 of 18 ships lost.
+- **1726** Battle of Vaanho: Zormaxa defeats Laskii; 0 of 4 ships lost.
+- **1726** Zormaxa besieges Röiti but is beaten off.
+- **1726** Firsoseto Rubaso is made admiral of Albion.
+- **1727** War between Zormaxa and Dina.
+- **1727** Battle of Lajdatunpo: Kake under Deto Diduladan defeats Dina; 0 of 10 ships lost.
+- **1727** Battle of Ky Nyl: Dina under Kexchini Hopalloxteso defeats Zormaxa; 2 of 12 ships lost.
+- **1727** Battle of Oliikk: Zormaxa defeats Dina; 0 of 23 ships lost.
+- **1727** Lomeno Teka is made admiral of Kake.
+- **1728** War between Kake and Rulnau.
+- **1728** Battle of Ipama: Dina under Kexchini Hopalloxteso defeats Kake; 0 of 14 ships lost.
+- **1728** Battle of Xintisopama: Dina under Kexchini Hopalloxteso defeats Kake; 3 of 19 ships lost.
+- **1728** Kake takes Pede Guulous from Dina.
+- **1728** Battle of Toxzar Sö: Laskii under Kenen Kimä defeats Zormaxa; 4 of 17 ships lost.
+- **1728** Battle of Kirdolor: Laskii under Kenen Kimä defeats Zormaxa; 4 of 25 ships lost.
+- **1728** Battle of Girnais: Dina under Kexchini Hopalloxteso defeats Zormaxa; 3 of 23 ships lost.
+- **1728** Zormaxa besieges Chanides but is beaten off.
+- **1728** Battle of Jazojj Na: Rulnau defeats Kake; 2 of 11 ships lost.
+- **1728** Touhi launches the Sisoru ('Red Thunder'), 110 guns.
+- **1729** Battle of S'vev'l: Dina under Kexchini Hopalloxteso defeats Kake; 0 of 12 ships lost.
+- **1729** Battle of Iätä: Laskii under Kenen Kimä defeats Zormaxa; 4 of 24 ships lost.
+- **1729** Battle of Kyschanete: Dina under Kexchini Hopalloxteso defeats Zormaxa; 5 of 21 ships lost.
+- **1729** Battle of Javajoleva: Rulnau defeats Kake; 0 of 4 ships lost.
+- **1729** Touhi launches the Chohi ('Victory'), 80 guns.
+- **1730** Battle of Zal Vin: Dina under Kexchini Hopalloxteso defeats Kake; 5 of 19 ships lost.
+- **1730** Battle of Ty Xogi: Dina under Kexchini Hopalloxteso defeats Kake; 0 of 3 ships lost.
+- **1730** Dina takes Pede Guulous from Kake.
+- **1730** Battle of Seumaix: Zormaxa defeats Laskii; 4 of 14 ships lost.
+- **1730** Battle of Rytä: Zormaxa defeats Laskii; 0 of 19 ships lost.
+- **1730** Battle of Fona: Rulnau defeats Kake; 0 of 6 ships lost.
+- **1730** Battle of Zal Zun: Rulnau defeats Kake; 2 of 11 ships lost.
+- **1731** Battle of Vozun: Dina under Kexchini Hopalloxteso defeats Kake; 5 of 19 ships lost.
+- **1731** Battle of Gänete: Dina under Kexchini Hopalloxteso defeats Kake; 1 of 12 ships lost.
+- **1731** Battle of Rulu: Rulnau defeats Kake; 6 of 21 ships lost.
+- **1731** Kake besieges Kapäs Xogi but is beaten off.
+- **1731** Shanmi Rashansi is made admiral of Touhi.
+- **1731** Laskii launches the Mäsavu ('Bold Honour'), 74 guns.
+- **1732** Battle of Ŝe Ŝi: Dina under Kexchini Hopalloxteso defeats Kake; 1 of 5 ships lost.
+- **1732** Kake takes Chanides from Dina.
+- **1732** Battle of Pado Kor: Zormaxa defeats Laskii; 2 of 16 ships lost.
+- **1732** Battle of Kopuky: Laskii under Kenen Kimä defeats Zormaxa; 0 of 3 ships lost.
+- **1732** Battle of Dasö: Dina under Kexchini Hopalloxteso defeats Zormaxa; 0 of 3 ships lost.
+- **1732** Battle of Lostides: Zormaxa defeats Dina; 3 of 13 ships lost.
+- **1732** Battle of Doldun Hu'i: Rulnau defeats Kake; 2 of 13 ships lost.
+- **1732** Albion launches the Kolika ('Great Defiance'), 100 guns.
+- **1733** Battle of Lynnete: Dina under Kexchini Hopalloxteso defeats Zormaxa; 3 of 14 ships lost.
+- **1733** Dina takes Kejosujdij from Zormaxa.
+- **1734** Battle of Kykos: Dina under Kexchini Hopalloxteso defeats Kake; 2 of 13 ships lost.
+- **1734** Battle of Gänete: Dina under Kexchini Hopalloxteso defeats Kake; 3 of 15 ships lost.
+- **1734** Dina besieges Chanides but is beaten off.
+- **1734** Battle of Xamaix: Laskii defeats Zormaxa; 1 of 16 ships lost.
+- **1734** Laskii takes Kirdolor from Zormaxa.
+- **1734** Peace of Dakor ends the war between Laskii and Zormaxa.
+- **1734** Battle of Eudersö: Dina under Kexchini Hopalloxteso defeats Zormaxa; 1 of 4 ships lost.
+- **1734** Battle of Dolnarosö: Zormaxa defeats Dina; 2 of 14 ships lost.
+- **1734** Battle of Javajoleva: Rulnau defeats Kake; 2 of 14 ships lost.
+- **1734** Kake launches the Sas'sodemi ('Storm Dragon'), 98 guns.
+- **1734** Plague in Tou Yikun.
+- **1734** The Ola of Kake is lost in a storm.
+- **1735** Battle of Ty Xogi: Dina under Kexchini Hopalloxteso defeats Kake; 4 of 15 ships lost.
+- **1735** Battle of Pede Guulous: Dina under Kexchini Hopalloxteso defeats Kake; 0 of 7 ships lost.
+- **1735** Battle of Dapho: Dina defeats Zormaxa; 2 of 11 ships lost.
+- **1735** Battle of Pojan Ĝo: Rulnau defeats Kake; 6 of 23 ships lost.
+- **1735** Battle of Mukunokusoj: Rulnau defeats Kake; 0 of 12 ships lost.
+- **1735** Dina launches the Paipana ('Storm Sea'), 74 guns.
+- **1736** Battle of Doldunononka: Kake defeats Dina; 0 of 4 ships lost.
+- **1736** Peace of Chanides ends the war between Kake and Dina.
+- **1736** Battle of Pede Guulous: Zormaxa defeats Dina; 0 of 4 ships lost.
+- **1736** Rulnau besieges Chanides but is beaten off.
+- **1737** Battle of Kirdonen: Zormaxa defeats Dina; 0 of 3 ships lost.
+- **1737** Dina besieges Dakor but is beaten off.
+- **1737** Battle of Jazojj Zen: Rulnau defeats Kake; 2 of 9 ships lost.
+- **1737** Kake takes Jazojj Zen from Rulnau.
+- **1738** War between Laskii and Zormaxa.
+- **1738** Zormaxa takes Kos Guulous from Dina.
+- **1738** Battle of S've Ŝi: Rulnau defeats Kake; 3 of 22 ships lost.
+- **1738** Battle of Kirdolor: Laskii defeats Zormaxa; 1 of 11 ships lost.
+- **1739** Battle of Phinousomes: Dina defeats Zormaxa; 3 of 16 ships lost.
+- **1739** Peace of Kejosujdij ends the war between Zormaxa and Dina.
+- **1739** Battle of Nengasozen: Rulnau defeats Kake; 4 of 21 ships lost.
+- **1739** Battle of Kos Guulous: Zormaxa defeats Laskii; 0 of 4 ships lost.
+- **1739** Zormaxa takes Pitnekk from Laskii.
+- **1739** Ddeje launches the Mbopa ('Faith'), 74 guns.
+- **1739** Plague in Jazojj Zen.
+- **1740** Battle of O Elor: Zormaxa defeats Laskii; 0 of 19 ships lost.
+- **1740** Plague in Pinu.
+- **1741** Battle of Hiŝi: Rulnau defeats Kake; 0 of 7 ships lost.
+- **1741** Battle of Jazojj Zen: Rulnau defeats Kake; 4 of 19 ships lost.
+- **1741** Rulnau besieges Jazojj Zen but is beaten off.
+- **1741** Battle of Paaha: Laskii defeats Zormaxa; 0 of 17 ships lost.
+- **1741** Laskii besieges Kos Guulous but is beaten off.
+- **1742** War between Zormaxa and Albion.
+- **1742** War between Ddeje and Rulnau.
+- **1742** Battle of Nengasozen: Rulnau defeats Kake; 3 of 20 ships lost.
+- **1742** Battle of Koputu: Laskii defeats Zormaxa; 0 of 5 ships lost.
+- **1742** Battle of Padopho: Zormaxa defeats Laskii; 1 of 9 ships lost.
+- **1742** Zormaxa besieges Si Ko but is beaten off.
+- **1742** Battle of Gajônogaj: Zormaxa defeats Albion; 2 of 17 ships lost.
+- **1742** Zormaxa takes Lajdazun from Albion.
+- **1742** Battle of Rulu: Rulnau defeats Ddeje; 5 of 20 ships lost.
+- **1742** Ddeje takes Javajoleva from Rulnau.
+- **1743** Battle of Tuise: Rulnau defeats Kake; 0 of 11 ships lost.
+- **1743** Battle of Kapäs Xogi: Rulnau defeats Kake; 4 of 21 ships lost.
+- **1743** Battle of Neqhinopucho: Laskii defeats Zormaxa; 1 of 13 ships lost.
+- **1743** Laskii besieges Girnais but is beaten off.
+- **1743** Battle of De Nen: Zormaxa defeats Albion; 6 of 25 ships lost.
+- **1743** Battle of I Pajmi: Rulnau defeats Ddeje; 2 of 15 ships lost.
+- **1743** Ddeje takes Nitixonesnot from Rulnau.
+- **1744** War between Laskii and Rulnau.
+- **1744** Rulnau takes Chanides from Kake.
+- **1744** Battle of Kethononais: Zormaxa defeats Laskii; 1 of 20 ships lost.
+- **1744** Peace of Kirdolor ends the war between Laskii and Zormaxa.
+- **1744** Battle of Duxgatosö: Zormaxa defeats Albion; 1 of 12 ships lost.
+- **1744** Battle of O Sö: Zormaxa defeats Albion; 0 of 6 ships lost.
+- **1744** Battle of Pinu: Rulnau defeats Ddeje; 1 of 7 ships lost.
+- **1744** Battle of Rytä: Laskii defeats Rulnau; 3 of 13 ships lost.
+- **1745** Battle of Denkor: Zormaxa defeats Albion; 1 of 13 ships lost.
+- **1745** Albion besieges Pitnekk but is beaten off.
+- **1745** Battle of Rynäjä: Laskii defeats Rulnau; 1 of 7 ships lost.
+- **1745** Laskii besieges Rulleva but is beaten off.
+- **1745** Nuuttetnen Noka is made admiral of Laskii.
+- **1745** Rulnau launches the Ifo ('Bold Sea'), 100 guns.
+- **1745** Plague in Ojkironrin.
+- **1745** The Kolika of Albion is lost in a storm.
+- **1746** Kake besieges Nigy but is beaten off.
+- **1746** Peace of Mukunĝa ends the war between Kake and Rulnau.
+- **1746** Albion takes Dakor from Zormaxa.
+- **1746** Battle of Tuise: Rulnau defeats Ddeje; 4 of 24 ships lost.
+- **1746** Battle of Petttä: Rulnau defeats Laskii; 0 of 21 ships lost.
+- **1746** Rulnau takes Röiti from Laskii.
+- **1747** Battle of Çersö: Zormaxa defeats Albion; 1 of 5 ships lost.
+- **1747** Battle of Gosfajolinar: Zormaxa defeats Albion; 0 of 6 ships lost.
+- **1747** Battle of Nuĝa Non: Rulnau defeats Ddeje; 4 of 20 ships lost.
+- **1747** Battle of Molbuja: Rulnau defeats Laskii; 1 of 6 ships lost.
+- **1747** Battle of Monjykkiliru: Laskii under Nuuttetnen Noka defeats Rulnau; 0 of 14 ships lost.
+- **1747** Albion launches the Bajsbor ('Thunder'), 80 guns.
+- **1747** The Houphin of Zormaxa is lost in a storm.
+- **1748** War between Touhi and Laskii.
+- **1748** Zormaxa besieges Dakor but is beaten off.
+- **1748** Rulnau takes Javajoleva from Ddeje.
+- **1748** Battle of Manmalitä: Touhi under Shanmi Rashansi defeats Laskii; 0 of 10 ships lost.
+- **1749** Battle of Kebi Sujdij: Albion under Firsoseto Rubaso defeats Zormaxa; 0 of 14 ships lost.
+- **1749** Zormaxa besieges Dakor but is beaten off.
+- **1749** Battle of Nigy: Rulnau defeats Ddeje; 1 of 11 ships lost.
+- **1749** Battle of Bossisoronrin: Rulnau defeats Ddeje; 0 of 8 ships lost.
+- **1749** Rulnau takes Pinu from Ddeje.
+- **1749** Rulnau besieges Si Ko but is beaten off.
+- **1749** Battle of Ayunshkhru: Touhi under Shanmi Rashansi defeats Laskii; 5 of 17 ships lost.
+- **1750** War between Touhi and Albion.
+- **1750** War between Dina and Albion.
+- **1750** Battle of Lajdazun: Albion under Firsoseto Rubaso defeats Zormaxa; 1 of 6 ships lost.
+- **1750** Battle of Phinous Nais: Albion under Firsoseto Rubaso defeats Zormaxa; 2 of 15 ships lost.
+- **1750** Peace of Koputu ends the war between Zormaxa and Albion.
+- **1750** Battle of Lijw: Rulnau defeats Ddeje; 1 of 12 ships lost.
+- **1750** Battle of Jazojjoja: Rulnau defeats Ddeje; 2 of 11 ships lost.
+- **1750** Battle of Tojoninos: Rulnau defeats Laskii; 1 of 8 ships lost.
+- **1750** Battle of No A: Laskii under Nuuttetnen Noka defeats Touhi; 2 of 21 ships lost.
+- **1750** Touhi besieges Kirdolor but is beaten off.
+- **1750** Battle of Kodo: Dina defeats Albion; 0 of 3 ships lost.
+- **1751** Battle of Raa U: Rulnau defeats Ddeje; 5 of 18 ships lost.
+- **1751** Battle of Za Nya: Rulnau defeats Ddeje; 0 of 4 ships lost.
+- **1751** Rulnau besieges Tutaich but is beaten off.
+- **1751** Battle of Jazojjoĝa: Rulnau defeats Laskii; 0 of 25 ships lost.
+- **1751** Battle of Rerla: Albion under Firsoseto Rubaso defeats Dina; 3 of 13 ships lost.
+- **1751** Dina besieges Dakor but is beaten off.
+- **1751** Plague in Nigy.
+- **1752** Battle of Bwniwer: Rulnau defeats Ddeje; 0 of 5 ships lost.
+- **1752** Battle of Tunyasiu: Rulnau defeats Ddeje; 0 of 9 ships lost.
+- **1752** Rulnau besieges Tutaich but is beaten off.
+- **1752** Peace of Tuise ends the war between Ddeje and Rulnau.
+- **1752** Battle of Te Tä: Rulnau defeats Laskii; 0 of 10 ships lost.
+- **1752** Rulnau takes Rytä from Laskii.
+- **1752** Battle of Sotsa: Touhi defeats Laskii; 0 of 20 ships lost.
+- **1752** Battle of Ayun Ri: Albion defeats Touhi; 0 of 9 ships lost.
+- **1752** Battle of Kaduno: Touhi defeats Albion; 1 of 8 ships lost.
+- **1752** Touhi besieges Dakor but is beaten off.
+- **1752** Battle of Lyn Des: Albion defeats Dina; 0 of 9 ships lost.
+- **1752** Battle of Dakor: Dina defeats Albion; 0 of 3 ships lost.
+- **1752** Dina takes Dakor from Albion.
+- **1753** Battle of Rulopajmi: Rulnau defeats Laskii; 6 of 25 ships lost.
+- **1753** Battle of Tou Yikun: Laskii under Nuuttetnen Noka defeats Touhi; 2 of 10 ships lost.
+- **1753** Battle of Risu: Touhi defeats Laskii; 2 of 21 ships lost.
+- **1753** Albion takes Mollaki from Touhi.
+- **1753** Dina besieges Mollaki but is beaten off.
+- **1754** War between Kake and Ddeje.
+- **1754** Battle of Kopu A: Rulnau defeats Laskii; 3 of 24 ships lost.
+- **1754** Battle of Ke Ha: Touhi defeats Laskii; 2 of 12 ships lost.
+- **1754** Touhi takes Mollaki from Albion.
+- **1754** Iela Hynmyto is made admiral of Laskii.
+- **1755** Battle of Sonon: Laskii under Iela Hynmyto defeats Rulnau; 0 of 3 ships lost.
+- **1755** Battle of Hiki: Touhi defeats Laskii; 3 of 25 ships lost.
+- **1755** Battle of Ayunri: Touhi defeats Laskii; 3 of 25 ships lost.
+- **1755** Battle of Sepido: Dina defeats Albion; 1 of 4 ships lost.
+- **1755** Battle of Swjebu: Kake defeats Ddeje; 2 of 17 ships lost.
+- **1755** Albion launches the Fornu ('Red Lion'), 74 guns.
+- **1756** War between Rulnau and Albion.
+- **1756** Battle of Pinopajmi: Rulnau defeats Laskii; 4 of 20 ships lost.
+- **1756** Battle of Teky: Touhi defeats Laskii; 2 of 9 ships lost.
+- **1756** Peace of Ayun Yikun ends the war between Touhi and Laskii.
+- **1756** Battle of Lidisocerôu: Albion defeats Dina; 4 of 24 ships lost.
+- **1756** Battle of Dala: Dina defeats Albion; 2 of 11 ships lost.
+- **1756** Battle of Nijtan: Kake defeats Ddeje; 2 of 21 ships lost.
+- **1756** Battle of Jai Gy: Ddeje under Zuyra Ingekyrli defeats Kake; 2 of 12 ships lost.
+- **1756** Laskii launches the Hälhasäni ('Storm Spear'), 90 guns.
+- **1757** Rulnau besieges Si Ko but is beaten off.
+- **1757** Peace of Chanides ends the war between Laskii and Rulnau.
+- **1757** Battle of Ririkhchu: Albion defeats Touhi; 3 of 16 ships lost.
+- **1757** Albion takes Ririkhchu from Touhi.
+- **1757** Peace of Ayun Yikun ends the war between Touhi and Albion.
+- **1757** Battle of So Ki: Kake defeats Ddeje; 0 of 5 ships lost.
+- **1757** Battle of E Nonka: Ddeje defeats Kake; 0 of 25 ships lost.
+- **1757** Kake besieges Tunyada but is beaten off.
+- **1757** Rulnau takes Ririkhchu from Albion.
+- **1757** The Sas'sodemi of Kake is lost in a storm.
+- **1758** Battle of Motxogi: Albion defeats Dina; 2 of 10 ships lost.
+- **1758** Battle of Sas'sotunpo: Kake defeats Ddeje; 0 of 3 ships lost.
+- **1758** Ddeje besieges Jazojj Zen but is beaten off.
+- **1758** Battle of Iĝoninos: Rulnau defeats Albion; 3 of 19 ships lost.
+- **1758** The Ĝon'n of Kake is lost in a storm.
+- **1759** War between Laskii and Dina.
+- **1759** Battle of Pede Des: Albion defeats Dina; 2 of 15 ships lost.
+- **1759** Albion takes Ty Xogi from Dina.
+- **1759** Battle of Tunyada: Ddeje defeats Kake; 0 of 5 ships lost.
+- **1759** Battle of Mihazun: Kake defeats Ddeje; 0 of 12 ships lost.
+- **1759** Kake besieges Lidisocerôu but is beaten off.
+- **1759** Battle of Nengasozen: Rulnau defeats Albion; 4 of 22 ships lost.
+- **1759** Albion takes Röiti from Rulnau.
+- **1760** Battle of Go Sujdij: Albion defeats Dina; 3 of 21 ships lost.
+- **1760** Ddeje takes Jazojj Zen from Kake.
+- **1760** Battle of Ginle Ronrin: Rulnau defeats Albion; 0 of 4 ships lost.
+- **1760** Rulnau takes Röiti from Albion.
+- **1760** Battle of Te Tä: Laskii under Iela Hynmyto defeats Dina; 3 of 19 ships lost.
+- **1760** Dina besieges Si Ko but is beaten off.
+- **1760** Ddeje launches the Dataja ('Storm Eagle'), 74 guns.
+- **1761** Battle of Zeka: Ddeje defeats Kake; 0 of 5 ships lost.
+- **1761** Battle of So Rajn: Rulnau defeats Albion; 0 of 3 ships lost.
+- **1761** Battle of Gäguulous: Laskii under Iela Hynmyto defeats Dina; 0 of 14 ships lost.
+- **1761** Laskii besieges Kejosujdij but is beaten off.
+- **1762** Battle of Reroo: Dina defeats Albion; 0 of 3 ships lost.
+- **1762** Battle of Ra A: Albion defeats Dina; 0 of 9 ships lost.
+- **1762** Peace of Ty Xogi ends the war between Dina and Albion.
+- **1762** Battle of Lidisocerôu: Ddeje defeats Kake; 0 of 3 ships lost.
+- **1762** Battle of Jaijw: Kake defeats Ddeje; 4 of 19 ships lost.
+- **1762** Battle of Koko: Rulnau defeats Albion; 6 of 23 ships lost.
+- **1762** Battle of Codosujdij: Albion defeats Rulnau; 1 of 7 ships lost.
+- **1762** Rulnau takes Ty Xogi from Albion.
+- **1762** Battle of Din Xogi: Laskii under Iela Hynmyto defeats Dina; 1 of 17 ships lost.
+- **1763** Battle of Sas'sosaj: Kake defeats Ddeje; 2 of 15 ships lost.
+- **1763** Kake besieges Tutaich but is beaten off.
+- **1763** Battle of Lususissir: Rulnau defeats Albion; 1 of 5 ships lost.
+- **1763** Battle of Lidisko: Rulnau defeats Albion; 1 of 13 ships lost.
+- **1763** Battle of Xintisohaa: Laskii under Iela Hynmyto defeats Dina; 1 of 8 ships lost.
+- **1763** Battle of Gochesoxogi: Dina defeats Laskii; 0 of 3 ships lost.
+- **1763** Dina besieges No Nandit but is beaten off.
+- **1763** Kake launches the Tako ('True Courage'), 64 guns.
+- **1764** Battle of Miloŝ'nroj: Kake defeats Ddeje; 0 of 5 ships lost.
+- **1764** Battle of Ojkironrin: Rulnau defeats Albion; 4 of 19 ships lost.
+- **1764** Battle of Kadulinar: Rulnau defeats Albion; 5 of 19 ships lost.
+- **1764** Peace of Za Pajmi ends the war between Rulnau and Albion.
+- **1764** Battle of Xintisopama: Dina defeats Laskii; 2 of 8 ships lost.
+- **1764** Laskii takes Gänete from Dina.
+- **1765** Battle of Tunyada: Kake defeats Ddeje; 1 of 22 ships lost.
+- **1765** Battle of Paanäjä: Dina defeats Laskii; 6 of 22 ships lost.
+- **1765** Battle of Nitixla: Dina defeats Laskii; 0 of 21 ships lost.
+- **1765** Peace of Kirdolor ends the war between Laskii and Dina.
+- **1765** The Sisoru of Touhi is lost in a storm.
+- **1766** Battle of Nibu: Ddeje defeats Kake; 1 of 18 ships lost.
+- **1766** The Mäsavu of Laskii is lost in a storm.
+- **1767** Battle of Nitixonesnot: Kake defeats Ddeje; 1 of 14 ships lost.
+- **1767** Battle of Doldunocaj: Kake defeats Ddeje; 0 of 12 ships lost.
+- **1767** Peace of Nitixonesnot ends the war between Kake and Ddeje.
+- **1768** War between Zormaxa and Dina.
+- **1768** Meqsün Senonaisnon is made admiral of Zormaxa.
+- **1768** Plague in Ayun Ri.
+- **1769** War between Zormaxa and Ddeje.
+- **1769** Battle of Kethon Neslex: Zormaxa under Meqsün Senonaisnon defeats Dina; 6 of 25 ships lost.
+- **1769** Dina takes Lajdazun from Zormaxa.
+- **1769** Battle of Duxgatosö: Ddeje defeats Zormaxa; 0 of 3 ships lost.
+- **1769** Zormaxa besieges Nitixonesnot but is beaten off.
+- **1769** R'ko R'tididu is made admiral of Kake.
+- **1770** Battle of Padopho: Dina defeats Zormaxa; 6 of 24 ships lost.
+- **1770** Battle of Xintisonete: Dina defeats Zormaxa; 2 of 13 ships lost.
+- **1771** Battle of Şelor: Zormaxa under Meqsün Senonaisnon defeats Dina; 4 of 18 ships lost.
+- **1771** Battle of Seunais: Zormaxa under Meqsün Senonaisnon defeats Ddeje; 0 of 14 ships lost.
+- **1771** Battle of Ngytu Nya: Zormaxa under Meqsün Senonaisnon defeats Ddeje; 2 of 21 ships lost.
+- **1772** Dina takes Girnais from Zormaxa.
+- **1772** Battle of Balusyrdd: Ddeje defeats Zormaxa; 5 of 22 ships lost.
+- **1773** War between Touhi and Zormaxa.
+- **1773** Dina besieges Koputu but is beaten off.
+- **1773** Battle of Dekor: Ddeje defeats Zormaxa; 5 of 19 ships lost.
+- **1774** Battle of Şeneslex: Dina defeats Zormaxa; 2 of 12 ships lost.
+- **1774** Battle of Bwbudd: Zormaxa defeats Ddeje; 0 of 5 ships lost.
+- **1774** Battle of Jai Gy: Zormaxa defeats Ddeje; 0 of 3 ships lost.
+- **1774** Battle of Posşqi Kor: Zormaxa defeats Touhi; 4 of 18 ships lost.
+- **1775** Battle of Girnais: Dina defeats Zormaxa; 2 of 9 ships lost.
+- **1775** Battle of Xa Pucho: Ddeje defeats Zormaxa; 0 of 6 ships lost.
+- **1775** Zormaxa besieges Tunyada but is beaten off.
+- **1775** Battle of Phinous Nen: Touhi defeats Zormaxa; 0 of 3 ships lost.
+- **1775** Homiro Tsitukiq is made admiral of Touhi.
+- **1776** Battle of Jaisa: Zormaxa defeats Ddeje; 0 of 20 ships lost.
+- **1776** Peace of La Maix ends the war between Zormaxa and Ddeje.
+- **1776** Battle of So Yikun: Touhi under Homiro Tsitukiq defeats Zormaxa; 0 of 11 ships lost.
+- **1776** Battle of Yikhanko: Touhi defeats Zormaxa; 0 of 7 ships lost.
+- **1776** Laskii launches the Hälha ('Storm'), 100 guns.
+- **1777** Battle of Dolnarosö: Touhi defeats Zormaxa; 2 of 16 ships lost.
+- **1778** Battle of Laxnete: Zormaxa defeats Dina; 4 of 21 ships lost.
+- **1778** Battle of Lyn Des: Zormaxa defeats Dina; 1 of 8 ships lost.
+- **1778** Laskii launches the Reähei ('Swift Shield'), 100 guns.
+- **1779** Battle of Hetzes Haa: Dina defeats Zormaxa; 0 of 3 ships lost.
+- **1779** Battle of Pedenandit: Dina defeats Zormaxa; 5 of 18 ships lost.
+- **1779** Touhi takes Kos Guulous from Zormaxa.
+- **1780** War between Touhi and Albion.
+- **1780** Battle of Neqhinonene: Dina defeats Zormaxa; 1 of 4 ships lost.
+- **1780** Dina besieges La Maix but is beaten off.
+- **1780** Battle of Ka Rikhchu: Touhi defeats Zormaxa; 2 of 9 ships lost.
+- **1780** Battle of Ayun Yikun: Albion defeats Touhi; 1 of 8 ships lost.
+- **1780** Kake launches the Ĝastel ('Fury'), 90 guns.
+- **1781** War between Kake and Rulnau.
+- **1781** Battle of Ze Maix: Dina defeats Zormaxa; 1 of 10 ships lost.
+- **1781** Peace of Petttä ends the war between Zormaxa and Dina.
+- **1781** Battle of Padopho: Touhi defeats Zormaxa; 4 of 20 ships lost.
+- **1781** Peace of Rakama ends the war between Touhi and Zormaxa.
+- **1781** Battle of Ko La: Touhi defeats Albion; 1 of 18 ships lost.
+- **1781** Battle of Pinu: Kake under R'ko R'tididu defeats Rulnau; 0 of 6 ships lost.
+- **1781** Dina launches the Pailesa ('Storm Star'), 74 guns.
+- **1781** Plague in Javajoleva.
+- **1782** Battle of Lahu'i: Rulnau defeats Kake; 1 of 7 ships lost.
+- **1782** Battle of Rulleva: Kake under R'ko R'tididu defeats Rulnau; 1 of 8 ships lost.
+- **1782** Kake launches the Z'hojn ('Victory'), 98 guns.
+- **1783** Battle of Zacerôu: Touhi defeats Albion; 5 of 25 ships lost.
+- **1783** Albion besieges Zu Ma but is beaten off.
+- **1783** Battle of Kinhä Näjä: Rulnau defeats Kake; 1 of 5 ships lost.
+- **1784** Battle of Gola: Albion defeats Touhi; 6 of 25 ships lost.
+- **1784** Albion besieges Ayun Shkhru but is beaten off.
+- **1785** Battle of Ayun Yikun: Touhi defeats Albion; 1 of 13 ships lost.
+- **1785** Battle of Mima: Albion defeats Touhi; 2 of 12 ships lost.
+- **1785** Battle of Javaj Zen: Rulnau defeats Kake; 2 of 10 ships lost.
+- **1786** Battle of Ri Tsa: Albion defeats Touhi; 2 of 10 ships lost.
+- **1786** Battle of Pinu: Kake under R'ko R'tididu defeats Rulnau; 1 of 21 ships lost.
+- **1787** Battle of Rergur: Albion defeats Touhi; 6 of 24 ships lost.
+- **1787** Battle of Ma Rikhchu: Touhi defeats Albion; 2 of 10 ships lost.
+- **1787** Peace of Ayun Shkhru ends the war between Touhi and Albion.
+- **1787** Battle of Toj Non: Kake defeats Rulnau; 3 of 17 ships lost.
+- **1787** Imiq Mkhzakisa is made admiral of Touhi.
+- **1789** War between Laskii and Rulnau.
+- **1789** Battle of Sas'sotunpo: Rulnau defeats Kake; 1 of 7 ships lost.
+- **1789** Battle of Pinu: Rulnau defeats Laskii; 0 of 13 ships lost.
+- **1789** Rulnau takes Kirdolor from Laskii.
+- **1790** Peace of Nigy ends the war between Kake and Rulnau.
+- **1790** Battle of Koti: Laskii under Iela Hynmyto defeats Rulnau; 0 of 4 ships lost.
+- **1790** Battle of Javaju: Laskii under Iela Hynmyto defeats Rulnau; 1 of 11 ships lost.
+- **1791** War between Zormaxa and Dina.
+- **1791** Battle of Hälhakuun: Laskii under Iela Hynmyto defeats Rulnau; 2 of 10 ships lost.
+- **1791** Battle of Dakor: Zormaxa defeats Dina; 2 of 11 ships lost.
+- **1791** Neris Satoj is made admiral of Rulnau.
+- **1792** War between Ddeje and Rulnau.
+- **1792** Battle of Seui: Zormaxa defeats Dina; 1 of 20 ships lost.
+- **1792** Battle of Lieli: Ddeje defeats Rulnau; 0 of 11 ships lost.
+- **1793** Battle of Kopuras: Rulnau under Neris Satoj defeats Laskii; 1 of 6 ships lost.
+- **1793** Battle of Nopama: Dina defeats Zormaxa; 0 of 10 ships lost.
+- **1793** Zormaxa takes Girnais from Dina.
+- **1793** Battle of Kirdolor: Ddeje defeats Rulnau; 1 of 15 ships lost.
+- **1793** Battle of Buchadumby: Ddeje defeats Rulnau; 1 of 13 ships lost.
+- **1794** Battle of Monjykkiras: Rulnau under Neris Satoj defeats Laskii; 0 of 6 ships lost.
+- **1794** Rulnau besieges No Nandit but is beaten off.
+- **1794** Battle of Odaguulous: Zormaxa defeats Dina; 1 of 12 ships lost.
+- **1795** Battle of Pitky: Rulnau under Neris Satoj defeats Laskii; 1 of 5 ships lost.
+- **1795** Battle of Lyn Des: Zormaxa defeats Dina; 0 of 22 ships lost.
+- **1795** Ddeje takes Kirdolor from Rulnau.
+- **1796** War between Laskii and Ddeje.
+- **1796** War between Laskii and Albion.
+- **1796** Battle of Iänäjä: Rulnau under Neris Satoj defeats Laskii; 0 of 4 ships lost.
+- **1796** Battle of La Maix: Zormaxa defeats Dina; 0 of 12 ships lost.
+- **1796** Battle of Xintisopama: Zormaxa defeats Dina; 0 of 7 ships lost.
+- **1796** Battle of Lidumby: Rulnau under Neris Satoj defeats Ddeje; 2 of 23 ships lost.
+- **1796** Battle of Tutaich: Ddeje defeats Laskii; 0 of 19 ships lost.
+- **1796** Ddeje takes Si Ko from Laskii.
+- **1796** Plague in Linonka.
+- **1797** Battle of Röiti: Rulnau under Neris Satoj defeats Laskii; 2 of 10 ships lost.
+- **1797** Peace of Nengasozen ends the war between Laskii and Rulnau.
+- **1797** Battle of Dolnar Elor: Zormaxa defeats Dina; 4 of 21 ships lost.
+- **1797** Battle of Uyrarjw: Rulnau under Neris Satoj defeats Ddeje; 1 of 6 ships lost.
+- **1797** Battle of Lekeso: Rulnau under Neris Satoj defeats Ddeje; 2 of 21 ships lost.
+- **1797** Battle of Koputis: Ddeje defeats Laskii; 1 of 4 ships lost.
+- **1797** Battle of So Niwer: Ddeje defeats Laskii; 0 of 14 ships lost.
+- **1797** Ddeje besieges No Nandit but is beaten off.
+- **1797** Battle of Manmala: Albion defeats Laskii; 0 of 15 ships lost.
+- **1797** Albion takes Gänete from Laskii.
+- **1797** Mitkki Sänijiu is made admiral of Laskii.
+- **1798** Battle of Phinousoneslex: Dina defeats Zormaxa; 0 of 11 ships lost.
+- **1798** Battle of Neqhin Thophir: Dina defeats Zormaxa; 3 of 16 ships lost.
+- **1798** Zormaxa takes Lajdazun from Dina.
+- **1798** Battle of Li Gy: Ddeje defeats Laskii; 0 of 23 ships lost.
+- **1798** Ddeje takes No Nandit from Laskii.
+- **1798** Battle of Kebi Sissir: Albion defeats Laskii; 0 of 7 ships lost.
+- **1798** Battle of Iä Tä: Albion defeats Laskii; 2 of 11 ships lost.
+- **1798** Dina launches the Nänat ('Victory'), 80 guns.
+- **1799** Battle of Pede Guulous: Zormaxa defeats Dina; 0 of 5 ships lost.
+- **1799** Battle of Misren: Dina defeats Zormaxa; 0 of 9 ships lost.
+- **1799** Dina takes La Maix from Zormaxa.
+- **1799** Battle of Tu Ala: Ddeje defeats Rulnau; 2 of 14 ships lost.
+- **1799** Ddeje takes Pinu from Rulnau.
+- **1799** Battle of Kinhä Tä: Laskii under Mitkki Sänijiu defeats Ddeje; 2 of 20 ships lost.
+- **1799** Battle of Manmalitis: Albion defeats Laskii; 1 of 14 ships lost.
+- **1799** Battle of Te Tä: Laskii under Mitkki Sänijiu defeats Albion; 0 of 3 ships lost.
+- **1799** Rulnau launches the Zinkal ('Thunder'), 90 guns.
+- **1800** Battle of Phinous Nen: Zormaxa defeats Dina; 0 of 23 ships lost.
+- **1800** Battle of Gochesoxogi: Zormaxa defeats Dina; 4 of 18 ships lost.
+- **1800** Zormaxa takes Xintisopama from Dina.
+- **1800** Peace of Tutaich ends the war between Ddeje and Rulnau.
+- **1800** Battle of Leke So: Ddeje defeats Laskii; 4 of 20 ships lost.
+- **1800** Battle of Lususissir: Laskii under Mitkki Sänijiu defeats Albion; 2 of 16 ships lost.
+- **1800** Battle of Gänete: Albion defeats Laskii; 2 of 16 ships lost.
+- **1801** Battle of Eucha Nene: Dina defeats Zormaxa; 2 of 15 ships lost.
+- **1801** Dina besieges Pitnekk but is beaten off.
+- **1801** Battle of Petttis: Ddeje defeats Laskii; 0 of 3 ships lost.
+- **1801** Battle of Keti: Ddeje defeats Laskii; 3 of 19 ships lost.
+- **1801** Battle of Lusudo: Albion defeats Laskii; 0 of 7 ships lost.
+- **1801** Zormaxa launches the Posşqipado ('Storm Wind'), 64 guns.
+- **1802** War between Kake and Rulnau.
+- **1802** Battle of Dolnaroneslex: Zormaxa defeats Dina; 0 of 6 ships lost.
+- **1802** Dina takes Xintisopama from Zormaxa.
+- **1802** Peace of Koputu ends the war between Zormaxa and Dina.
+- **1802** Battle of Soniwer: Ddeje defeats Laskii; 2 of 17 ships lost.
+- **1802** Battle of Pivon: Rulnau under Neris Satoj defeats Kake; 1 of 15 ships lost.
+- **1802** Kake besieges Bossisovon but is beaten off.
+- **1802** Albion launches the Koliŝolo ('Great Vengeance'), 74 guns.
+- **1802** The Hälhasäni of Laskii is lost in a storm.
+- **1803** Battle of Pyna: Albion defeats Laskii; 1 of 24 ships lost.
+- **1803** Battle of Nigy: Rulnau under Neris Satoj defeats Kake; 0 of 18 ships lost.
+- **1804** War between Zormaxa and Rulnau.
+- **1804** Battle of Kolo: Laskii defeats Ddeje; 0 of 12 ships lost.
+- **1804** Laskii besieges Jazojj Zen but is beaten off.
+- **1804** Peace of Jazojj Zen ends the war between Laskii and Ddeje.
+- **1804** Battle of Paaky: Albion defeats Laskii; 0 of 24 ships lost.
+- **1804** Battle of Ozun: Kake defeats Rulnau; 4 of 17 ships lost.
+- **1804** Battle of Javaj Ja: Rulnau defeats Kake; 1 of 7 ships lost.
+- **1804** Battle of Rytä: Zormaxa defeats Rulnau; 5 of 23 ships lost.
+- **1805** Battle of Gänete: Albion defeats Laskii; 4 of 14 ships lost.
+- **1805** Battle of Razojkar: Albion defeats Laskii; 0 of 6 ships lost.
+- **1805** Peace of Gänete ends the war between Laskii and Albion.
+- **1805** Kake besieges Kapäs Xogi but is beaten off.
+- **1805** Laskii launches the Tamossa ('Great Lion'), 100 guns.
+- **1805** Albion and Zormaxa go to war: the present war begins.
+- **1805** Albion and Rulnau go to war: the present war begins.

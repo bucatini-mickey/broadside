@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+
+# Generated scenario replays (re-export with the scenarios runner)
+replays/
+.idea/

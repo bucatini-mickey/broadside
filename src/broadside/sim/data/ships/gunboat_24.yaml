@@ -1,0 +1,32 @@
+# Stat block for a gunboat: a small, single-masted, oared-and-sailed craft
+# carrying one heavy long gun. Period navies built them by the hundred for
+# inshore work - harbour defence, shallow-water attacks, bombardment - and
+# they punched well above their size. Used by the physics sandbox.
+#
+# Figures are representative of a Danish or Spanish Napoleonic gunboat
+# (15-20 m, one 24-pounder, 25-60 men at the oars and gun).
+
+name: "Gunboat"
+ship_class: gunboat_24
+rate: "Unrated (Gunboat)"
+
+length_m: 15.0
+beam_m: 4.4
+draught_m: 1.2
+tonnage_bm: 40
+max_crew: 30
+
+guns:
+  - type: "24-pounder long gun"
+    count: 1
+    deck: "main deck"
+
+sail_plan: "single-masted lugger"
+
+deck_grid:
+  width: 15
+  height: 5
+
+notes: >
+  Small enough to row, heavy enough to hurt. The one gun is mounted on the
+  starboard side amidships here so it bears abeam.

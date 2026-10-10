@@ -1,0 +1,43 @@
+# Stat block for a 74-gun Third Rate ship of the line - the backbone of
+# every Napoleonic battle fleet, and by far the most numerous line-of-battle
+# type. Added with the vision engine for fleet-scale scenes.
+#
+# Figures are representative of a Royal Navy Common-class 74 (e.g. HMS
+# Bellona's successors) - see docs/design/06_research_references.md. Only
+# the quarterdeck and forecastle guns stand on the open weather deck; the
+# two main batteries are worked on covered gundecks below.
+
+name: "74-Gun Ship of the Line"
+ship_class: ship_of_the_line_74
+rate: "Third Rate"
+
+length_m: 51.0
+beam_m: 14.3
+draught_m: 6.1
+tonnage_bm: 1700
+max_crew: 590
+
+guns:
+  - type: "32-pounder long gun"
+    count: 28
+    deck: "lower gundeck"
+  - type: "18-pounder long gun"
+    count: 28
+    deck: "upper gundeck"
+  - type: "9-pounder long gun"
+    count: 14
+    deck: "quarterdeck"
+  - type: "9-pounder long gun"
+    count: 4
+    deck: "forecastle"
+
+sail_plan: "full-rigged ship (fore, main, and mizzen masts, all square-rigged, plus jibs and spanker)"
+
+deck_grid:
+  width: 51
+  height: 15
+
+notes: >
+  A line-of-battle ship: slow, heavily built, and meant to lie in the line
+  exchanging broadsides with its opposite number. At chart scale a fleet of
+  these is what the macro view is for.

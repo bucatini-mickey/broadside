@@ -1,0 +1,11 @@
+# esper is pinned below 3.0 deliberately: esper 3.x replaced the
+# instantiable esper.World class with implicit global-module-state worlds
+# (switch_world("name") mutating shared module globals). That's a worse fit
+# for this project's "one esper.World object, passed explicitly, easy to
+# run many in tests or per-scene" design (see docs/design/01_architecture.md)
+# - so we stay on the 2.x line, which keeps the classic OOP API.
+esper>=2.4,<3.0
+blessed>=1.20
+numpy>=1.24
+pyyaml>=6.0
+pytest>=7.0

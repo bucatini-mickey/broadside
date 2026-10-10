@@ -1,0 +1,37 @@
+# Stat block for a 14-gun brig - a two-masted, square-rigged vessel used
+# both as a small warship (dispatch vessel, convoy escort) and, lightly
+# armed, as a merchantman. Added with the vision engine so scenes can show
+# a second hull shape and a two-masted rig.
+#
+# Figures are representative of a Napoleonic-era brig of the smaller type
+# (broadly comparable to a Royal Navy Cherokee-class 10-gun brig-sloop,
+# rounded up in armament) - see docs/design/06_research_references.md.
+
+name: "14-Gun Brig"
+ship_class: brig_14
+rate: "Unrated (Brig)"
+
+length_m: 27.5
+beam_m: 7.6
+draught_m: 3.4
+tonnage_bm: 237
+max_crew: 75
+
+guns:
+  - type: "18-pounder carronade"
+    count: 12
+    deck: "main deck"
+  - type: "6-pounder long gun"
+    count: 2
+    deck: "main deck"
+
+sail_plan: "brig (fore and main masts, both square-rigged, plus jibs and a main boom sail)"
+
+deck_grid:
+  width: 28
+  height: 8
+
+notes: >
+  Handy, weatherly and common. Its two masts (no mizzen) make it easy to
+  tell from a ship-rigged sloop at a distance - a useful identification
+  cue once the view distinguishes rigs.
