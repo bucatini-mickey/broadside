@@ -1,0 +1,40 @@
+# Stat block for a 38-gun (Fifth Rate) frigate - the classic "eyes of the
+# fleet" cruising warship of the period, and a natural mid-campaign command
+# once the player has been promoted past their first sloop.
+#
+# Figures are representative of a Royal Navy Leda-class frigate (e.g. HMS
+# Trincomalee, one of the class's few surviving examples) - see
+# docs/design/06_research_references.md for sourcing guidance.
+
+name: "38-Gun Frigate"
+ship_class: frigate_38
+rate: "Fifth Rate"
+
+length_m: 46.9
+beam_m: 12.2
+draught_m: 4.3
+tonnage_bm: 1063
+max_crew: 284
+
+guns:
+  - type: "18-pounder long gun"
+    count: 28
+    deck: "gundeck"
+  - type: "9-pounder long gun"
+    count: 8
+    deck: "quarterdeck"
+  - type: "32-pounder carronade"
+    count: 2
+    deck: "forecastle"
+
+sail_plan: "full-rigged ship (fore, main, and mizzen masts, all square-rigged, plus jibs and spanker)"
+
+deck_grid:
+  width: 28
+  height: 9
+
+notes: >
+  Representative of a Royal Navy Leda-class 38-gun frigate, a common and
+  well-documented Fifth Rate. A step up in command scope from the sloop -
+  larger crew, heavier broadside, and (in later phases) the first vessel
+  likely to carry a consort or two under the player's semaphore command.

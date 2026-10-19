@@ -1,0 +1,71 @@
+# Simulation Systems
+
+Each section below is a subsystem: what it simulates, the state it needs, the mechanism (not just the output), and its rough phase (cross-referenced to `05_roadmap.md`). This is the "everything that can be simulated, is" half of the project, and it is deliberately the largest document here.
+
+## 1. World & environment
+
+**Wind.** Not a single global vector — a field. The Mediterranean's real sailing character comes from regional, often seasonal winds (Mistral funnelling down the Rhône valley, the Meltemi in the Aegean summer, Sirocco off North Africa, plus the everyday land/sea breeze cycle near coasts). Model this as a coarse grid of wind cells (direction + speed) that evolves over time via a smooth noise process (Perlin/simplex in time, or a simple Ornstein-Uhlenbeck-style drift-plus-noise per cell so wind changes gradually rather than teleporting), with named regional "weather systems" able to bias a region's cells for a period (a Mistral event stiffens and steadies wind from the north through the Gulf of Lion for days). Ships sample the wind cell(s) under them each tick; this is exactly the kind of thing the NumPy-vectorised approach in `01_architecture.md` suits well once there are many cells and many ships sampling them.
+
+**Sea depth & coastline.** A heightmap-derived field (see `04_world_campaign.md` for generation) gives depth at any point; this matters mechanically for anchoring (can't anchor in water deeper than your cable), running aground (shallow water is a hazard, especially under sail near a lee shore — a classic period danger worth preserving), and where fortresses/batteries can be sited to command a strait or harbour mouth.
+
+**Weather & sea state.** Beyond steady wind: squalls (short, localised high-wind events that can be dangerous if caught with too much sail up — a genuine period skill test), fog (visibility reduction, relevant to both navigation and to what can be seen for semaphore/lookout purposes), and sea state/swell (affects gunnery accuracy and crew comfort/seasickness at the margins). These can be layered on after the base wind field is solid; they're listed here so the wind field's data model is built to accommodate them (e.g. a `visibility_nm` and `sea_state` field alongside wind, not bolted on later).
+
+**Day/night and season.** A simple in-game calendar drives light level (affects lookout range and whether semaphore is usable at all — flag signalling requires daylight and line of sight) and seasonal wind bias (winter Mediterranean sailing was genuinely more dangerous and less predictable than summer).
+
+## 2. Ship physics
+
+**Hull.** Each ship has a rate/class (see ship data files) defining length, beam, draught, tonnage, hull integrity (subdivided into sections — bow/waist/stern, and port/starboard, rather than one HP pool, so a raking shot down the length of a ship can matter differently from a broadside), and buoyancy/flooding state per section. A full hydrostatic simulation is out of scope; flooding is modelled as a rate (tons/minute) per damaged section, opposed by pump capacity (a function of crew assigned to pumps) and eventually by careening/beaching for repair.
+
+**Sail plan and points of sail.** Ships carry a named set of sails (course, topsail, topgallant, jib, spanker, etc. depending on rig) each independently trimmable (set/reef/furl) and independently vulnerable to damage. Boat speed is derived from a **polar performance curve**: for the angle between true wind and the ship's heading (the "point of sail" — in irons, close-hauled, close reach, beam reach, broad reach, run), a base speed multiplier applies, scaled by how much sail is set and by hull condition. This is the standard, well-validated shortcut used across sailing games and even real-world velocity-prediction-program (VPP) tools — see `06_research_references.md` — and it is what makes "you cannot sail directly into the wind, you must tack" a real, felt constraint rather than a flavour line. Tacking (turning through the wind) and wearing (turning away from the wind, the safer but slower alternative in heavy weather) are both implemented as manoeuvres with a time cost and a crew-skill-dependent chance of failure (a botched tack that leaves the ship "in irons," dead in the water and briefly unsteerable — a real and often decisive risk in period ship-handling).
+
+**Rigging and damage.** Standing and running rigging can be shot away, degrading sail efficiency or disabling specific sails/manoeuvres until repaired by crew (carpenter's/bosun's parties — see crew tasks below). A dismasted ship is a distinct, dramatic state: it can't sail to windward at all and is a common climactic outcome of a gunnery duel, matching the period record.
+
+**Anchoring, careening, and boats.** Anchoring (depth-limited, as above) lets a ship hold position against wind/current — necessary for blockade and for calm trading-in-port play. Careening (deliberately heeling a beached or shallow-water ship to expose and repair the hull below the waterline) is the period-accurate route to major hull repair away from a proper dockyard, and ties directly into the economy/logistics loop. Ship's boats (launch, cutter, jolly boat) are needed for landing parties, towing in calm/no wind, and abandoning a sinking ship.
+
+## 3. Crew simulation
+
+This is the Dwarf-Fortress-shaped heart of the project.
+
+**Identity.** Every sailor is an entity with a generated name, age, background/origin (which can flavour skills and morale — a pressed man behaves differently from a volunteer), and a permanent service record. Named officers matter specifically because of the promotion-on-death succession mechanic (see `04_world_campaign.md`) — the game needs a believable bench of lieutenants and midshipmen at all times, not just a nameless crew pool.
+
+**Rank, role, and station.** Rank (admiral down to landsman/waister) and role (topman, gun captain, carpenter, surgeon, cook, marine, powder monkey, etc.) determine a sailor's watch assignment, action skill and general station on the ship. Watches (larboard/starboard, four-hour rotations, per the period bell system from `01_architecture.md`) determine who is on deck and available versus below and resting at any given time — itself a lever the player pulls under pressure ("all hands" to make sail or clear for action, at a cost to crew rest).
+
+**Needs and mood.** Each sailor tracks decaying needs — fatigue, hunger, thirst, and less tangible ones like morale/fear and grief (after losses) — that decay over time and are replenished by scheduled activity (meals, sleep in a watch below, shore leave in port). Mood is a function of these needs plus modifiers from recent events (a bloody battle, a flogging, a prize taken, letters from home in port), in the RimWorld/Dwarf-Fortress tradition, and mood in turn affects task performance, susceptibility to further morale hits, and — at the extreme — risk of desertion, mutiny-adjacent unrest, or an officer's crew simply refusing an order under sufficiently bad conditions. This is a genuine period pressure valve (the Spithead and Nore mutinies of 1797 are real history, not colour) and worth simulating rather than flavour-texting.
+
+**Skills.** A small skill set per sailor (seamanship, gunnery, carpentry, medicine, leadership) improves with practice/experience and determines task speed/success chance. Skills, not raw stats, are the main lever for "this is a green crew vs a veteran crew" — a whole-ship property that emerges from its individual sailors rather than being set on the ship directly.
+
+**Tasks and scheduling.** A lightweight task/AI system (comparable in spirit to Dwarf Fortress's job system, at a much smaller scale) assigns each off-duty-need-satisfied sailor to a task: their watch station, a repair job, gun crew during action, pumping, or free time. Tasks are queued/prioritised rather than hard-scripted, so that (for example) "the mizzen topsail sheet just parted" can generate a repair task that the scheduler routes to an available topman without the player micromanaging it — mirroring the DF principle of the player setting priorities and intent, not directly puppeting every unit.
+
+**Injury.** Combat and accidents (a parted line, a fall from the rigging, a fire) produce injuries tracked per body part (arm, leg, head, torso — not a single HP value), with period-appropriate severity and treatment: a surgeon (skill-gated) can stabilise, splint, or amputate; untreated serious wounds risk infection/death over subsequent days. This is what makes the ship's surgeon and sick berth a real, simulated station rather than set dressing, and it's the system most directly named in the original brief ("mood, limbs, etc").
+
+**Discipline.** Period-accurate levers (extra duty, flogging, disrating, promotion, prize-money shares) that a captain can apply, each with a real effect on morale/mood — flogging restores order in the very short term at a real morale cost; consistent fair discipline and prize money build long-term loyalty. This gives the "captain" role actual social/managerial texture beyond steering the ship.
+
+## 4. Combat
+
+**Gunnery.** Guns are typed (period calibres — e.g. 32-, 24-, 18-, 12-, 9-pounders, plus carronades for short-range smashing power) with period-accurate range bands, reload times (gated by assigned gun-crew size and skill — an undermanned or green gun crew reloads slower, exactly as in period accounts), and ammunition types (round shot for hull damage, chain/bar shot aimed at rigging, grape/canister as an anti-personnel option at close range or against boarders). A broadside is the aggregate of many individually-tracked guns, each with its own crew, damage state, and reload clock — not an abstract "ship attack value."
+
+**Damage resolution.** Fire resolves per-shot against the target's hull-section/rigging/crew-on-deck model from sections 2–3 above: a hull hit reduces section integrity and may start flooding; a rigging hit degrades sail/mast state; a hit against a crowded deck (especially grape/canister, or splinters from a hull penetration — a major real cause of casualties) can injure or kill specific sailor entities standing there, which is only meaningful because those sailors already exist as simulated individuals.
+
+**Boarding.** Resolved as a local crew-vs-crew engagement using the same individual-sailor entities (armed with the roles/skills already tracked), rather than a separate abstracted "boarding value" — morale, injury, and numbers all carry over directly from the standing simulation.
+
+**Fortress/shore bombardment.** Coastal batteries and fortresses are simulated as fixed multi-gun positions with their own hull-equivalent (wall) integrity, garrison (a smaller crew simulation), and typically superior gun weight/range compared to a ship — historically the reason "never fight a fort with a ship" was near-doctrine, and a mechanic worth preserving as a real tactical constraint rather than something the player can casually brute-force.
+
+## 5. Fleet, AI, and communication
+
+**Full-fidelity off-screen simulation.** Every ship — friendly, enemy, and neutral — runs the same crew/ship/wind simulation as the player's ship at all times, whether or not the player is aboard or nearby. This is the direct analogue of Dwarf Fortress's world-simulation-continues-in-adventure-mode principle, and it's what makes the semaphore constraint (next) meaningful rather than cosmetic: other ships are actually doing things, not idling until observed.
+
+**Semaphore as the only remote channel.** The player can only issue orders to, or receive information from, a ship they are not physically aboard via line-of-sight flag signalling, modelled on real period systems (Popham's telegraphic signal code of 1803 is the direct reference — see `06_research_references.md`). This has real, playable constraints worth implementing faithfully rather than softening: signalling requires daylight and line of sight (blocked by weather, night, distance, or terrain), messages are drawn from a bounded vocabulary of numbered signals (not free text — composing a message means picking flag-hoists from a period signal book), and a message can be missed, misread, or delayed if the receiving ship's lookout isn't watching or conditions are marginal. A relay chain of ships extends effective range at the cost of delay and compounding error — a real period tactic and a natural emergent-gameplay lever.
+
+**AI captains.** Both NPC-controlled friendly ships (when not directly signalled) and enemy ships need a captain-AI layer that sets goals/orders for their own crew simulation — this reuses the same task/priority machinery as the player's crew (an NPC captain is "just" another source of orders into the same systems the player uses), which keeps one AI investment paying off for both allied and enemy behaviour.
+
+## 6. Economy & logistics
+
+**Ports.** Coastal settlements (see world generation) offer resupply (food, water, powder, shot, cordage, spare sailcloth/spars), repair (careening or full dockyard depending on port size), crew replacement (a real, period-accurate pressure — press gangs, volunteers, and the ever-present risk of desertion in port), and trade.
+
+**Trade and prize money.** Cargo has type/value; captured enemy vessels (prizes) can be sailed or sent to a friendly port under a prize crew for a real payout, historically a major motivator for period naval officers and a good secondary objective loop alongside the main campaign.
+
+**Supply as a real constraint, not a meter.** Food/water/powder/shot are tracked as actual stock levels consumed by the crew simulation and by combat, not as an abstract "supply %" — running low on powder mid-cruise should be a genuine, foreseeable crisis produced by the simulation, not a scripted event.
+
+## 7. Campaign & meta-progression
+
+Covered in full in `04_world_campaign.md`; summarised here for completeness: procedural Mediterranean-like world generation, a promotion-on-death succession mechanic (the player's *command* survives even when their current character doesn't, exactly as specified in the brief), and a fleet-command hierarchy that scales from "one ship" to "an admiral's squadron" as the campaign progresses.

@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "replays",
-      "runtimeExecutable": ".venv/Scripts/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8791", "--directory", "replays"],
+      "runtimeExecutable": "legacy/.venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8791", "--directory", "legacy/replays"],
       "port": 8791
     }
   ]

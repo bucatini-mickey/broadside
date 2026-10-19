@@ -1,3 +1,7 @@
+/target
+/snaps
+
+# legacy (Python)
 __pycache__/
 *.pyc
 .venv/
@@ -8,7 +12,5 @@ dist/
 .pytest_cache/
 .mypy_cache/
 .DS_Store
-
-# Generated scenario replays (re-export with the scenarios runner)
-replays/
+legacy/replays/
 .idea/

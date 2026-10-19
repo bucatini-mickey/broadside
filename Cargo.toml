@@ -1,0 +1,19 @@
+[package]
+name = "broadside"
+version = "0.1.0"
+edition = "2021"
+description = "Napoleonic naval command, Dwarf Fortress style, on the Tachyon engine"
+
+[dependencies]
+# The engine, checked out beside this repo (Game Dev/Tachyon).
+tachyon = { path = "../Tachyon" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+[profile.dev]
+opt-level = 1
+[profile.dev.package."*"]
+opt-level = 3
