@@ -23,7 +23,9 @@ src/drill.rs   the nine-step gun drill (legacy rules: time from skill, fatigue, 
 src/ship.rs    orders (course, sail, quarters, fire, mark); quartermaster steers; topmen set sail; drill; laying; firing
 src/ai.rs      captains from their own person: skill, wit, dash, caution; missions; same orders as the player
 src/game.rs    the sea, ships, shot; splinters and shot wounds into bodies; dismounted guns; log; scenarios
-src/screen.rs  the command screen (legacy 08_interface): ship pane, chart, status strip, 5 panels, walk/look modes
+src/glass.rs   the glass (t) and the eye (T): first-person view held relative to her head, tilt, reticle, TAB holds a ship;
+               bearings in points, aspect, range in cables; "a brig, hull up, bearing NNE, about 150 m" (tachyon::sight)
+src/screen.rs  the command screen (legacy 08_interface): ship pane, chart, status strip, 5 panels, walk/look/glass modes
 src/main.rs    menu, keys, headless --snapshot / --bench
 ```
 
@@ -36,8 +38,10 @@ src/main.rs    menu, keys, headless --snapshot / --bench
 ## Status (2026-10-10)
 Phase 1 playable: menu, 5 scenarios, all 7 classes, crews as creatures (capped at 220 aboard for your ship, 130 for others; the rest are generated but not embarked), the drill, laying with judged range, at-will and broadside fire, splinters and shot wounds, dismounted guns, holes and flooding, AI captains who engage, break off and strike, grounding, collisions, walk and look modes, crew roster with skills and wounds.
 
+2026-10-19, the glass: `t`/`T` take up the glass (7 deg, x10) or look by eye (70 deg); arrows sweep a quarter-field and tilt (-20..+40 deg), `+`/`-` the field, `f` dead ahead, `TAB` holds the next ship in sight (nearest first) and follows her, Esc puts it down. The pane shows sea, land (`sight::ground_bands`), ships (hull band, masts, canvas if set; hidden below the horizon by `sight::look`; your own ship left out), a reticle on the horizontal and a compass foot; the chart marks the field; the LOG panel carries the report. Snapshot: `--glass` or `--eye` (held on ship 1, or `--rel <deg>` off her head). Not yet: raising the glass taking time, lookouts reporting with their own accuracy, the fall-of-shot preview (`p`), weather to windward.
+
 ## To port from the legacy game (in rough order)
-1. The glass: first-person view along a bearing (`docs/legacy/16`, `21`), using `tachyon::sight`.
+1. ~~The glass~~ done (see status). Left from `21`: the gun captain's fall-of-shot preview through the glass and on the chart.
 2. Signals and squadrons: the code book, hoisting, reading, obeying (`17`, `19`).
 3. The tutorial courses (`22`), five missions passed from the ship's own state.
 4. Life aboard: watches and bells, meals from the casks, grog, sleep (`18`); psyche and morale, grievance, mutiny risk (`11`).

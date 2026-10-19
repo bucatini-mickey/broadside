@@ -9,6 +9,7 @@
 //! - `ship`: a ship in commission: orders, helm, sail, quarters, guns
 //! - `ai`: captains for the ships you don't command
 //! - `game`: the world at sea, shot and its consequences, scenarios
+//! - `glass`: a first-person look along a bearing, and the words for what is seen
 //! - `screen`: the command screen
 
 pub mod ai;
@@ -16,6 +17,7 @@ pub mod crew;
 pub mod data;
 pub mod drill;
 pub mod game;
+pub mod glass;
 pub mod hull;
 pub mod screen;
 pub mod ship;

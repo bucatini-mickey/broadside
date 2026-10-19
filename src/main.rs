@@ -8,6 +8,7 @@
 
 
 use broadside::game::{Game as World_, Scenario, SECS};
+use broadside::glass::{self, Glass};
 use broadside::{ai, data, screen};
 use broadside::screen::{Mode, Panel, Ui};
 use broadside::ship::Fire;
@@ -82,8 +83,36 @@ impl App {
             }
             return Flow::Continue;
         }
+        // The glass takes the arrows, Tab, f and the field; t/T and Esc put it down.
+        if ui.mode == Mode::Glass {
+            let gl = &mut ui.glass;
+            let mut handled = true;
+            match k.key {
+                Key::Left => gl.sweep(-1.0),
+                Key::Right => gl.sweep(1.0),
+                Key::Up => gl.tilt(gl.field / 8.0),
+                Key::Down => gl.tilt(-gl.field / 8.0),
+                Key::Char('+') | Key::Char('=') => gl.zoom(true),
+                Key::Char('-') => gl.zoom(false),
+                Key::Char('f') => gl.ahead(),
+                Key::Tab => match gl.next(g) {
+                    Some(i) => {
+                        let line = glass::report_one(g, i, gl.power()).unwrap_or_default();
+                        g.say(format!("The {}: {line}.", g.ships[i].name), Rgb(236, 222, 180));
+                    }
+                    None => ui.message = "No ship in sight.".into(),
+                },
+                Key::Esc => ui.mode = Mode::Command,
+                Key::Char('t') | Key::Char('T') if gl.glass == (k.key == Key::Char('t')) => ui.mode = Mode::Command,
+                Key::Char('t') | Key::Char('T') => *gl = Glass { rel: gl.rel, pitch: gl.pitch, hold: gl.hold, ..Glass::new(k.key == Key::Char('t')) },
+                _ => handled = false,
+            }
+            if handled {
+                return Flow::Continue;
+            }
+        }
         // Walk and look modes take the arrows.
-        if ui.mode != Mode::Command {
+        if matches!(ui.mode, Mode::Walk | Mode::Look) {
             let dir = match k.key {
                 Key::Up | Key::Char('k') => Some((0, -1)),
                 Key::Down | Key::Char('j') => Some((0, 1)),
@@ -209,6 +238,15 @@ impl App {
             }
             Key::Char('m') => {
                 ui.mode = Mode::Walk;
+            }
+            Key::Char('t') | Key::Char('T') => {
+                // Taking up the glass puts you down out of walk mode: the arrows are the glass's.
+                ui.mode = Mode::Glass;
+                let gl = &ui.glass;
+                ui.glass = Glass { rel: gl.rel, pitch: gl.pitch, hold: gl.hold, ..Glass::new(k.key == Key::Char('t')) };
+                for line in glass::report(g, &ui.glass) {
+                    g.say(line, Rgb(236, 222, 180));
+                }
             }
             Key::Char('l') => {
                 ui.mode = Mode::Look;
@@ -390,6 +428,20 @@ fn main() -> io::Result<()> {
             g.tick();
         }
         let per = t.elapsed().as_secs_f64() * 1000.0 / ticks.max(1) as f64;
+        // --glass / --eye look out: along --rel degrees off her head, or held on --hold <ship> (default the first stranger).
+        if flag("--glass") || flag("--eye") {
+            ui.mode = Mode::Glass;
+            ui.glass = Glass::new(flag("--glass"));
+            if let Some(r) = arg("--rel").and_then(|s| s.parse::<f32>().ok()) {
+                ui.glass.rel = r.to_radians();
+            } else if g.ships.len() > 1 {
+                ui.glass.hold = Some(arg("--hold").and_then(|s| s.parse().ok()).unwrap_or(1).min(g.ships.len() - 1));
+            }
+            ui.glass.follow(&g);
+            for line in glass::report(&g, &ui.glass) {
+                println!("  glass: {line}");
+            }
+        }
         let (fw, fh) = arg("--frame")
             .and_then(|s| {
                 let v: Vec<u16> = s.split('x').filter_map(|p| p.parse().ok()).collect();

@@ -15,6 +15,7 @@
 use crate::crew::{Role, SKILLS};
 use crate::drill;
 use crate::game::Game;
+use crate::glass::{self, Glass};
 use crate::ship::{wrap, Fire, Ship};
 use std::f32::consts::{PI, TAU};
 use tachyon::ballistics::{Placement, V3};
@@ -42,6 +43,8 @@ pub enum Mode {
     Walk,
     /// A cursor to look at anything aboard.
     Look,
+    /// Looking out, with the glass or by eye: the ship pane is the view.
+    Glass,
 }
 
 pub struct Ui {
@@ -55,6 +58,7 @@ pub struct Ui {
     pub theme: Theme,
     pub message: String,
     pub confirm_strike: bool,
+    pub glass: Glass,
 }
 
 impl Ui {
@@ -77,6 +81,7 @@ impl Ui {
             theme: Theme::default(),
             message: String::new(),
             confirm_strike: false,
+            glass: Glass::new(true),
         }
     }
 }
@@ -128,6 +133,9 @@ pub fn draw(f: &mut Frame, g: &Game, ui: &mut Ui) {
     f.clear(t.bg);
     let (w, h) = (f.width(), f.height());
     let foot = 2;
+    if ui.mode == Mode::Glass {
+        ui.glass.follow(g);
+    }
     let left_w = (w / 2).max(40).min(w - 40);
     let ship_r = Rect::new(0, 0, left_w, h - foot);
     let right_x = left_w;
@@ -165,6 +173,11 @@ fn panel_name(p: Panel) -> &'static str {
 fn draw_ship_pane(f: &mut Frame, g: &Game, ui: &mut Ui, r: Rect) {
     let you = g.you();
     let t = ui.theme;
+    if ui.mode == Mode::Glass {
+        let inner = panel(f, r, &glass::title(g, &ui.glass), &t);
+        glass::draw(f, g, &ui.glass, inner, t.bg);
+        return;
+    }
     let walk_pos = you.you().and_then(|id| you.craft.scene.things.get(id)).map(|th| th.pos());
     let (center, title) = match ui.mode {
         Mode::Walk => {
@@ -173,7 +186,7 @@ fn draw_ship_pane(f: &mut Frame, g: &Game, ui: &mut Ui, r: Rect) {
             (p, format!("THE {} - you, on the {}", you.name.to_uppercase(), you.layout.level_name(p.z)))
         }
         Mode::Look => (Pos::new(you.layout.cx, (you.layout.bow_y + you.layout.stern_y) / 2, ui.cursor.z), format!("THE {} - looking: {}", you.name.to_uppercase(), you.layout.level_name(ui.cursor.z))),
-        Mode::Command => (Pos::new(you.layout.cx, (you.layout.bow_y + you.layout.stern_y) / 2, ui.level), format!("THE {} - {}", you.name.to_uppercase(), you.layout.level_name(ui.level))),
+        Mode::Command | Mode::Glass => (Pos::new(you.layout.cx, (you.layout.bow_y + you.layout.stern_y) / 2, ui.level), format!("THE {} - {}", you.name.to_uppercase(), you.layout.level_name(ui.level))),
     };
     let inner = panel(f, r, &title, &t);
     ui.view.center = center;
@@ -249,6 +262,10 @@ fn draw_chart(f: &mut Frame, g: &Game, ui: &Ui, area: Rect) {
             f.set(px, area.y + sy, Cell::new(ch, fg, bg));
         }
     };
+    if ui.mode == Mode::Glass {
+        let reach = ui.mpc * area.w as f32 / 2.0;
+        glass::chart_field(g, &ui.glass, reach, |x, y, ch| put(x, y, ch, Rgb(250, 232, 170)));
+    }
     for (m, _) in &g.smoke {
         put(m.x, m.y, ':', Rgb(200, 200, 190));
     }
@@ -308,6 +325,19 @@ fn draw_log(f: &mut Frame, g: &Game, ui: &Ui, r: Rect) {
             f.text_clip(r.x, r.y + k as i32, r.w, s, *c, t.bg);
         }
         g.log.draw(f, Rect::new(r.x, r.y + top + 1, r.w, r.h - top - 1), t.bg);
+    } else if ui.mode == Mode::Glass {
+        let mut lines = vec![(format!("What {} shows:", if ui.glass.glass { "the glass" } else { "the eye" }), t.title)];
+        lines.extend(glass::report(g, &ui.glass).into_iter().map(|l| (l, Rgb(236, 222, 180))));
+        let mut y = r.y;
+        for (s, c) in &lines {
+            for part in ui::wrap(s, r.w as usize) {
+                if y < r.y + r.h / 2 {
+                    f.text_clip(r.x, y, r.w, &part, *c, t.bg);
+                    y += 1;
+                }
+            }
+        }
+        g.log.draw(f, Rect::new(r.x, y + 1, r.w, r.bottom() - y - 1), t.bg);
     } else {
         g.log.draw(f, r, t.bg);
     }
@@ -460,7 +490,7 @@ fn draw_ship_info(f: &mut Frame, g: &Game, r: Rect, t: &Theme) {
     }
 }
 
-pub const KEYS: [(&str, &str); 22] = [
+pub const KEYS: [(&str, &str); 25] = [
     ("a d", "alter course 5 deg"),
     ("A D", "alter course 30 deg"),
     ("x", "steady as she goes"),
@@ -474,6 +504,9 @@ pub const KEYS: [(&str, &str); 22] = [
     ("arrows", "walk (or move the cursor)"),
     ("< >", "climb down / up a ladder"),
     ("l", "look at anything aboard"),
+    ("t T", "take up the glass / look by eye"),
+    ("arrows", "sweep and tilt the glass"),
+    ("Tab f", "hold the next ship / dead ahead"),
     ("PgUp PgDn", "look at another level"),
     ("+ -", "zoom the chart"),
     ("space", "pause"),
@@ -505,6 +538,7 @@ fn draw_footer(f: &mut Frame, g: &Game, ui: &Ui, r: Rect) {
         match ui.mode {
             Mode::Walk => "Walking the deck as the captain: arrows to walk, < > ladders, Esc to command from the quarterdeck.".into(),
             Mode::Look => "Look: arrows move the cursor, PgUp/PgDn change level, Esc to finish.".into(),
+            Mode::Glass => "Glass: left/right sweep, up/down tilt, Tab holds the next ship, f dead ahead, +/- field, t/T glass or eye, Esc puts it down.".into(),
             Mode::Command => String::new(),
         }
     };
