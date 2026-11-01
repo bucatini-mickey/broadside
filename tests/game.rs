@@ -115,3 +115,22 @@ fn an_action_is_fought_to_a_decision_or_to_blood() {
     let hits = g.log.lines.iter().filter(|(l, _)| l.contains(" is struck ")).count();
     assert!(hits > 0 || struck.iter().any(|&s| s), "shot told on someone");
 }
+
+#[test]
+fn a_round_fired_teaches_the_gun_captain_and_pulses_read() {
+    let mut g = Game::new(Scenario::FreeSailing(2), 6);
+    let s = &mut g.ships[0];
+    let gc = s.people.iter().position(|p| p.gun.is_some_and(|(_, k)| k == 0)).expect("a gun captain");
+    let gun = s.people[gc].gun.unwrap().0;
+    let before = s.people[gc].skill("gunlaying");
+    let _ = s.people[gc].skill("gunnery");
+    // Fire that gun by hand through the ripple.
+    s.guns[gun].step = broadside::drill::READY;
+    s.orders.fire = Fire::Hold;
+    s.ripple.push((gun, 0.0));
+    let s = &mut g.ships[0];
+    s.step(0.1, &g.sea, g.wind, None);
+    assert!(s.people[gc].skill("gunlaying") > before, "practice raised his gunlaying");
+    let pulse = s.pulse(&s.people[1]).expect("a living man has a pulse");
+    assert!((40..=200).contains(&pulse), "pulse {pulse}");
+}

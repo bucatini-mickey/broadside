@@ -213,6 +213,15 @@ impl Ship {
         }
     }
 
+    /// His pulse in beats a minute (`None` for the dead).
+    pub fn pulse(&self, p: &Person) -> Option<u32> {
+        match p.thing.and_then(|id| self.craft.scene.life.get(id)) {
+            Some(c) if c.alive => Some(crew::pulse_bpm(c.needs.fatigue, c.caps.pain, c.caps.blood, c.caps.pumping)),
+            Some(_) => None,
+            None => Some(crew::pulse_bpm(0.2, 0.0, 1.0, 1.0)),
+        }
+    }
+
     pub fn pos_of(&self, p: &Person) -> Option<Pos> {
         p.thing.and_then(|id| self.craft.scene.things.get(id)).map(|t| t.pos())
     }
@@ -592,6 +601,14 @@ impl Ship {
             self.craft.scene.world.add_gas(slot.port, smoke, 230);
         }
         self.guns[g].fire();
+        // A round fired teaches the gun's people their trade.
+        for i in 0..self.people.len() {
+            if let Some((gg, k)) = self.people[i].gun {
+                if gg == g && self.alive(&self.people[i]) {
+                    crew::practise(&mut self.people[i], if k == 0 { "gunlaying" } else { "gunnery" }, 1.0);
+                }
+            }
+        }
         Shot::ball(b.ball_kg(), muzzle, [self.craft.vx + d[0] * v, self.craft.vy + d[1] * v, d[2] * v]).from(self.id)
     }
 

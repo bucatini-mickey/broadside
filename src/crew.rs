@@ -271,3 +271,65 @@ pub fn embark(scene: &mut Scene, kinds: &[(Role, KindId)], p: &mut Person, at: P
     p.thing = Some(id);
     id
 }
+
+/// Practice teaches (`docs/legacy/02` s3): a man's skill creeps up the more he
+/// does the work, fast while he is raw, slowly as he nears mastery, and more
+/// slowly in older men. `effort` is the work done, in rough "turns of the
+/// job" (one round fired, one minute at the helm of a quiet watch...).
+pub fn practise(p: &mut Person, skill: &str, effort: f32) {
+    let i = skill_index(skill);
+    let youth = (1.3 - p.age as f32 / 60.0).clamp(0.4, 1.2);
+    let gain = 0.0008 * effort.max(0.0) * youth * (1.0 - p.skills[i]);
+    p.skills[i] = (p.skills[i] + gain).min(0.98);
+}
+
+/// Resting pulse is about 65. Work (fatigue 0..1), pain and blood lost quicken
+/// it; very little blood left and the heart flags. Beats per minute.
+pub fn pulse_bpm(fatigue: f32, pain: f32, blood: f32, pumping: f32) -> u32 {
+    let lost = (1.0 - blood).clamp(0.0, 1.0);
+    let mut rate = 65.0 + 45.0 * fatigue.clamp(0.0, 1.0) + 6.0 * pain.clamp(0.0, 10.0) + 150.0 * lost;
+    if blood < 0.4 {
+        // The heart can no longer keep up.
+        rate *= (blood / 0.4).clamp(0.3, 1.0);
+    }
+    (rate * pumping.clamp(0.2, 1.0).sqrt()).clamp(20.0, 200.0).round() as u32
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn practice_teaches_with_diminishing_returns() {
+        let culture = Culture::new(5);
+        let mut rng = Rng::new(3);
+        let mut raw = person(&culture, &BACKGROUNDS[2], &mut rng);
+        let mut old_hand = raw.clone();
+        raw.skills[skill_index("gunnery")] = 0.1;
+        old_hand.skills[skill_index("gunnery")] = 0.9;
+        let (r0, o0) = (raw.skill("gunnery"), old_hand.skill("gunnery"));
+        for _ in 0..200 {
+            practise(&mut raw, "gunnery", 1.0);
+            practise(&mut old_hand, "gunnery", 1.0);
+        }
+        assert!(raw.skill("gunnery") - r0 > 5.0 * (old_hand.skill("gunnery") - o0), "the raw man learns faster");
+        assert!(old_hand.skill("gunnery") <= 0.98);
+        let mut p = raw.clone();
+        p.age = 20;
+        let mut q = raw.clone();
+        q.age = 55;
+        practise(&mut p, "helm", 50.0);
+        practise(&mut q, "helm", 50.0);
+        assert!(p.skill("helm") > q.skill("helm"), "young men learn quicker");
+    }
+
+    #[test]
+    fn the_pulse_quickens_with_work_and_pain_and_fails_with_blood() {
+        let rest = pulse_bpm(0.0, 0.0, 1.0, 1.0);
+        assert!((60..=70).contains(&rest));
+        assert!(pulse_bpm(0.8, 0.0, 1.0, 1.0) > rest + 25);
+        assert!(pulse_bpm(0.0, 4.0, 1.0, 1.0) > rest + 15);
+        assert!(pulse_bpm(0.0, 0.0, 0.75, 1.0) > pulse_bpm(0.0, 0.0, 0.9, 1.0));
+        assert!(pulse_bpm(0.0, 0.0, 0.2, 1.0) < pulse_bpm(0.0, 0.0, 0.6, 1.0), "nearly bled out: it flags");
+    }
+}

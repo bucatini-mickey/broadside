@@ -20,20 +20,20 @@ Counts are by status; the full list is below.
 |---|---|---|---|
 | Environment and sea | 7 | 5 | 12 |
 | Ship, hull and sailing | 14 | 7 | 20 |
-| Crew data and generation | 7 | 6 | 7 |
+| Crew data and generation | 7 | 7 | 6 |
 | Life aboard | 1 | 7 | 9 |
-| Body and surgeon | 4 | 1 | 8 |
+| Body and surgeon | 4 | 2 | 7 |
 | Psyche, discipline, morale | 0 | 0 | 15 |
 | Gunnery | 14 | 7 | 9 |
 | Damage, fire, structures, items | 3 | 6 | 17 |
 | Boarding and contact | 2 | 0 | 8 |
-| Captains, AI, signals, fleet | 3 | 6 | 26 |
-| Sight and knowledge | 9 | 2 | 9 |
+| Captains, AI, signals, fleet | 4 | 6 | 25 |
+| Sight and knowledge | 9 | 3 | 8 |
 | Interface | 11 | 12 | 10 |
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **86** | **66** | **189** |
+| **Total (341 rows)** | **87** | **69** | **185** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -134,7 +134,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | CRW-14 | Biography: dated events from history and from the sim | 11, 12 s"History" | partial | game | WLD-05 | `Person::story()` is one line |
 | CRW-15 | Nicknames from extreme traits | 11 | missing | game | CRW-11 | |
 | CRW-16 | Crew mix of 70% home culture and 30% others | 14 | ported | game | CRW-06 | `crew::company` takes a `Culture` (verify exact mix) |
-| CRW-17 | Skill growth with practice | 02 s3 | missing | game | CRW-04 | |
+| CRW-17 | Skill growth with practice | 02 s3 | partial | game | CRW-04 | `crew::practise` (diminishing returns, slower with age); only rounds fired train gunlaying and gunnery so far (`Ship::discharge`) |
 | CRW-18 | Roles by trade glyph; you are the only `@` | 08 | ported | game | CRW-05 | `Role::glyph` |
 | CRW-19 | Women and non-combatants aboard | ST s7, 11 q3 | missing | game | | open design question, undecided |
 | CRW-20 | Superstition as a light trait | ST s7, 11 q2 | missing | game | CRW-11 | open question |
@@ -171,7 +171,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | BOD-04 | Fracture, splint, artery cut, tendon cut, tourniquet, infection per limb | 18 s3 | partial | engine | BOD-01 | wound kinds exist in engine; tourniquet/splint/infection as treatment states are not wired (CLAUDE: "engine work in `life/body`") |
 | BOD-05 | Death on collapse (~33%) and heart stop (~45%) | 11 | ported | engine | BOD-01 | |
 | BOD-06 | Bodies stay where they fell | 13 | missing | game | BOD-01 | check whether creatures remain as corpses in `Scene`; no handling code in `src/` |
-| BOD-07 | Heart rate and pulse reported | 11 | missing | game | BOD-01 | |
+| BOD-07 | Heart rate and pulse reported | 11 | partial | game | BOD-01 | `crew::pulse_bpm`, `Ship::pulse` (work, pain, blood lost); not shown in the roster or inspect panels yet |
 | BOD-08 | Surgeon, cockpit, wounded carried below, queue | 18 s3 plan, ST s6.2 | missing | game | SHP-10, CRW-09, BOD-04 | |
 | BOD-09 | Operations as timed work that can fail: tourniquet, binding, extraction, amputation | 18 s3 | missing | both | BOD-08, CRW-10 | |
 | BOD-10 | Infection and fever over days; invalided home | 18 s3 | missing | engine | BOD-04 | |
@@ -297,7 +297,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | CAP-11 | Chase, stern chase, lightening ship | 10 s5 | missing | game | CAP-04 | |
 | CAP-12 | Cutting out, doubling, breaking the line | 19 s5, 10 s5 | missing | game | CAP-10 | |
 | CAP-13 | Captains with names, records, favourites | 19 s5 | missing | game | CRW-14 | |
-| SIG-01 | Code book of numbered signals | 17 s3, 19 s3 | missing | game | | the whole signalling system is unported |
+| SIG-01 | Code book of numbered signals | 17 s3, 19 s3 | ported | game | | `signals::BOOK` (12 flags and effects), `hoist_seconds`, `hold_seconds`, `Addressee`; hoisting, reading and obeying are SIG-02..09 |
 | SIG-02 | Hoisting takes a hand and 8-20 s | 17, 19 | missing | game | SIG-01, CRW-09 | |
 | SIG-03 | Signals mean orders (1-12 table) | 19 s3 | missing | game | SIG-01, CAP-05 | |
 | SIG-04 | Addressed to one ship or the squadron | 19 s3 | missing | game | SIG-01 | |
@@ -325,7 +325,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | id | mechanic | source | status | side | depends on | where / note |
 |---|---|---|---|---|---|---|
 | SGT-01 | The glass (`t`): first-person view along a bearing, x10, 7 deg | 16 s2, 21 | ported | both | | `glass.rs` over `tachyon::sight` |
-| SGT-02 | Contact records: seen, topsails, lost, last-known position | 07 s"Contacts" | missing | game | SGT-01 | no records; AI uses true positions |
+| SGT-02 | Contact records: seen, topsails, lost, last-known position | 07 s"Contacts" | partial | game | SGT-01 | `contacts::Book` (hull, topsails, lost after 3 s, last known place) with `classify(Seen)`; not yet fed by lookouts, AI still uses true positions (CAP-07) |
 | SGT-03 | The eye (`T`): 70 deg, no magnification | 16 s2 | ported | game | SGT-01 | |
 | SGT-04 | Glass held relative to her head, tilting, reticle, TAB holds a ship, `f` ahead | 21 s"glass", ST | ported | game | SGT-01 | |
 | SGT-05 | Bearings in points, aspect words, range in cables | 21 s"The words" | ported | game | SGT-01 | `glass::relative_words`, `aspect_words`, `range_words` |
