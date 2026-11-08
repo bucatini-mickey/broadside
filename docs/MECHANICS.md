@@ -26,14 +26,14 @@ Counts are by status; the full list is below.
 | Psyche, discipline, morale | 0 | 0 | 15 |
 | Gunnery | 14 | 7 | 9 |
 | Damage, fire, structures, items | 3 | 6 | 17 |
-| Boarding and contact | 2 | 0 | 8 |
+| Boarding and contact | 4 | 0 | 6 |
 | Captains, AI, signals, fleet | 4 | 6 | 25 |
 | Sight and knowledge | 9 | 3 | 8 |
 | Interface | 11 | 12 | 10 |
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **91** | **68** | **182** |
+| **Total (341 rows)** | **93** | **68** | **180** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -270,8 +270,8 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | id | mechanic | source | status | side | depends on | where / note |
 |---|---|---|---|---|---|---|
 | BRD-01 | Tile-exact collision between hulls, damage by closing speed | 13 s"Collision" | ported | engine | | `craft::collide`, `game::collide_ships` |
-| BRD-02 | Fouling: ships locked until cut free | 13, ST s8 | missing | both | BRD-01 | collisions knock ships apart instead |
-| BRD-03 | Cutting free | ST s8 | missing | game | BRD-02 | |
+| BRD-02 | Fouling: a slow meeting (closing < 1.2 m/s) with rails meeting leaves the ships locked at the contact, moving as a pair (mass-weighted velocity and yaw, fixed relative pose); hard collisions still knock apart | 13, ST s8 | ported | both | BRD-01 | `foul.rs`, `Game::collide_ships`/`foul_step`; engine-general (for Tachyon, not built): rigid-pair constraint between crafts and a slow-contact event |
+| BRD-03 | Cutting free: `c` orders it; up to 8 hands per ordering ship go to the rail nearest the contact and cut (60 man-seconds, by strength, fatigue, seamanship; only men at the rail count; AI captains order it after 45 s); pair then parts with a 30 s no-refoul cooldown | ST s8 | ported | game | BRD-02 | `Ship::send_cutters/cut_work`, `Orders::cut_free`; no axes/grapnel items, no cutting under fire modifiers yet |
 | BRD-04 | Gangways between rails; boarders cross | 13 | missing | game | BRD-02 | |
 | BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | missing | game | BRD-04, CRW-04 | |
 | BRD-06 | Melee by skill and fear, wounding real body parts | 13 | missing | game | BRD-04, BOD-01 | creatures can attack in engine (`Species::Attack`); no boarding logic |

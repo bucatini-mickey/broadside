@@ -206,6 +206,10 @@ impl App {
             Key::Char('A') => you.alter_course(-30f32.to_radians()),
             Key::Char('D') => you.alter_course(30f32.to_radians()),
             Key::Char('x') => you.orders.course = Some(you.craft.heading),
+            Key::Char('c') => {
+                you.orders.cut_free = !you.orders.cut_free;
+                ui.message = if you.orders.cut_free { "Cut us free: hands to the rails (if we are fouled).".into() } else { "Belay cutting.".into() };
+            }
             Key::Char('w') => you.orders.sail = (you.orders.sail + 0.25).min(1.0),
             Key::Char('s') => you.orders.sail = (you.orders.sail - 0.25).max(0.0),
             Key::Char('b') => you.orders.quarters = !you.orders.quarters,

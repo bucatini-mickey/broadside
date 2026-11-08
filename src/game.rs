@@ -4,6 +4,7 @@
 use crate::ai::{self, Captain, Contact};
 use crate::crew::Role;
 use crate::data::{self, ShipClass};
+use crate::foul::{self, Foul};
 use crate::ship::{Fire, Mark, Ship};
 use tachyon::ballistics::{Ballistics, Body, ShotEvent, V3};
 use tachyon::craft::{self, CraftEvent};
@@ -67,6 +68,9 @@ pub struct Game {
     pub time: f64,
     pub over: Option<String>,
     pub classes: Vec<ShipClass>,
+    /// Pairs of ships made fast to each other, and pairs lately cut apart (a, b, until).
+    pub fouls: Vec<Foul>,
+    pub parted: Vec<(usize, usize, f64)>,
 }
 
 /// Bathymetry for the scenarios: open water, a high island to the north
@@ -111,6 +115,8 @@ impl Game {
             time: 10.0 * 3600.0,
             over: None,
             classes: classes.clone(),
+            fouls: Vec::new(),
+            parted: Vec::new(),
         };
         let (you, them): (Vec<(&str, f32, f32, f32)>, Vec<(&str, f32, f32, f32)>) = match scenario {
             Scenario::Action => (vec![("brig_14", 3000.0, 5000.0, 0.4)], vec![("brig_14", 3900.0, 4300.0, 4.7)]),
@@ -191,7 +197,8 @@ impl Game {
         for s in &mut self.ships {
             s.craft.step(&self.sea, self.wind);
         }
-        collide_ships(&mut self.ships);
+        self.collide_ships();
+        self.foul_step(dt);
         // Shot in flight.
         {
             let mut bodies: Vec<Body> = self.ships.iter_mut().map(|s| s.craft.body(s.id)).collect();
@@ -399,13 +406,139 @@ pub fn wound(ship: &mut Ship, id: ThingId, kind: DamageKind, force: f32, rng: &m
     })
 }
 
-/// Ships that run aboard each other are knocked apart.
-fn collide_ships(ships: &mut [Ship]) {
-    let mut crafts: Vec<&mut tachyon::craft::Craft> = ships.iter_mut().map(|s| &mut s.craft).collect();
-    craft::collide(&mut crafts);
-}
-
 #[allow(dead_code)]
 pub fn role_name(r: Role) -> &'static str {
     r.name()
+}
+
+impl Game {
+    /// Is ship `i` fouled with another?
+    pub fn fouled(&self, i: usize) -> Option<&Foul> {
+        self.fouls.iter().find(|f| f.a == i || f.b == i)
+    }
+
+    /// Ships that run aboard each other. Hard collisions knock them apart
+    /// (and tell in the log); a slow meeting at the rails fouls them
+    /// instead, and a fouled pair is held by `foul_step`, not pushed apart.
+    fn collide_ships(&mut self) {
+        let n = self.ships.len();
+        self.parted.retain(|p| p.2 > self.time);
+        for i in 0..n {
+            for j in i + 1..n {
+                if self.fouls.iter().any(|f| f.has(i, j)) {
+                    continue;
+                }
+                let (left, right) = self.ships.split_at_mut(j);
+                let (a, b) = (&mut left[i], &mut right[0]);
+                let reach = 0.5 * (a.craft.length.max(a.craft.beam) + b.craft.length.max(b.craft.beam));
+                let (dx, dy) = (b.craft.x - a.craft.x, b.craft.y - a.craft.y);
+                let d = (dx * dx + dy * dy).sqrt();
+                if d > reach {
+                    continue;
+                }
+                // Closing speed along the line of centres, before the knock.
+                let closing = -((b.craft.vx - a.craft.vx) * dx + (b.craft.vy - a.craft.vy) * dy) / d.max(0.1);
+                let (na, nb) = (a.craft.events.len(), b.craft.events.len());
+                craft::collide(&mut [&mut a.craft, &mut b.craft]);
+                for e in a.craft.events[na..].iter_mut() {
+                    if let CraftEvent::Collided { other, .. } = e {
+                        *other = j;
+                    }
+                }
+                for e in b.craft.events[nb..].iter_mut() {
+                    if let CraftEvent::Collided { other, .. } = e {
+                        *other = i;
+                    }
+                }
+                let Some(at) = foul::new_contact(&a.craft, na) else { continue };
+                if closing >= foul::FOUL_SPEED {
+                    // A hard blow: it damages and parts them as it always did, and they do not foul on the rebound.
+                    self.parted.push((i, j, self.time + foul::COOLDOWN));
+                }
+                if closing <= 0.0 || self.parted.iter().any(|p| p.0 == i && p.1 == j) {
+                    continue;
+                }
+                if let Some(f) = foul::try_foul(&self.ships, i, j, at, closing, self.time) {
+                    // Slow: no thunder, they are fouled. Drop the knock's event.
+                    for k in [i, j] {
+                        self.ships[k].craft.events.retain(|e| !matches!(e, CraftEvent::Collided { .. }));
+                        self.ships[k].orders.cut_free = false;
+                    }
+                    let (na, nb) = (self.ships[i].name.clone(), self.ships[j].name.clone());
+                    self.say(format!("The {na} and the {nb} come together rail to rail, and foul."), Rgb(255, 170, 110));
+                    self.fouls.push(f);
+                }
+            }
+        }
+    }
+
+    /// Fouled pairs move as one; ordered to cut free, each ship's hands go
+    /// to her rail and cut, and the pair parts when the work is done.
+    fn foul_step(&mut self, dt: f32) {
+        let mut fouls = std::mem::take(&mut self.fouls);
+        let mut lines: Vec<String> = Vec::new();
+        for f in &mut fouls {
+            // Captains not under the player's hand cut free once they have had enough.
+            for k in [f.a, f.b] {
+                let s = &mut self.ships[k];
+                if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= foul::AI_PATIENCE {
+                    s.orders.cut_free = true;
+                }
+            }
+            for (side, k) in [f.a, f.b].into_iter().enumerate() {
+                let s = &mut self.ships[k];
+                if s.orders.cut_free && f.cutters[side].is_empty() {
+                    f.cutters[side] = s.send_cutters(f.rails[side], foul::CUTTERS);
+                    if !f.cutters[side].is_empty() {
+                        lines.push(format!("The {}: hands to the rails with axes and knives!", s.name));
+                    }
+                } else if !s.orders.cut_free && !f.cutters[side].is_empty() {
+                    f.cutters[side].clear();
+                    s.release_hands();
+                }
+                if !f.cutters[side].is_empty() {
+                    f.work += s.cut_work(&f.cutters[side], f.rails[side], dt);
+                }
+            }
+            let (left, right) = self.ships.split_at_mut(f.b);
+            foul::lock(&mut left[f.a].craft, &mut right[0].craft, f);
+        }
+        // Parted, or broken up.
+        let mut keep = Vec::new();
+        for f in fouls {
+            let done = f.work >= foul::LINES;
+            if done || foul::broken(&self.ships[f.a], &self.ships[f.b]) {
+                let (a, b) = (f.a, f.b);
+                for (side, k) in [a, b].into_iter().enumerate() {
+                    self.ships[k].orders.cut_free = false;
+                    if !f.cutters[side].is_empty() {
+                        self.ships[k].release_hands();
+                    }
+                }
+                if done {
+                    // A little way on her, each, along the line of centres.
+                    let (dx, dy) = (self.ships[b].craft.x - self.ships[a].craft.x, self.ships[b].craft.y - self.ships[a].craft.y);
+                    let d = (dx * dx + dy * dy).sqrt().max(0.1);
+                    self.ships[a].craft.vx -= 0.3 * dx / d;
+                    self.ships[a].craft.vy -= 0.3 * dy / d;
+                    self.ships[b].craft.vx += 0.3 * dx / d;
+                    self.ships[b].craft.vy += 0.3 * dy / d;
+                    self.parted.push((a, b, self.time + foul::COOLDOWN));
+                    lines.push(format!("The {} and the {} are cut apart.", self.ships[a].name, self.ships[b].name));
+                }
+            } else {
+                keep.push(f);
+            }
+        }
+        self.fouls = keep;
+        // An order to cut free means nothing to a ship that is clear.
+        for k in 0..self.ships.len() {
+            if self.fouled(k).is_none() {
+                self.ships[k].orders.cut_free = false;
+            }
+        }
+        for l in lines {
+            self.say(l, Rgb(255, 200, 120));
+        }
+    }
 }

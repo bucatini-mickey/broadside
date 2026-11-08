@@ -44,6 +44,8 @@ pub struct Orders {
     pub fire: Fire,
     /// The ship the guns are to be laid on.
     pub target: Option<usize>,
+    /// Cut us free of the ship we are fouled with: hands to the rails.
+    pub cut_free: bool,
 }
 
 /// Something that happened aboard, for the log.
@@ -119,7 +121,7 @@ impl Ship {
             crew_kinds,
             people: Vec::new(),
             guns,
-            orders: Orders { course: Some(heading), sail: 0.75, quarters: false, fire: Fire::Hold, target: None },
+            orders: Orders { course: Some(heading), sail: 0.75, quarters: false, fire: Fire::Hold, target: None, cut_free: false },
             set: 0.75,
             powder: 0,
             shot: 0,
@@ -303,6 +305,74 @@ impl Ship {
                 self.craft.scene.world.set_tile(g.port, t, m);
             }
         }
+    }
+
+    /// Send up to `n` hands to the rail at `rail` to cut her free of a ship
+    /// she is fouled with: bosun's mates and idlers first, gun crews last
+    /// (nearest the rail first among equals). Returns their places in
+    /// `people`; they walk there as the decks and ladders allow.
+    pub fn send_cutters(&mut self, rail: Pos, n: usize) -> Vec<usize> {
+        let rank = |r: Role| match r {
+            Role::BosunsMate => 0,
+            Role::Waister => 1,
+            Role::Topman | Role::Carpenter => 2,
+            Role::Marine => 3,
+            Role::Boy => 4,
+            Role::Gunner => 5,
+            Role::GunCaptain => 6,
+            _ => 99,
+        };
+        let mut cand: Vec<(i32, i32, usize)> = Vec::new();
+        for (i, p) in self.people.iter().enumerate() {
+            if rank(p.role) >= 99 || !self.able(p) {
+                continue;
+            }
+            let Some(q) = self.pos_of(p) else { continue };
+            cand.push((rank(p.role), q.dist2d(rail) + 8 * (q.z - rail.z).abs(), i));
+        }
+        cand.sort();
+        let hands: Vec<usize> = cand.into_iter().take(n).map(|c| c.2).collect();
+        for &i in &hands {
+            if let Some(id) = self.people[i].thing {
+                if let Some(c) = self.craft.scene.life.get_mut(id) {
+                    c.mind.routine = Routine::new().with(0.0, 24.0, Task::Work { at: rail, radius: 1 });
+                    c.mind.next_plan = 0;
+                    c.mind.next_think = 0;
+                    c.mind.path.clear();
+                    c.mind.goal = Goal::Idle(0);
+                    c.mind.asleep = false;
+                }
+            }
+        }
+        hands
+    }
+
+    /// The work these hands do in `dt` seconds at the rail (man-seconds of
+    /// axe and knife on lashings and grapnels): only men who have reached
+    /// the rail and are able to work count; strength, fatigue and
+    /// seamanship tell.
+    pub fn cut_work(&self, hands: &[usize], rail: Pos, dt: f32) -> f32 {
+        let mut w = 0.0;
+        for &i in hands {
+            let p = &self.people[i];
+            if !self.able(p) {
+                continue;
+            }
+            let there = match self.pos_of(p) {
+                Some(q) => q.z == rail.z && q.dist2d(rail) <= 2,
+                None => true,
+            };
+            if there {
+                let (strength, fatigue) = self.physique(p);
+                w += (0.4 + 0.6 * strength) * (1.0 - 0.4 * fatigue) * (0.6 + 0.8 * p.skill("seamanship")) * dt;
+            }
+        }
+        w
+    }
+
+    /// The cutting is done (or called off): everyone back to his station.
+    pub fn release_hands(&mut self) {
+        self.assign(self.orders.quarters);
     }
 
     /// Is this man where his job is (within reach of it)?

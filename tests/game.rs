@@ -149,3 +149,114 @@ fn only_rated_ships_stand_in_the_line() {
     }
     assert!(Rate::First < Rate::Third && Rate::Third.of_the_line() && !Rate::Unrated.of_the_line());
 }
+
+/// Two brigs side by side, b to starboard of a, closing at `closing` m/s.
+fn alongside(closing: f32, gap: f32) -> Game {
+    let mut g = Game::new(Scenario::Action, 21);
+    g.captains[1] = None;
+    for s in g.ships.iter_mut() {
+        s.orders.sail = 0.0;
+        s.orders.course = None;
+        s.craft.heading = 0.0;
+        s.craft.vx = 0.0;
+        s.craft.vy = 0.0;
+        s.craft.yaw_rate = 0.0;
+    }
+    let (x, y) = (g.ships[0].craft.x, g.ships[0].craft.y);
+    g.ships[1].craft.x = x + gap;
+    g.ships[1].craft.y = y;
+    g.ships[1].craft.vx = -closing;
+    g.ships[0].craft.vx = 0.0;
+    g
+}
+
+fn first_foul(g: &mut Game, secs: f64) -> bool {
+    for _ in 0..(secs / SECS) as usize {
+        g.tick();
+        if !g.fouls.is_empty() {
+            return true;
+        }
+    }
+    false
+}
+
+#[test]
+fn a_slow_meeting_at_the_rails_leaves_the_ships_fouled_and_moving_as_a_pair() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0), "fouled");
+    let f = g.fouls[0].clone();
+    let (a, b) = (f.a, f.b);
+    run(&mut g, 30.0);
+    assert_eq!(g.fouls.len(), 1, "still fouled with nobody cutting");
+    let (ca, cb) = (&g.ships[a].craft, &g.ships[b].craft);
+    let (fwd, stb) = ca.axes();
+    let (dx, dy) = (cb.x - ca.x, cb.y - ca.y);
+    assert!((dx * fwd.0 + dy * fwd.1 - f.off.0).abs() < 0.05 && (dx * stb.0 + dy * stb.1 - f.off.1).abs() < 0.05, "held at the contact");
+    assert!((ca.vx - cb.vx).abs() < 1e-4 && (ca.vy - cb.vy).abs() < 1e-4, "one velocity");
+    assert!(wrap(cb.heading - ca.heading - f.dh).abs() < 1e-3, "one heading");
+}
+
+#[test]
+fn a_hard_collision_still_separates_and_does_not_foul() {
+    let mut g = alongside(6.0, 14.0);
+    let mut worst: f32 = 0.0;
+    for _ in 0..40 {
+        g.tick();
+        worst = worst.max(g.ships[0].craft.speed());
+    }
+    assert!(g.fouls.is_empty(), "a hard blow does not foul");
+    assert!(worst > 1.0, "it knocked her at rest into motion: {worst}");
+    // The pair were shoved to a seam's width apart, not locked at the contact.
+    let gap = (g.ships[1].craft.x - g.ships[0].craft.x).abs();
+    assert!(gap > 8.0, "and they are apart again: {gap}");
+}
+
+#[test]
+fn the_order_to_cut_free_takes_hands_at_the_rails_and_time() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0));
+    g.ships[0].orders.cut_free = true;
+    let t0 = g.time;
+    run(&mut g, 2.0);
+    assert!(!g.fouls.is_empty(), "not cut in a moment");
+    assert!(!g.fouls[0].cutters[0].is_empty(), "hands sent");
+    assert!(g.fouls[0].cutters[1].is_empty(), "the other ship was not ordered");
+    let mut cut_at = None;
+    for _ in 0..(300.0 / SECS) as usize {
+        g.tick();
+        if g.fouls.is_empty() {
+            cut_at = Some(g.time - t0);
+            break;
+        }
+    }
+    let t = cut_at.expect("cut apart in the end");
+    assert!(t > 8.0, "it took real work: {t:.0} s");
+    assert!(!g.ships[0].orders.cut_free);
+    run(&mut g, 20.0);
+    assert!(g.fouls.is_empty(), "and they do not foul at once again");
+}
+
+#[test]
+fn with_no_hands_able_the_lines_are_not_cut() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0));
+    let ids: Vec<_> = g.ships[0].people.iter().filter_map(|p| p.thing).collect();
+    for id in ids {
+        if let Some(c) = g.ships[0].craft.scene.life.get_mut(id) {
+            c.alive = false;
+        }
+    }
+    g.ships[0].orders.cut_free = true;
+    run(&mut g, 120.0);
+    for l in g.log.lines.iter().rev().take(6) { println!("{}", l.0); } assert!(!g.fouls.is_empty(), "still fouled"); assert!(g.fouls[0].work < 1.0, "nobody to do it: {} man-seconds, {} cutters", g.fouls[0].work, g.fouls[0].cutters[0].len());
+}
+
+#[test]
+fn an_ai_captain_cuts_free_in_time() {
+    let mut g = alongside(0.5, 11.0);
+    g.captains[0] = None;
+    assert!(first_foul(&mut g, 40.0));
+    g.captains[1] = Some(Captain::from(&g.ships[1].people[0]));
+    run(&mut g, 200.0);
+    assert!(g.fouls.is_empty(), "the other captain had them cut apart");
+}

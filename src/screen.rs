@@ -490,10 +490,11 @@ fn draw_ship_info(f: &mut Frame, g: &Game, r: Rect, t: &Theme) {
     }
 }
 
-pub const KEYS: [(&str, &str); 25] = [
+pub const KEYS: [(&str, &str); 26] = [
     ("a d", "alter course 5 deg"),
     ("A D", "alter course 30 deg"),
     ("x", "steady as she goes"),
+    ("c", "cut free of a fouled ship"),
     ("w s", "more / less sail"),
     ("b", "beat to quarters / stand down"),
     ("n", "name your mark (next enemy)"),
