@@ -6,6 +6,7 @@
 //! - `hull`: a ship's grid, decks, fittings and stations, built from her class
 //! - `crew`: her company: names, backgrounds, skills, roles; men aboard as creatures
 //! - `drill`: the gun drill, step by step
+//! - `board`: boarders away: the quarter bill's party crosses between fouled ships
 //! - `foul`: ships that meet slowly are made fast, and cut apart by hands at the rails
 //! - `ship`: a ship in commission: orders, helm, sail, quarters, guns
 //! - `ai`: captains for the ships you don't command
@@ -16,6 +17,7 @@
 //! - `screen`: the command screen
 
 pub mod ai;
+pub mod board;
 pub mod contacts;
 pub mod crew;
 pub mod data;

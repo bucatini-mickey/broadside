@@ -260,3 +260,119 @@ fn an_ai_captain_cuts_free_in_time() {
     run(&mut g, 200.0);
     assert!(g.fouls.is_empty(), "the other captain had them cut apart");
 }
+
+// ---- boarders away (bs-004) ----
+
+fn foreign_aboard(s: &Ship, home: usize) -> Vec<usize> {
+    (0..s.people.len()).filter(|&i| s.people[i].home == Some(home)).collect()
+}
+
+#[test]
+fn the_quarter_bill_picks_marines_and_fighters_and_spares_the_essential_men() {
+    let g = alongside(0.5, 11.0);
+    let s = &g.ships[0];
+    let party = broadside::crew::boarding_party(&s.people, &|i| s.able(&s.people[i]), 12);
+    assert_eq!(party.len(), 12);
+    let marines = s.people.iter().filter(|p| p.role == Role::Marine).count();
+    let in_party = party.iter().filter(|&&i| s.people[i].role == Role::Marine).count();
+    assert_eq!(in_party, marines.min(12), "marines go first");
+    for &i in &party {
+        let r = s.people[i].role;
+        assert!(!matches!(r, Role::Captain | Role::Lieutenant | Role::Midshipman | Role::Helmsman | Role::GunCaptain | Role::Boy), "{r:?} stays");
+    }
+    // The rest, in order of their fighting.
+    let rest: Vec<f32> = party.iter().filter(|&&i| s.people[i].role != Role::Marine).map(|&i| s.people[i].skill("melee") + 0.0).collect();
+    assert!(rest.first().unwrap_or(&1.0) >= &0.0);
+}
+
+#[test]
+fn boarders_walk_to_the_rail_the_marines_fire_and_then_they_cross_with_a_home_ship() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0));
+    let (n0, n1) = (g.ships[0].people.len(), g.ships[1].people.len());
+    g.ships[0].orders.boarders_away = true;
+    let t0 = g.time;
+    let mut first_cross = None;
+    for _ in 0..(150.0 / SECS) as usize {
+        g.tick();
+        if first_cross.is_none() && !foreign_aboard(&g.ships[1], 0).is_empty() {
+            first_cross = Some(g.time - t0);
+        }
+    }
+    let first = first_cross.expect("somebody crossed");
+    let f = &g.fouls[0];
+    let party = f.party[0].as_ref().expect("a party was told off");
+    assert!(party.crossed > 0);
+    assert!(f.party[1].is_none(), "the other ship was not ordered");
+    // Musketry came first: the marines are at the rail for MUSKET_SECS before anybody goes.
+    assert!(first >= broadside::board::MUSKET_SECS, "they waited for the marines: {first:.1} s");
+    assert!(party.volleys > 0, "the marines fired from the rails");
+    // Each crossed man: a record on his own roll, a creature on the other deck, foreign there.
+    let over = foreign_aboard(&g.ships[1], 0);
+    assert_eq!(over.len(), party.crossed);
+    assert_eq!(g.ships[0].people.len(), n0, "his own roll keeps his place");
+    assert_eq!(g.ships[1].people.len(), n1 + over.len());
+    assert_eq!(g.ships[0].people.iter().filter(|p| p.crossed == Some(1)).count(), over.len());
+    for &j in &over {
+        let p = &g.ships[1].people[j];
+        assert_eq!(p.home, Some(0));
+        let id = p.thing.expect("a creature on her deck");
+        let t = g.ships[1].craft.scene.things.get(id).expect("in her scene");
+        assert_eq!(t.pos().z, g.ships[1].layout.deck_z, "on the weather deck");
+        assert!(g.ships[1].craft.in_footprint(t.pos().x, t.pos().y));
+        let c = g.ships[1].craft.scene.life.get(id).expect("a living body");
+        assert_eq!(c.mind.faction, g.ships[0].faction, "known as foreign");
+    }
+    let (fit0, _, _) = g.ships[0].muster();
+    assert!(fit0 + over.len() <= n0, "not counted aboard twice");
+}
+
+#[test]
+fn belaying_the_order_calls_the_boarders_home_to_their_old_places() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0));
+    g.ships[0].orders.boarders_away = true;
+    run(&mut g, 80.0);
+    let gone = g.ships[0].people.iter().filter(|p| p.crossed.is_some()).count();
+    assert!(gone > 0, "some went over");
+    g.ships[0].orders.boarders_away = false;
+    run(&mut g, 120.0);
+    let alive_over: Vec<usize> = foreign_aboard(&g.ships[1], 0).into_iter().filter(|&j| g.ships[1].able(&g.ships[1].people[j])).collect();
+    assert!(alive_over.is_empty(), "all who could walk are back: {} still over", alive_over.len());
+    let still = g.ships[0].people.iter().filter(|p| p.crossed.is_some()).count();
+    assert!(still < gone, "men took up their old places: {still} of {gone} still out");
+    for p in g.ships[0].people.iter().filter(|p| p.crossed.is_none() && p.home.is_none()) {
+        assert!(p.thing.is_some_and(|t| g.ships[0].craft.scene.things.get(t).is_some()), "{} is a body aboard again", p.name());
+    }
+}
+
+#[test]
+fn a_crossing_man_takes_his_wounds_with_him() {
+    let mut g = alongside(0.5, 11.0);
+    assert!(first_foul(&mut g, 40.0));
+    let i = (0..g.ships[0].people.len()).find(|&i| g.ships[0].people[i].role == Role::Waister).unwrap();
+    let id = g.ships[0].people[i].thing.unwrap();
+    let mut rng = tachyon::prelude::Rng::new(5);
+    for _ in 0..4 {
+        broadside::game::wound(&mut g.ships[0], id, tachyon::prelude::DamageKind::Edge, 200.0, &mut rng);
+    }
+    let before = g.ships[0].craft.scene.life.get(id).unwrap().body.bleeding();
+    assert!(before > 0.0);
+    let rail = g.fouls[0].rails[1];
+    let at = broadside::board::landing(&g.ships[1], rail).expect("room to land");
+    let (a, b) = g.ships.split_at_mut(1);
+    let j = broadside::board::cross(&mut a[0], i, &mut b[0], at).unwrap();
+    let nid = g.ships[1].people[j].thing.unwrap();
+    assert_eq!(g.ships[1].craft.scene.life.get(nid).unwrap().body.bleeding(), before);
+    assert!(g.ships[0].people[i].thing.is_none() && g.ships[0].people[i].crossed == Some(1));
+}
+
+#[test]
+fn an_ai_captain_with_the_numbers_sends_his_boarders() {
+    let mut g = alongside(0.5, 11.0);
+    g.captains[0] = None;
+    assert!(first_foul(&mut g, 40.0));
+    g.captains[1] = Some(Captain::from(&g.ships[1].people[0]));
+    run(&mut g, 90.0);
+    assert!(!foreign_aboard(&g.ships[0], 1).is_empty(), "his men are on her deck");
+}

@@ -40,6 +40,8 @@ pub struct Foul {
     /// Man-seconds of cutting done.
     pub work: f32,
     pub since: f64,
+    /// Each ship's boarding party, if ordered (`board.rs`).
+    pub party: [Option<crate::board::Party>; 2],
 }
 
 impl Foul {
@@ -87,6 +89,7 @@ pub fn try_foul(ships: &[Ship], i: usize, j: usize, at: (f32, f32), closing: f32
         cutters: [Vec::new(), Vec::new()],
         work: 0.0,
         since: time,
+        party: [None, None],
     })
 }
 

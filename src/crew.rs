@@ -131,6 +131,14 @@ pub struct Person {
     pub cravings: Cravings,
     /// Earned from an extreme trait, if any ("Lion", "Sly").
     pub nickname: Option<&'static str>,
+    /// Aboard a ship not his own: the ship he belongs to (id), so he can
+    /// go home, or be known as foreign.
+    pub home: Option<usize>,
+    /// Gone across to another ship (her id): his place on his own roll, kept
+    /// so he can come back to it.
+    pub crossed: Option<usize>,
+    /// Told off to a boarding party, not to be put to other work.
+    pub boarding: bool,
 }
 
 /// The other six traits of legacy `11` (0..1, 0.5 is the common run of men).
@@ -268,6 +276,9 @@ fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
         allegiance,
         cravings,
         nickname: None,
+        home: None,
+        crossed: None,
+        boarding: false,
     };
     me.nickname = nickname(&me);
     me
@@ -350,6 +361,29 @@ pub fn kinds(things: &mut Things) -> Vec<(Role, KindId)> {
         Role::Captain, Role::Lieutenant, Role::Midshipman, Role::GunCaptain, Role::Gunner, Role::Topman, Role::Helmsman, Role::BosunsMate, Role::Carpenter, Role::Marine, Role::Boy, Role::Waister,
     ];
     roles.iter().map(|&r| (r, things.add_kind(ThingKind::new(r.name(), r.glyph(), r.colour(), Layer::Creature)))).collect()
+}
+
+/// "Boarders away": the quarter bill tells off the party. Marines first
+/// (they fight best and shoot from the rails), then the best fighters of the
+/// rest by melee skill, nerve and discipline; never the captain, the
+/// quartermaster, the gun captains, officers or boys. `fit` says whether a
+/// man (by place in `people`) is able to go. Best first.
+pub fn boarding_party(people: &[Person], fit: &dyn Fn(usize) -> bool, n: usize) -> Vec<usize> {
+    let mut cand: Vec<(f32, usize)> = Vec::new();
+    for (i, p) in people.iter().enumerate() {
+        if p.home.is_some() || p.crossed.is_some() || p.boarding || !fit(i) {
+            continue;
+        }
+        let bonus = match p.role {
+            Role::Marine => 1.0,
+            Role::Gunner | Role::Topman | Role::Waister | Role::BosunsMate | Role::Carpenter => 0.0,
+            _ => continue,
+        };
+        let score = bonus + 0.6 * p.skill("melee") + 0.2 * p.bravery + 0.1 * p.discipline + 0.1 * p.skill("musketry");
+        cand.push((score, i));
+    }
+    cand.sort_by(|a, b| b.0.total_cmp(&a.0));
+    cand.into_iter().take(n).map(|c| c.1).collect()
 }
 
 /// Put a man aboard as a creature at `at`, under `control`.

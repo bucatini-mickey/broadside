@@ -393,7 +393,7 @@ fn draw_crew(f: &mut Frame, g: &Game, ui: &mut Ui, r: Rect) {
         .iter()
         .map(|p| {
             let digits: String = p.skills.iter().map(|s| char::from_digit((s * 9.99) as u32, 10).unwrap_or('9')).collect::<Vec<_>>().chunks(1).map(|c| format!("{} ", c[0])).collect();
-            let (state, sc) = health(you, p.thing);
+            let (state, sc) = if p.crossed.is_some() { ("across".to_string(), Rgb(150, 170, 220)) } else if p.home.is_some() { let (s, c) = health(you, p.thing); (format!("{s}, foreign"), c) } else { health(you, p.thing) };
             vec![(p.name(), t.text), (p.role.name().to_string(), p.role.colour()), (state, sc), (digits, t.dim)]
         })
         .collect();

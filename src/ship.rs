@@ -46,6 +46,9 @@ pub struct Orders {
     pub target: Option<usize>,
     /// Cut us free of the ship we are fouled with: hands to the rails.
     pub cut_free: bool,
+    /// Boarders away: the quarter bill's party crosses to the ship we are
+    /// fouled with (turned off again, those across are called home).
+    pub boarders_away: bool,
 }
 
 /// Something that happened aboard, for the log.
@@ -121,7 +124,7 @@ impl Ship {
             crew_kinds,
             people: Vec::new(),
             guns,
-            orders: Orders { course: Some(heading), sail: 0.75, quarters: false, fire: Fire::Hold, target: None, cut_free: false },
+            orders: Orders { course: Some(heading), sail: 0.75, quarters: false, fire: Fire::Hold, target: None, cut_free: false, boarders_away: false },
             set: 0.75,
             powder: 0,
             shot: 0,
@@ -202,6 +205,9 @@ impl Ship {
     }
 
     pub fn alive(&self, p: &Person) -> bool {
+        if p.crossed.is_some() {
+            return false;
+        }
         match p.thing {
             Some(id) => self.craft.scene.life.get(id).is_some_and(|c| c.alive),
             None => true,
@@ -209,6 +215,9 @@ impl Ship {
     }
 
     pub fn able(&self, p: &Person) -> bool {
+        if p.crossed.is_some() {
+            return false;
+        }
         match p.thing {
             Some(id) => self.craft.scene.life.get(id).is_some_and(|c| c.alive && !c.out),
             None => true,
@@ -233,7 +242,7 @@ impl Ship {
         let mut fit = 0;
         let mut hurt = 0;
         let mut dead = 0;
-        for p in &self.people {
+        for p in self.people.iter().filter(|p| p.crossed.is_none()) {
             match p.thing.and_then(|id| self.craft.scene.life.get(id)) {
                 Some(c) if !c.alive => dead += 1,
                 Some(c) if c.out || c.caps.moving < 0.5 || c.body.bleeding() > 0.0 => hurt += 1,
@@ -271,6 +280,9 @@ impl Ship {
         for i in 0..self.people.len() {
             let p = self.people[i].clone();
             let Some(id) = p.thing else { continue };
+            if p.home.is_some() || p.crossed.is_some() || p.boarding {
+                continue;
+            }
             if self.player && p.role == Role::Captain {
                 continue;
             }
@@ -324,7 +336,7 @@ impl Ship {
         };
         let mut cand: Vec<(i32, i32, usize)> = Vec::new();
         for (i, p) in self.people.iter().enumerate() {
-            if rank(p.role) >= 99 || !self.able(p) {
+            if rank(p.role) >= 99 || !self.able(p) || p.boarding || p.home.is_some() {
                 continue;
             }
             let Some(q) = self.pos_of(p) else { continue };
@@ -332,7 +344,13 @@ impl Ship {
         }
         cand.sort();
         let hands: Vec<usize> = cand.into_iter().take(n).map(|c| c.2).collect();
-        for &i in &hands {
+        self.send_to(&hands, rail);
+        hands
+    }
+
+    /// Walk these men (places in `people`) to `rail` and have them work there.
+    pub fn send_to(&mut self, hands: &[usize], rail: Pos) {
+        for &i in hands {
             if let Some(id) = self.people[i].thing {
                 if let Some(c) = self.craft.scene.life.get_mut(id) {
                     c.mind.routine = Routine::new().with(0.0, 24.0, Task::Work { at: rail, radius: 1 });
@@ -344,7 +362,6 @@ impl Ship {
                 }
             }
         }
-        hands
     }
 
     /// The work these hands do in `dt` seconds at the rail (man-seconds of

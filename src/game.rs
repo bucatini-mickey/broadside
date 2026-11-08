@@ -4,6 +4,7 @@
 use crate::ai::{self, Captain, Contact};
 use crate::crew::Role;
 use crate::data::{self, ShipClass};
+use crate::board;
 use crate::foul::{self, Foul};
 use crate::ship::{Fire, Mark, Ship};
 use tachyon::ballistics::{Ballistics, Body, ShotEvent, V3};
@@ -481,7 +482,15 @@ impl Game {
             // Captains not under the player's hand cut free once they have had enough.
             for k in [f.a, f.b] {
                 let s = &mut self.ships[k];
-                if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= foul::AI_PATIENCE {
+                // A captain with the stronger party sends it over before he thinks of cutting free.
+                let other = if k == f.a { f.b } else { f.a };
+                let mine = crate::crew::boarding_party(&s.people, &|i| s.able(&s.people[i]), 999).len();
+                let theirs = crate::crew::boarding_party(&self.ships[other].people, &|i| self.ships[other].able(&self.ships[other].people[i]), 999).len();
+                let s = &mut self.ships[k];
+                if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= board::AI_RESOLVE && mine * 5 >= theirs * 4 && f.party[(k != f.a) as usize].is_none() {
+                    s.orders.boarders_away = true;
+                }
+                if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= foul::AI_PATIENCE + if s.orders.boarders_away { 60.0 } else { 0.0 } {
                     s.orders.cut_free = true;
                 }
             }
@@ -500,6 +509,7 @@ impl Game {
                     f.work += s.cut_work(&f.cutters[side], f.rails[side], dt);
                 }
             }
+            board::step(&mut self.ships, f, self.time, dt, &mut lines);
             let (left, right) = self.ships.split_at_mut(f.b);
             foul::lock(&mut left[f.a].craft, &mut right[0].craft, f);
         }
@@ -510,6 +520,13 @@ impl Game {
             if done || foul::broken(&self.ships[f.a], &self.ships[f.b]) {
                 let (a, b) = (f.a, f.b);
                 for (side, k) in [a, b].into_iter().enumerate() {
+                    if let Some(p) = &f.party[side] {
+                        for &i in &p.men {
+                            self.ships[k].people[i].boarding = false;
+                        }
+                        self.ships[k].release_hands();
+                    }
+                    self.ships[k].orders.boarders_away = false;
                     self.ships[k].orders.cut_free = false;
                     if !f.cutters[side].is_empty() {
                         self.ships[k].release_hands();
@@ -534,6 +551,7 @@ impl Game {
         // An order to cut free means nothing to a ship that is clear.
         for k in 0..self.ships.len() {
             if self.fouled(k).is_none() {
+                self.ships[k].orders.boarders_away = false;
                 self.ships[k].orders.cut_free = false;
             }
         }

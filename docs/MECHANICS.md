@@ -26,14 +26,14 @@ Counts are by status; the full list is below.
 | Psyche, discipline, morale | 0 | 0 | 15 |
 | Gunnery | 14 | 7 | 9 |
 | Damage, fire, structures, items | 3 | 6 | 17 |
-| Boarding and contact | 4 | 0 | 6 |
+| Boarding and contact | 7 | 0 | 3 |
 | Captains, AI, signals, fleet | 4 | 6 | 25 |
 | Sight and knowledge | 9 | 3 | 8 |
 | Interface | 11 | 12 | 10 |
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **93** | **68** | **180** |
+| **Total (341 rows)** | **96** | **68** | **177** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -272,13 +272,13 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | BRD-01 | Tile-exact collision between hulls, damage by closing speed | 13 s"Collision" | ported | engine | | `craft::collide`, `game::collide_ships` |
 | BRD-02 | Fouling: a slow meeting (closing < 1.2 m/s) with rails meeting leaves the ships locked at the contact, moving as a pair (mass-weighted velocity and yaw, fixed relative pose); hard collisions still knock apart | 13, ST s8 | ported | both | BRD-01 | `foul.rs`, `Game::collide_ships`/`foul_step`; engine-general (for Tachyon, not built): rigid-pair constraint between crafts and a slow-contact event |
 | BRD-03 | Cutting free: `c` orders it; up to 8 hands per ordering ship go to the rail nearest the contact and cut (60 man-seconds, by strength, fatigue, seamanship; only men at the rail count; AI captains order it after 45 s); pair then parts with a 30 s no-refoul cooldown | ST s8 | ported | game | BRD-02 | `Ship::send_cutters/cut_work`, `Orders::cut_free`; no axes/grapnel items, no cutting under fire modifiers yet |
-| BRD-04 | Gangways between rails; boarders cross | 13 | missing | game | BRD-02 | |
-| BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | missing | game | BRD-04, CRW-04 | |
+| BRD-04 | Gangways between rails; boarders cross | 13 | ported | game | BRD-02 | `board.rs` `cross`: a man leaves one ship's scene and appears at a free weather-deck cell by the other's rail, keeping body, wounds and fatigue; one man each 0.8 s. No gangway objects or grapnel items; the crossing is a transfer at the rail, not a walked plank. Engine-general (for Tachyon, not built): moving a creature between scenes |
+| BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | ported | game | BRD-04, CRW-04 | `crew::boarding_party` (marines first, then by melee, nerve, discipline; never captain, officers, helm, gun captains, boys; a quarter of the able hands, 4..24), `board::step`; `B` key, `Orders::boarders_away`; marines at the rail fire for 14 s before the crossing (hit chance from musketry, wounds via `game::wound`). AI captains with at least 80% of the enemy's fighters send theirs after 8 s fouled, and put off cutting free 60 s. Not yet: fighting on the deck (BRD-06) |
 | BRD-06 | Melee by skill and fear, wounding real body parts | 13 | missing | game | BRD-04, BOD-01 | creatures can attack in engine (`Species::Attack`); no boarding logic |
 | BRD-07 | Defenders turning out | 13 | missing | game | BRD-06 | |
 | BRD-08 | Striking colours | 10 s5 | ported | game | | AI `Mission::Struck` and `S S` for the player |
 | BRD-09 | Prize crews, prizes sailed to port, prize money | 02 s6, 10 s5 | missing | game | BRD-08, ECO-04 | |
-| BRD-10 | Home ship memory for crossing men | 13 | missing | game | BRD-04 | |
+| BRD-10 | Home ship memory for crossing men | 13 | ported | game | BRD-04 | `Person::home` (ship he belongs to, while aboard another), `Person::crossed` (his kept place on his own roll); belaying `B` calls them back to the old place; shown as "foreign" and "across" in the crew panel. Prisoners and men left behind when ships part stay foreign |
 
 ## 10. Captains, AI, signals, fleet
 

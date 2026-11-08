@@ -206,6 +206,10 @@ impl App {
             Key::Char('A') => you.alter_course(-30f32.to_radians()),
             Key::Char('D') => you.alter_course(30f32.to_radians()),
             Key::Char('x') => you.orders.course = Some(you.craft.heading),
+            Key::Char('B') => {
+                you.orders.boarders_away = !you.orders.boarders_away;
+                ui.message = if you.orders.boarders_away { "Boarders away! (if we are fouled)".into() } else { "Belay boarding: boarders, back aboard.".into() };
+            }
             Key::Char('c') => {
                 you.orders.cut_free = !you.orders.cut_free;
                 ui.message = if you.orders.cut_free { "Cut us free: hands to the rails (if we are fouled).".into() } else { "Belay cutting.".into() };
@@ -384,9 +388,28 @@ fn main() -> io::Result<()> {
         if flag("--auto") {
             g.captains[0] = Some(ai::Captain::from(&g.ships[0].people[0]));
         }
+        if flag("--alongside") {
+            // Set the first two ships rail to rail, closing slowly, so they foul (for watching boarding headless).
+            let (x, y) = (g.ships[0].craft.x, g.ships[0].craft.y);
+            for s in g.ships.iter_mut().take(2) {
+                s.orders.sail = 0.0;
+                s.orders.course = None;
+                s.craft.heading = 0.0;
+                s.craft.vx = 0.0;
+                s.craft.vy = 0.0;
+                s.craft.yaw_rate = 0.0;
+            }
+            g.ships[1].craft.x = x + 11.0;
+            g.ships[1].craft.y = y;
+            g.ships[1].craft.vx = -0.5;
+            g.captains[1] = Some(ai::Captain::from(&g.ships[1].people[0]));
+        }
         println!("{} built in {:.0} ms; {} creatures aboard", s.title(), t.elapsed().as_secs_f64() * 1000.0, g.ships.iter().map(|s| s.craft.scene.life.creatures.len()).sum::<usize>());
         let t = Instant::now();
         for _ in 0..n {
+            if flag("--board") && !g.fouls.is_empty() {
+                g.ships[0].orders.boarders_away = true;
+            }
             g.tick();
         }
         let el = t.elapsed().as_secs_f64();
