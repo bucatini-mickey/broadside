@@ -19,8 +19,8 @@ Counts are by status; the full list is below.
 | Area | ported | partial | missing |
 |---|---|---|---|
 | Environment and sea | 7 | 5 | 12 |
-| Ship, hull and sailing | 14 | 7 | 20 |
-| Crew data and generation | 7 | 7 | 6 |
+| Ship, hull and sailing | 15 | 6 | 20 |
+| Crew data and generation | 10 | 7 | 3 |
 | Life aboard | 1 | 7 | 9 |
 | Body and surgeon | 4 | 2 | 7 |
 | Psyche, discipline, morale | 0 | 0 | 15 |
@@ -33,7 +33,7 @@ Counts are by status; the full list is below.
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **87** | **69** | **185** |
+| **Total (341 rows)** | **91** | **68** | **182** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -74,7 +74,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 |---|---|---|---|---|---|---|
 | SHP-01 | Ship classes from data (cutter, gunboat, sloop, brig, frigate, 74, first rate) | 10 s1, 00 | ported | game | | `data/ships/*.yaml`, `src/data.rs` |
 | SHP-02 | Rig types: ship, brig, fore-and-aft | 10 s1 | ported | game | SHP-01 | `data::Rig` |
-| SHP-03 | Rates and which ships fight in the line | 10 s1 | partial | game | SHP-01 | classes exist; no rate concept, no line-of-battle rule |
+| SHP-03 | Rates and which ships fight in the line | 10 s1 | ported | game | SHP-01 | `data::Rate`, `ShipClass::rating/stands_in_line` (first to fourth rates stand in the line). The line-of-battle behaviour itself is FLT-07 |
 | SHP-04 | Deck plan at 1 m: hull narrowing to keel, bulwarks, planking | 07, 13 | ported | game | | `hull::build`, tapered waterlines |
 | SHP-05 | Real internal levels: hold, orlop, gundecks, weather deck | 16 s7, ST s6.1 | ported | game | SHP-04 | `hull.rs` builds one level per covered gundeck plus the hold; legacy never had this |
 | SHP-06 | Hatches and ladders between levels | 16 s7 | ported | game | SHP-05 | `hull.rs`, `movement::climb` on `<` `>` |
@@ -128,11 +128,11 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | CRW-08 | Place and nation names from the language | 14, 12 | partial | engine | WLD-01 | engine can; the game names no places |
 | CRW-09 | Rank and role set: master, boatswain, gunner, carpenter, purser, surgeon, cook, lookout, master's mates, captains of the tops | 10 s3 | partial | game | CRW-05 | roles in code: captain, lieutenant, midshipman, gun captain, gunner, topman, quartermaster, bosun's mate, carpenter's mate, marine, boy, waister. No surgeon, master, cook, purser, boatswain |
 | CRW-10 | Task and job scheduling (auto-routed repair jobs to free hands) | 00, 02 s3 | missing | both | CRW-01 | engine `life::mind::Task` is a base; no naval job board (pump, plug, splice) |
-| CRW-11 | Personality traits (bravery, temper, sociability, discipline, ambition, honesty, optimism, resilience) | 11 s"The data" | partial | game | CRW-03 | only `bravery` and `discipline` on `Person` |
-| CRW-12 | Allegiance (nation, cause, captain, ship) | 11 | missing | game | CRW-03 | |
-| CRW-13 | Cravings (drink dependence, tobacco) | 11, 18 | missing | game | CRW-03 | |
+| CRW-11 | Personality traits (bravery, temper, sociability, discipline, ambition, honesty, optimism, resilience) | 11 s"The data" | ported | game | CRW-03 | `crew::Traits` (sociability, temper, ambition, honesty, optimism, resilience) beside `bravery` and `discipline` |
+| CRW-12 | Allegiance (nation, cause, captain, ship) | 11 | partial | game | CRW-03 | `crew::Allegiance` (cause, captain, ship); nation waits on WLD-05 |
+| CRW-13 | Cravings (drink dependence, tobacco) | 11, 18 | ported | game | CRW-03 | `crew::Cravings` (drink, tobacco) from sea years and resilience; nothing consumes them yet (LIF-07, DIS-03) |
 | CRW-14 | Biography: dated events from history and from the sim | 11, 12 s"History" | partial | game | WLD-05 | `Person::story()` is one line |
-| CRW-15 | Nicknames from extreme traits | 11 | missing | game | CRW-11 | |
+| CRW-15 | Nicknames from extreme traits | 11 | ported | game | CRW-11 | `crew::nickname`, shown in `Person::story()` |
 | CRW-16 | Crew mix of 70% home culture and 30% others | 14 | ported | game | CRW-06 | `crew::company` takes a `Culture` (verify exact mix) |
 | CRW-17 | Skill growth with practice | 02 s3 | partial | game | CRW-04 | `crew::practise` (diminishing returns, slower with age); only rounds fired train gunlaying and gunnery so far (`Ship::discharge`) |
 | CRW-18 | Roles by trade glyph; you are the only `@` | 08 | ported | game | CRW-05 | `Role::glyph` |

@@ -134,3 +134,18 @@ fn a_round_fired_teaches_the_gun_captain_and_pulses_read() {
     let pulse = s.pulse(&s.people[1]).expect("a living man has a pulse");
     assert!((40..=200).contains(&pulse), "pulse {pulse}");
 }
+
+#[test]
+fn only_rated_ships_stand_in_the_line() {
+    use broadside::data::Rate;
+    let classes = data::load_all();
+    let line: Vec<&str> = classes.iter().filter(|c| c.stands_in_line()).map(|c| c.key.as_str()).collect();
+    assert_eq!(line.len(), 2, "74 and first rate only: {line:?}");
+    for c in &classes {
+        if c.key.contains("frigate") {
+            assert_eq!(c.rating(), Rate::Fifth);
+            assert!(!c.stands_in_line());
+        }
+    }
+    assert!(Rate::First < Rate::Third && Rate::Third.of_the_line() && !Rate::Unrated.of_the_line());
+}

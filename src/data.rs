@@ -78,7 +78,46 @@ pub enum Rig {
     Ship,
 }
 
+/// The rating of a ship (legacy `10` s1): only rated ships stand in the line.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Rate {
+    First,
+    Second,
+    Third,
+    Fourth,
+    Fifth,
+    Sixth,
+    Unrated,
+}
+
+impl Rate {
+    /// Parse the data file's words ("Third Rate", "Unrated (Brig)").
+    pub fn parse(s: &str) -> Rate {
+        let l = s.to_lowercase();
+        for (w, r) in [("first", Rate::First), ("second", Rate::Second), ("third", Rate::Third), ("fourth", Rate::Fourth), ("fifth", Rate::Fifth), ("sixth", Rate::Sixth)] {
+            if l.starts_with(w) {
+                return r;
+            }
+        }
+        Rate::Unrated
+    }
+
+    /// Ships of the line: first to fourth rates.
+    pub fn of_the_line(self) -> bool {
+        self <= Rate::Fourth
+    }
+}
+
 impl ShipClass {
+    pub fn rating(&self) -> Rate {
+        Rate::parse(&self.rate)
+    }
+
+    /// Would she stand in the line of battle?
+    pub fn stands_in_line(&self) -> bool {
+        self.rating().of_the_line()
+    }
+
     pub fn total_guns(&self) -> u32 {
         self.guns.iter().map(|g| g.count).sum()
     }

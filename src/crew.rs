@@ -123,6 +123,74 @@ pub struct Person {
     pub thing: Option<ThingId>,
     /// Starboard watch (true) or larboard.
     pub starboard_watch: bool,
+    /// The rest of the temperament (`bravery` and `discipline` stay above).
+    pub traits: Traits,
+    /// Why he is here and to whom he holds.
+    pub allegiance: Allegiance,
+    /// Drink and tobacco.
+    pub cravings: Cravings,
+    /// Earned from an extreme trait, if any ("Lion", "Sly").
+    pub nickname: Option<&'static str>,
+}
+
+/// The other six traits of legacy `11` (0..1, 0.5 is the common run of men).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Traits {
+    pub sociability: f32,
+    pub temper: f32,
+    pub ambition: f32,
+    pub honesty: f32,
+    pub optimism: f32,
+    pub resilience: f32,
+}
+
+/// What brought him aboard.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Cause {
+    /// The King's service as a calling.
+    Service,
+    /// Wages and prize money.
+    Pay,
+    /// Taken by the press or the quota; he would be elsewhere.
+    Pressed,
+    /// A foreigner serving for his own reasons.
+    Stranger,
+}
+
+/// Allegiance: the cause, and how firmly he holds to his captain and his ship.
+/// The nation is not tracked yet: it needs a generated world (WLD-05).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Allegiance {
+    pub cause: Cause,
+    pub captain: f32,
+    pub ship: f32,
+}
+
+/// Cravings: 0 is none, 1 cannot go without.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Cravings {
+    pub drink: f32,
+    pub tobacco: f32,
+}
+
+/// A nickname from the most extreme trait, when it is extreme enough.
+pub fn nickname(p: &Person) -> Option<&'static str> {
+    let t = &p.traits;
+    let marks: [(f32, &'static str, &'static str); 7] = [
+        (p.bravery, "Lion", "Mouse"),
+        (t.temper, "Hotspur", "Lamb"),
+        (t.sociability, "Hearty", "Hermit"),
+        (t.honesty, "Honest", "Sly"),
+        (t.optimism, "Lucky", "Gloomy"),
+        (t.ambition, "Striver", "Idler"),
+        (p.discipline, "Steady", "Rascal"),
+    ];
+    marks
+        .iter()
+        .map(|&(v, hi, lo)| if v >= 0.5 { (v - 0.5, hi) } else { (0.5 - v, lo) })
+        .filter(|(d, _)| *d >= 0.32)
+        .max_by(|a, b| a.0.total_cmp(&b.0))
+        .map(|(_, n)| n)
 }
 
 impl Person {
@@ -136,7 +204,10 @@ impl Person {
 
     /// "a career man-of-war's man of 31, 14 years at sea"
     pub fn story(&self) -> String {
-        format!("{}, {} years old, {} years at sea", self.background, self.age, self.years_at_sea)
+        match self.nickname {
+            Some(n) => format!("\"{n}\", {}, {} years old, {} years at sea", self.background, self.age, self.years_at_sea),
+            None => format!("{}, {} years old, {} years at sea", self.background, self.age, self.years_at_sea),
+        }
     }
 }
 
@@ -160,7 +231,26 @@ fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
             *s = (0.05 * rng.f32()).max(0.01);
         }
     }
-    Person {
+    // The new attributes come from their own stream, so the rest of a
+    // company (and every scenario's dice) is unchanged by them.
+    let seed = given.bytes().fold(17u64, |h, b| h.wrapping_mul(131).wrapping_add(b as u64)) ^ family.bytes().fold(5u64, |h, b| h.wrapping_mul(257).wrapping_add(b as u64)) ^ ((age as u64) << 32);
+    let mut own = Rng::new(seed);
+    let mut t = |r: &mut Rng| (0.5 + 0.18 * gauss(r)).clamp(0.02, 0.98);
+    let traits = Traits { sociability: t(&mut own), temper: t(&mut own), ambition: t(&mut own), honesty: t(&mut own), optimism: t(&mut own), resilience: t(&mut own) };
+    let cause = match bg.key {
+        "pressed_landsman" | "quota_man" => Cause::Pressed,
+        "foreign_seaman" => Cause::Stranger,
+        "career_seaman" | "officer" | "marine" => Cause::Service,
+        _ => Cause::Pay,
+    };
+    let hold = if cause == Cause::Pressed { 0.15 } else { 0.4 };
+    let allegiance = Allegiance { cause, captain: (hold + 0.3 * own.f32()).clamp(0.0, 1.0), ship: (hold + 0.3 * own.f32() + if cause == Cause::Service { 0.2 } else { 0.0 }).clamp(0.0, 1.0) };
+    let sea = (years as f32 / 20.0).min(1.0);
+    let cravings = Cravings {
+        drink: (0.15 + 0.4 * sea * own.f32() + 0.3 * (1.0 - traits.resilience) * own.f32()).clamp(0.0, 1.0),
+        tobacco: if bg.key == "ships_boy" { 0.0 } else { (0.6 * own.f32() * (0.4 + sea)).clamp(0.0, 1.0) },
+    };
+    let mut me = Person {
         given,
         family,
         meaning,
@@ -174,7 +264,13 @@ fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
         gun: None,
         thing: None,
         starboard_watch: rng.chance(0.5),
-    }
+        traits,
+        allegiance,
+        cravings,
+        nickname: None,
+    };
+    me.nickname = nickname(&me);
+    me
 }
 
 /// Generate a ship's company of `n` men: a captain, officers, and the
@@ -321,6 +417,34 @@ mod tests {
         practise(&mut p, "helm", 50.0);
         practise(&mut q, "helm", 50.0);
         assert!(p.skill("helm") > q.skill("helm"), "young men learn quicker");
+    }
+
+    #[test]
+    fn temperament_allegiance_cravings_and_nicknames_are_generated() {
+        let culture = Culture::new(5);
+        let mut rng = Rng::new(9);
+        let crew = company(&culture, 200, 20, &[6; 20], &mut rng);
+        for p in &crew {
+            let t = p.traits;
+            for v in [t.sociability, t.temper, t.ambition, t.honesty, t.optimism, t.resilience, p.cravings.drink, p.cravings.tobacco, p.allegiance.captain, p.allegiance.ship] {
+                assert!((0.0..=1.0).contains(&v));
+            }
+            assert_eq!(p.nickname, nickname(p));
+        }
+        let pressed: Vec<_> = crew.iter().filter(|p| p.allegiance.cause == Cause::Pressed).collect();
+        let service: Vec<_> = crew.iter().filter(|p| p.allegiance.cause == Cause::Service).collect();
+        assert!(!pressed.is_empty() && !service.is_empty());
+        let mean = |v: &[&Person]| v.iter().map(|p| p.allegiance.ship).sum::<f32>() / v.len() as f32;
+        assert!(mean(&service) > mean(&pressed), "pressed men hold less to the ship");
+        let named = crew.iter().filter(|p| p.nickname.is_some()).count();
+        assert!(named > 0 && named < crew.len() / 2, "some men earn a name, most do not ({named})");
+        let mut m = crew[5].clone();
+        m.bravery = 0.95;
+        m.discipline = 0.5;
+        m.traits = Traits { sociability: 0.5, temper: 0.5, ambition: 0.5, honesty: 0.5, optimism: 0.5, resilience: 0.5 };
+        assert_eq!(nickname(&m), Some("Lion"));
+        m.bravery = 0.5;
+        assert_eq!(nickname(&m), None);
     }
 
     #[test]
