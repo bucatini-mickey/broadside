@@ -20,6 +20,7 @@ src/hull.rs    a class -> her grid: hull narrowing to the keel, planked levels (
                gunports, hatches with ladders, masts, wheel, capstan, bowsprit, lanterns, stores; stations; sails and rudder
 src/crew.rs    her company: generated names (tachyon::lang), backgrounds, 15 skills, quarter-bill roles; men aboard as creatures
 src/drill.rs   the nine-step gun drill (legacy rules: time from skill, fatigue, physique, ball and gun weight, hands)
+src/melee.rs   hand-to-hand: cutlass, pike, pistol; skill, fatigue, will to fight; real wounds; the fallen stay (docs/MECHANICS.md)
 src/ship.rs    orders (course, sail, quarters, fire, mark); quartermaster steers; topmen set sail; drill; laying; firing
 src/ai.rs      captains from their own person: skill, wit, dash, caution; missions; same orders as the player
 src/game.rs    the sea, ships, shot; splinters and shot wounds into bodies; dismounted guns; log; scenarios

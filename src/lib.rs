@@ -7,6 +7,7 @@
 //! - `crew`: her company: names, backgrounds, skills, roles; men aboard as creatures
 //! - `drill`: the gun drill, step by step
 //! - `board`: boarders away: the quarter bill's party crosses between fouled ships
+//! - `melee`: hand-to-hand fighting: cutlass, pike, pistol; wounds, nerve
 //! - `foul`: ships that meet slowly are made fast, and cut apart by hands at the rails
 //! - `ship`: a ship in commission: orders, helm, sail, quarters, guns
 //! - `ai`: captains for the ships you don't command
@@ -26,6 +27,7 @@ pub mod foul;
 pub mod game;
 pub mod glass;
 pub mod hull;
+pub mod melee;
 pub mod screen;
 pub mod signals;
 pub mod ship;

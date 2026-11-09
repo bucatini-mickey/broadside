@@ -6,6 +6,7 @@
 //! generated whole; how many are put aboard as creatures is capped for very
 //! large ships (the rest are counted, not simulated, until needed).
 
+use crate::melee::{Arms, Fray, Weapon};
 use tachyon::lang::Culture;
 use tachyon::life::species;
 use tachyon::prelude::*;
@@ -139,6 +140,10 @@ pub struct Person {
     pub crossed: Option<usize>,
     /// Told off to a boarding party, not to be put to other work.
     pub boarding: bool,
+    /// What he fights with (`melee`).
+    pub arms: Arms,
+    /// The state of his fighting: timers, nerve, who hurt him (`melee`).
+    pub fray: Fray,
 }
 
 /// The other six traits of legacy `11` (0..1, 0.5 is the common run of men).
@@ -223,6 +228,19 @@ fn gauss(rng: &mut Rng) -> f32 {
     (rng.f32() + rng.f32() + rng.f32() - 1.5) / 0.5
 }
 
+/// What a man carries into a fight, by his trade: officers a cutlass and a
+/// pistol, marines the bayonet, boys nothing but their fists, and the rest
+/// cutlass (two in three) or boarding pike, a few with a pistol in the belt.
+fn arms_for(background: &str, own: &mut Rng) -> Arms {
+    let (pick, pistol) = (own.f32(), own.f32());
+    match background {
+        "officer" => Arms { weapon: Weapon::Cutlass, pistol: pistol < 0.9 },
+        "marine" => Arms { weapon: Weapon::Bayonet, pistol: pistol < 0.15 },
+        "ships_boy" => Arms { weapon: Weapon::Cuff, pistol: false },
+        _ => Arms { weapon: if pick < 0.65 { Weapon::Cutlass } else { Weapon::Pike }, pistol: pistol < 0.12 },
+    }
+}
+
 fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
     let (given, family) = culture.person(rng);
     let meaning = culture.meaning(&family).unwrap_or("").to_string();
@@ -258,6 +276,8 @@ fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
         drink: (0.15 + 0.4 * sea * own.f32() + 0.3 * (1.0 - traits.resilience) * own.f32()).clamp(0.0, 1.0),
         tobacco: if bg.key == "ships_boy" { 0.0 } else { (0.6 * own.f32() * (0.4 + sea)).clamp(0.0, 1.0) },
     };
+    // Arms come last from his own stream, so nothing drawn before is changed.
+    let arms = arms_for(bg.key, &mut own);
     let mut me = Person {
         given,
         family,
@@ -279,6 +299,8 @@ fn person(culture: &Culture, bg: &Background, rng: &mut Rng) -> Person {
         home: None,
         crossed: None,
         boarding: false,
+        arms,
+        fray: Fray::default(),
     };
     me.nickname = nickname(&me);
     me

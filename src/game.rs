@@ -6,6 +6,7 @@ use crate::crew::Role;
 use crate::data::{self, ShipClass};
 use crate::board;
 use crate::foul::{self, Foul};
+use crate::melee;
 use crate::ship::{Fire, Mark, Ship};
 use tachyon::ballistics::{Ballistics, Body, ShotEvent, V3};
 use tachyon::craft::{self, CraftEvent};
@@ -200,6 +201,7 @@ impl Game {
         }
         self.collide_ships();
         self.foul_step(dt);
+        self.melee_step(dt);
         // Shot in flight.
         {
             let mut bodies: Vec<Body> = self.ships.iter_mut().map(|s| s.craft.body(s.id)).collect();
@@ -470,6 +472,21 @@ impl Game {
                     self.fouls.push(f);
                 }
             }
+        }
+    }
+
+    /// Men of different ships on one deck fight (`melee`); what happens is told in the log.
+    fn melee_step(&mut self, dt: f32) {
+        let fleet: Vec<String> = self.ships.iter().map(|s| s.name.clone()).collect();
+        let mut lines: Vec<String> = Vec::new();
+        for s in self.ships.iter_mut() {
+            if s.craft.state == tachyon::craft::Floating::Foundered {
+                continue;
+            }
+            melee::step(s, &mut self.rng, dt, &fleet, &mut lines);
+        }
+        for l in lines {
+            self.say(l, Rgb(255, 160, 120));
         }
     }
 

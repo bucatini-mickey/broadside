@@ -327,10 +327,21 @@ fn boarders_walk_to_the_rail_the_marines_fire_and_then_they_cross_with_a_home_sh
     assert!(fit0 + over.len() <= n0, "not counted aboard twice");
 }
 
+/// These recall tests are about walking, not fighting: the defenders are
+/// made one with the boarders (same faction), so there is no melee.
+fn make_peace(g: &mut Game) {
+    for s in g.ships.iter_mut() {
+        for c in s.craft.scene.life.creatures.iter_mut() {
+            c.mind.faction = 0;
+        }
+    }
+}
+
 #[test]
 fn belaying_the_order_calls_the_boarders_home_to_their_old_places() {
     let mut g = alongside(0.5, 11.0);
     assert!(first_foul(&mut g, 40.0));
+    make_peace(&mut g);
     g.ships[0].orders.boarders_away = true;
     run(&mut g, 80.0);
     let gone = g.ships[0].people.iter().filter(|p| p.crossed.is_some()).count();

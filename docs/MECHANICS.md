@@ -1,6 +1,6 @@
 # Broadside mechanics ledger
 
-One row per mechanic found in the legacy design docs (`docs/legacy/*.md`), checked against the Rust port in `src/` as of commit 91d9553 (2026-10-31, branch `queue/broadside`, from main).
+Updated for bs-005 (hand-to-hand, BRD-06). One row per mechanic found in the legacy design docs (`docs/legacy/*.md`), checked against the Rust port in `src/` as of commit 91d9553 (2026-10-31, branch `queue/broadside`, from main).
 
 Completeness over polish. Rows are grouped by area; ids are stable handles for `depends on`.
 
@@ -23,17 +23,17 @@ Counts are by status; the full list is below.
 | Crew data and generation | 10 | 7 | 3 |
 | Life aboard | 1 | 7 | 9 |
 | Body and surgeon | 4 | 2 | 7 |
-| Psyche, discipline, morale | 0 | 0 | 15 |
+| Psyche, discipline, morale | 0 | 1 | 14 |
 | Gunnery | 14 | 7 | 9 |
 | Damage, fire, structures, items | 3 | 6 | 17 |
-| Boarding and contact | 7 | 0 | 3 |
+| Boarding and contact | 8 | 0 | 2 |
 | Captains, AI, signals, fleet | 4 | 6 | 25 |
 | Sight and knowledge | 9 | 3 | 8 |
 | Interface | 11 | 12 | 10 |
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **96** | **68** | **177** |
+| **Total (341 rows)** | **97** | **69** | **175** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -183,7 +183,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 
 | id | mechanic | source | status | side | depends on | where / note |
 |---|---|---|---|---|---|---|
-| PSY-01 | Psyche state (morale, stress, anxiety, depression, confidence, fear, grievance) | 11 s"Psyche" | missing | both | CRW-01 | engine `mind` has a base; none of these on `Person` |
+| PSY-01 | Psyche state (morale, stress, anxiety, depression, confidence, fear, grievance) | 11 s"Psyche" | partial | both | CRW-01 | **Stand-in only**: `melee::will` is one number per man, from bravery and discipline less pain, blood lost and fatigue, used only in hand-to-hand (below). No stored psyche, no fear from gunfire, no events, no ship aggregate; the engine `mind` still has none of these |
 | PSY-02 | Fear from gunfire within 400 m, scaled by bravery | 11 | missing | game | PSY-01 | |
 | PSY-03 | Feelings with fade times and diminishing returns | 18 s4 | missing | engine | PSY-01 | general, move to engine |
 | PSY-04 | `appraise(event, weight)` through character | 18 s4 | missing | both | PSY-03 | |
@@ -273,12 +273,24 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | BRD-02 | Fouling: a slow meeting (closing < 1.2 m/s) with rails meeting leaves the ships locked at the contact, moving as a pair (mass-weighted velocity and yaw, fixed relative pose); hard collisions still knock apart | 13, ST s8 | ported | both | BRD-01 | `foul.rs`, `Game::collide_ships`/`foul_step`; engine-general (for Tachyon, not built): rigid-pair constraint between crafts and a slow-contact event |
 | BRD-03 | Cutting free: `c` orders it; up to 8 hands per ordering ship go to the rail nearest the contact and cut (60 man-seconds, by strength, fatigue, seamanship; only men at the rail count; AI captains order it after 45 s); pair then parts with a 30 s no-refoul cooldown | ST s8 | ported | game | BRD-02 | `Ship::send_cutters/cut_work`, `Orders::cut_free`; no axes/grapnel items, no cutting under fire modifiers yet |
 | BRD-04 | Gangways between rails; boarders cross | 13 | ported | game | BRD-02 | `board.rs` `cross`: a man leaves one ship's scene and appears at a free weather-deck cell by the other's rail, keeping body, wounds and fatigue; one man each 0.8 s. No gangway objects or grapnel items; the crossing is a transfer at the rail, not a walked plank. Engine-general (for Tachyon, not built): moving a creature between scenes |
-| BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | ported | game | BRD-04, CRW-04 | `crew::boarding_party` (marines first, then by melee, nerve, discipline; never captain, officers, helm, gun captains, boys; a quarter of the able hands, 4..24), `board::step`; `B` key, `Orders::boarders_away`; marines at the rail fire for 14 s before the crossing (hit chance from musketry, wounds via `game::wound`). AI captains with at least 80% of the enemy's fighters send theirs after 8 s fouled, and put off cutting free 60 s. Not yet: fighting on the deck (BRD-06) |
-| BRD-06 | Melee by skill and fear, wounding real body parts | 13 | missing | game | BRD-04, BOD-01 | creatures can attack in engine (`Species::Attack`); no boarding logic |
+| BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | ported | game | BRD-04, CRW-04 | `crew::boarding_party` (marines first, then by melee, nerve, discipline; never captain, officers, helm, gun captains, boys; a quarter of the able hands, 4..24), `board::step`; `B` key, `Orders::boarders_away`; marines at the rail fire for 14 s before the crossing (hit chance from musketry, wounds via `game::wound`). AI captains with at least 80% of the enemy's fighters send theirs after 8 s fouled, and put off cutting free 60 s. Fighting on the deck is BRD-06 |
+| BRD-06 | Melee by skill and fear, wounding real body parts | 13 | ported | game | BRD-04, BOD-01 | `melee.rs`, run each tick per ship by `Game::melee_step`; see "Melee model" below. Men of different factions on one deck close and strike with cutlass, boarding pike, bayonet or fists, and may fire one pistol; every blow that lands goes through `game::wound` and `Body::strike` (cut, pierce, break, sever, organ), so what wounds and kills is the body model's. The fallen (dead or `out`) stay where they fall and are left alone. Who goes to meet the enemy by trade; defenders turning out in order is BRD-07 |
 | BRD-07 | Defenders turning out | 13 | missing | game | BRD-06 | |
 | BRD-08 | Striking colours | 10 s5 | ported | game | | AI `Mission::Struck` and `S S` for the player |
 | BRD-09 | Prize crews, prizes sailed to port, prize money | 02 s6, 10 s5 | missing | game | BRD-08, ECO-04 | |
 | BRD-10 | Home ship memory for crossing men | 13 | ported | game | BRD-04 | `Person::home` (ship he belongs to, while aboard another), `Person::crossed` (his kept place on his own roll); belaying `B` calls them back to the old place; shown as "foreign" and "across" in the crew panel. Prisoners and men left behind when ships part stay foreign |
+
+### Melee model (BRD-06), as built in `src/melee.rs`
+
+How tachyon creatures attack (`Species::Attack`, `Life::attack`): a weapon is a blow of a kind and force; the engine rolls a flat hit chance, picks a part by size and calls `Body::strike`. Broadside keeps the blow and the body but decides the hit by skill.
+
+- **Who fights.** Every tick, on each ship with men of two factions alive and on their feet (boarders keep their own faction; see `board::cross`), each man looks for the nearest foe on his deck. Marines, topmen, waisters, bosun's and carpenter's mates and officers go to meet the enemy within 12 cells; gun crews, the quartermaster and boys hold their posts and fight what comes to them or has struck them (for 8 s). The player's own man (`Control::Player`) strikes back but is never moved or broken. Only so many blades reach one man (a man beset by blows takes no more attackers for a moment), and a man closing with the enemy takes a moment to find his man before his first blow.
+- **Arms** (`Person::arms`, dealt from the man's own random stream by trade): officers cutlass and (nine in ten) a pistol; marines bayonet (one in seven a pistol); boys fists; the rest cutlass (two in three) or boarding pike (one in three), one in eight with a pistol. Blow, force before strength and skill, seconds between blows: cutlass edge 55, 1.6 s; pike point 75, 2.2 s, reach 2 (clumsy at arm's length); bayonet point 65, 2.0 s; fists blunt 25, 1.4 s. A pistol (point 150, once, within 3 cells, then dropped) uses `musketry`.
+- **Who strikes whom.** Chance to land a blow = 0.40 + 0.8 x (striker's `melee` x his condition - defender's `melee` x his), clamped 0.06 to 0.94, plus 0.15 for a defender who is running (who also guards at half skill). Condition = hands (`caps.grasp`) and legs (`caps.moving`) x consciousness x (1 - half his fatigue) x a fear factor (0.7 to 1.0 by will). Equal men hit 40% of the time; a master (0.9) against a landsman (0.1) 94%. A blow's force = weapon x (0.7 + 0.3 x grip) x a spread x (0.8 + 0.4 x skill). Every swing tires the striker (+0.006 fatigue) and the man parrying (+0.003), slows his next blow, and practises `melee`. Forces were set against `Body::strike` so a cutlass severs a limb on a few blows in a hundred and a thrust reaches an organ on about one in five.
+- **Will to fight (a stand-in, not a morale model).** `melee::will` = 0.2 + 0.55 bravery + 0.25 discipline - 0.09 x pain - 0.9 x blood lost - 0.2 x fatigue. Below 0.30 a man loses heart: he stops striking and walks off to the place farthest from the foe within 8 cells (cornered, he fights on); he rallies after at least 8 s once will is back above 0.40. Nothing else feeds it: not comrades falling, not the captain, not numbers, not gunfire (PSY-02, PSY-05, PSY-06). Boarders called home (`B` belayed) walk to the rail and strike only what is in reach on the way.
+- **Staying where they fall.** Dead and senseless men are left on the deck at the cell they fell (the engine moves neither); fighters step over to the nearest living foe, and `Ship::assign` and the cutters leave engaged men alone. The log tells of each man who goes down or is killed, who broke and ran, and the worst wounds; lesser hits go to the ship's notes.
+- **Tests**: `tests/melee.rs` (a duel's outcome follows skill; each weapon makes its own wounds; the fallen lie where they fell; a frightened wounded man breaks and runs; a pistol is fired once; boarders fight on a fouled pair and are recalled under fire). Headless: `cargo run --release -- --scenario action --bench 900 --auto --alongside --board --log` (the `line` scenario, as asked, shows no melee in 300 s: the ships do not foul).
+- **Not yet**: defenders turning out by the quarter bill, surrender and quarter given, wounded men carried below or tended (the surgeon), the dead thrown over the side, fighting in the tops or on ladders and below decks as a deliberate action, weapons dropped or taken up from the fallen, armour and shields (none), muskets reloaded in the press.
 
 ## 10. Captains, AI, signals, fleet
 

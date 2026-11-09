@@ -5,9 +5,8 @@
 //! home ship (`Person::home`), so he can be called back or be known as
 //! foreign; on his own roll his place is kept (`Person::crossed`).
 //!
-//! Not yet: the fighting itself (BRD-06) and the defenders turning out
-//! (BRD-07): the boarders stand on the deck and the engine's creatures
-//! quarrel as they will.
+//! The fighting itself is `melee`. Not yet: the defenders turning out
+//! (BRD-07): they meet the boarders as they come, man by man.
 //!
 //! Engine-general (for Tachyon, not built): moving a creature, with its body,
 //! needs and wounds, from one scene to another (here done by hand in
@@ -102,6 +101,8 @@ pub fn cross(src: &mut Ship, i: usize, dst: &mut Ship, at: Pos) -> Option<usize>
     };
     let mut p = src.people[i].clone();
     p.boarding = false;
+    p.fray.recalled = false;
+    p.fray.engaged = false;
     p.crossed = None;
     p.gun = None;
     let returning = p.home == Some(dst.id);
@@ -193,6 +194,9 @@ pub fn step(ships: &mut [Ship], f: &mut Foul, time: f64, dt: f32, lines: &mut Ve
             // Our men on her deck walk to her rail and come back over it.
             party.clock -= dt;
             let back = foreigners(other, me.id);
+            for &j in &back {
+                other.people[j].fray.recalled = true;
+            }
             if back.is_empty() {
                 for &i in &party.men {
                     me.people[i].boarding = false;

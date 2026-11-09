@@ -280,7 +280,7 @@ impl Ship {
         for i in 0..self.people.len() {
             let p = self.people[i].clone();
             let Some(id) = p.thing else { continue };
-            if p.home.is_some() || p.crossed.is_some() || p.boarding {
+            if p.home.is_some() || p.crossed.is_some() || p.boarding || p.fray.engaged {
                 continue;
             }
             if self.player && p.role == Role::Captain {
@@ -336,7 +336,7 @@ impl Ship {
         };
         let mut cand: Vec<(i32, i32, usize)> = Vec::new();
         for (i, p) in self.people.iter().enumerate() {
-            if rank(p.role) >= 99 || !self.able(p) || p.boarding || p.home.is_some() {
+            if rank(p.role) >= 99 || !self.able(p) || p.boarding || p.home.is_some() || p.fray.engaged {
                 continue;
             }
             let Some(q) = self.pos_of(p) else { continue };

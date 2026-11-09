@@ -419,6 +419,11 @@ fn main() -> io::Result<()> {
                 println!("  {l}");
             }
         }
+        for s in &g.ships {
+            let (fit, hurt, dead) = s.muster();
+            let fought: u32 = s.people.iter().map(|p| p.fray.blows).sum();
+            println!("  muster: the {} {fit} fit, {hurt} hurt, {dead} dead; {fought} blows struck in hand-to-hand by her men", s.name);
+        }
         return Ok(());
     }
 
