@@ -22,7 +22,7 @@ src/crew.rs    her company: generated names (tachyon::lang), backgrounds, 15 ski
 src/drill.rs   the nine-step gun drill (legacy rules: time from skill, fatigue, physique, ball and gun weight, hands)
 src/melee.rs   hand-to-hand: cutlass, pike, pistol; skill, fatigue, will to fight; real wounds; the fallen stay (docs/MECHANICS.md)
 src/ship.rs    orders (course, sail, quarters, fire, mark); quartermaster steers; topmen set sail; drill; laying; firing
-src/ai.rs      captains from their own person: skill, wit, dash, caution; missions; same orders as the player
+src/ai.rs      captains from their own person: skill, wit, dash, caution; missions; same orders as the player; board / repel / strike
 src/game.rs    the sea, ships, shot; splinters and shot wounds into bodies; dismounted guns; log; scenarios
 src/glass.rs   the glass (t) and the eye (T): first-person view held relative to her head, tilt, reticle, TAB holds a ship;
                bearings in points, aspect, range in cables; "a brig, hull up, bearing NNE, about 150 m" (tachyon::sight)

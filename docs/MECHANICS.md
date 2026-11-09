@@ -1,6 +1,6 @@
 # Broadside mechanics ledger
 
-Updated for bs-005 (hand-to-hand, BRD-06). One row per mechanic found in the legacy design docs (`docs/legacy/*.md`), checked against the Rust port in `src/` as of commit 91d9553 (2026-10-31, branch `queue/broadside`, from main).
+Updated for bs-006 (defenders turning out and the boarding AI, BRD-07; before it bs-005, hand-to-hand, BRD-06). One row per mechanic found in the legacy design docs (`docs/legacy/*.md`), checked against the Rust port in `src/` as of commit 91d9553 (2026-10-31, branch `queue/broadside`, from main).
 
 Completeness over polish. Rows are grouped by area; ids are stable handles for `depends on`.
 
@@ -26,14 +26,14 @@ Counts are by status; the full list is below.
 | Psyche, discipline, morale | 0 | 1 | 14 |
 | Gunnery | 14 | 7 | 9 |
 | Damage, fire, structures, items | 3 | 6 | 17 |
-| Boarding and contact | 8 | 0 | 2 |
+| Boarding and contact | 9 | 0 | 1 |
 | Captains, AI, signals, fleet | 4 | 6 | 25 |
 | Sight and knowledge | 9 | 3 | 8 |
 | Interface | 11 | 12 | 10 |
 | Tutorial, scenarios, sandbox | 1 | 3 | 12 |
 | World, campaign, economy | 0 | 2 | 25 |
 | Architecture and engine | 10 | 2 | 2 |
-| **Total (341 rows)** | **97** | **69** | **175** |
+| **Total (341 rows)** | **98** | **69** | **174** |
 
 Headline: the single-ship action (hull with real decks, crew as creatures, drill, laying, shot, holes, AI captains, grounding, glass) is ported. Everything above one ship's deck (signals, squadron command, campaign, world, economy), everything about the people's inner life (psyche, discipline, mutiny), the surgeon, boarding, fire, anchoring and the tutorial are missing. The sea itself (waves, tide, currents) is better in Tachyon than it ever was in the legacy game.
 
@@ -152,7 +152,7 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | LIF-07 | Grog at dinner and supper; rum from the puncheon | 11, 18 | missing | game | LIF-05, CRW-13 | |
 | LIF-08 | Short allowance (`r`) and splicing the mainbrace (`G`) | 22 | missing | game | LIF-07 | |
 | LIF-09 | Hunger, thirst, fatigue as decaying needs | 02 s3, 11 | partial | engine | | engine `life::needs` supplies them; drill reads fatigue; no ship-side feeding |
-| LIF-10 | Station bills per evolution (tack, reef, anchor, fire, boarding) | 10 s3 | partial | game | CRW-05 | quarter bill only |
+| LIF-10 | Station bills per evolution (tack, reef, anchor, fire, boarding) | 10 s3 | partial | game | CRW-05 | quarter bill, and the boarding bill (`melee::turn_out`, BRD-07); no tack, reef, anchor or fire bills |
 | LIF-11 | Hammocks piped up and stowed in the netting | 18 s1 more | partial | game | | hammock kind exists as the bed; no stowing |
 | LIF-12 | Galley and cook actually cooking; galley fire put out at quarters | 18 s1 more, 10 s3 | missing | game | CRW-09 | |
 | LIF-13 | Idlers' own work; officers' routine | 18 s1 more | missing | game | CRW-09 | |
@@ -275,8 +275,8 @@ Headline: the single-ship action (hull with real decks, crew as creatures, drill
 | BRD-04 | Gangways between rails; boarders cross | 13 | ported | game | BRD-02 | `board.rs` `cross`: a man leaves one ship's scene and appears at a free weather-deck cell by the other's rail, keeping body, wounds and fatigue; one man each 0.8 s. No gangway objects or grapnel items; the crossing is a transfer at the rail, not a walked plank. Engine-general (for Tachyon, not built): moving a creature between scenes |
 | BRD-05 | "Boarders away" picking best fighters; marines' musketry | 13, 10 s5 | ported | game | BRD-04, CRW-04 | `crew::boarding_party` (marines first, then by melee, nerve, discipline; never captain, officers, helm, gun captains, boys; a quarter of the able hands, 4..24), `board::step`; `B` key, `Orders::boarders_away`; marines at the rail fire for 14 s before the crossing (hit chance from musketry, wounds via `game::wound`). AI captains with at least 80% of the enemy's fighters send theirs after 8 s fouled, and put off cutting free 60 s. Fighting on the deck is BRD-06 |
 | BRD-06 | Melee by skill and fear, wounding real body parts | 13 | ported | game | BRD-04, BOD-01 | `melee.rs`, run each tick per ship by `Game::melee_step`; see "Melee model" below. Men of different factions on one deck close and strike with cutlass, boarding pike, bayonet or fists, and may fire one pistol; every blow that lands goes through `game::wound` and `Body::strike` (cut, pierce, break, sever, organ), so what wounds and kills is the body model's. The fallen (dead or `out`) stay where they fall and are left alone. Who goes to meet the enemy by trade; defenders turning out in order is BRD-07 |
-| BRD-07 | Defenders turning out | 13 | missing | game | BRD-06 | |
-| BRD-08 | Striking colours | 10 s5 | ported | game | | AI `Mission::Struck` and `S S` for the player |
+| BRD-07 | Defenders turning out | 13 | ported | game | BRD-06 | `melee::turn_out` (every 3 s while the enemy is on the weather deck): the boarding bill turns out topmen, waisters and mates first, then gunners (never gun captains, officers, helm, boys or the player), two defenders for every boarder less those already out; they leave their posts for the nearest boarder, by ladder if need be (`Fray::turned_out`). The AI side is in CAP-04; see "Boarding AI and the turn-out bill" below |
+| BRD-08 | Striking colours | 10 s5 | ported | game | | AI `Mission::Struck` and `S S` for the player; an AI captain also strikes when the deck is lost (BRD-07). A struck ship's men lay down arms: `melee::step` calms the ship, boarders stand where they are. No prize crew (BRD-09) |
 | BRD-09 | Prize crews, prizes sailed to port, prize money | 02 s6, 10 s5 | missing | game | BRD-08, ECO-04 | |
 | BRD-10 | Home ship memory for crossing men | 13 | ported | game | BRD-04 | `Person::home` (ship he belongs to, while aboard another), `Person::crossed` (his kept place on his own roll); belaying `B` calls them back to the old place; shown as "foreign" and "across" in the crew panel. Prisoners and men left behind when ships part stay foreign |
 
@@ -290,7 +290,16 @@ How tachyon creatures attack (`Species::Attack`, `Life::attack`): a weapon is a 
 - **Will to fight (a stand-in, not a morale model).** `melee::will` = 0.2 + 0.55 bravery + 0.25 discipline - 0.09 x pain - 0.9 x blood lost - 0.2 x fatigue. Below 0.30 a man loses heart: he stops striking and walks off to the place farthest from the foe within 8 cells (cornered, he fights on); he rallies after at least 8 s once will is back above 0.40. Nothing else feeds it: not comrades falling, not the captain, not numbers, not gunfire (PSY-02, PSY-05, PSY-06). Boarders called home (`B` belayed) walk to the rail and strike only what is in reach on the way.
 - **Staying where they fall.** Dead and senseless men are left on the deck at the cell they fell (the engine moves neither); fighters step over to the nearest living foe, and `Ship::assign` and the cutters leave engaged men alone. The log tells of each man who goes down or is killed, who broke and ran, and the worst wounds; lesser hits go to the ship's notes.
 - **Tests**: `tests/melee.rs` (a duel's outcome follows skill; each weapon makes its own wounds; the fallen lie where they fell; a frightened wounded man breaks and runs; a pistol is fired once; boarders fight on a fouled pair and are recalled under fire). Headless: `cargo run --release -- --scenario action --bench 900 --auto --alongside --board --log` (the `line` scenario, as asked, shows no melee in 300 s: the ships do not foul).
-- **Not yet**: defenders turning out by the quarter bill, surrender and quarter given, wounded men carried below or tended (the surgeon), the dead thrown over the side, fighting in the tops or on ladders and below decks as a deliberate action, weapons dropped or taken up from the fallen, armour and shields (none), muskets reloaded in the press.
+- **Not yet**: surrender and quarter given, wounded men carried below or tended (the surgeon), the dead thrown over the side, fighting in the tops or on ladders and below decks as a deliberate action, weapons dropped or taken up from the fallen, armour and shields (none), muskets reloaded in the press.
+
+### Boarding AI and the turn-out bill (BRD-07), as built in `src/melee.rs`, `src/ai.rs`, `Game::foul_step`
+
+- **The bill turns out.** `melee::step` looks at the weather deck every 3 s (`Ship::turnout_cool`). With the enemy on it, `turn_out` marks topmen, waisters, bosun's mates and carpenters, then gunners, until twice the boarders' number are out (men already out and on their feet count). Gun captains, officers, helm, boys, boarding parties and the player are never turned out. A turned-out man seeks the nearest boarder on the weather deck from wherever he is (up the ladders, by the engine's path-finding), is not sent back to station by `Ship::assign`, and goes back to his station when no enemy is left on his feet aboard (`calm`). Guns left uncrewed stop firing, as they should.
+- **Missions** (`ai::Mission`): `Board(id)` when the nearest enemy is within 1500 m, crippled (hurt over 0.45, e.g. guns out and men down) or has under half our fighters, we have at least 80% of her fighters, our own hurt is under 0.35 and the captain's dash is over 0.45 (once begun he keeps at it while she is over 0.3 hurt and he under 0.5). He steers straight for her with guns on until 60 m, canvas at 0.35 under 400 m and off under 120 m so the meeting is slow enough to foul (`foul::FOUL_SPEED`); the existing fouled-pair rules then send his boarders after 8 s. `Repel` whenever an enemy stands on his weather deck: sail off, no cutting free (`foul_step` skips the AI's cut-free order while he repels), the bill does the rest. He strikes (`Mission::Struck`, `ship.struck`) when the deck is lost: three or more boarders, at least two more than twice his own men on that deck, for 12 s plus up to 30 s more for a bold captain (`Captain::lost_for`, `ai::LOST_SECS`). A struck ship's men lay down arms.
+- **Contact** now carries `hurt` and `fighters` so a captain can judge a stranger.
+- **Not yet**: Board is only chosen by the captain nearest the enemy ship (no coordinating a pair); no boarding nets or defensive preparations; no refusal of quarter; the winner's boarders are not called home when the loser strikes, and no prize crew or prize (BRD-09); a crippled captain who flees outruns a boarder at equal speed (the chase never ends).
+- **Tests**: `tests/boarding_ai.rs` (the bill turns out a topman and a gunner from below but not the gun captain, and the gunner reaches the weather deck; a lone captain against eight boarders repels, then strikes; a bold captain lays a crippled brig aboard in two of three seeds). Headless: `cargo run --release -- --scenario action --bench 1200 --auto --alongside --board --log --seed N`.
+- **Odd outcomes seen** (run log): ships cut apart while their parties are still fighting aboard, stranding men "foreign"; `odds` and `line` seldom reach the rail in half an hour of play (one foul in eight runs, no boarding), so the odds/line scenarios do not exercise this yet; a lone boarder-seeker can circle at 40..100 m without ever fouling.
 
 ## 10. Captains, AI, signals, fleet
 
@@ -299,7 +308,7 @@ How tachyon creatures attack (`Species::Attack`, `Life::attack`): a weapon is a 
 | CAP-01 | Captain mind from his own person: skill, wit, aggression, caution | 19 s2 | ported | game | CRW-04 | `ai::Captain::from` |
 | CAP-02 | Discipline parameter: obeying disliked signals, order expiry | 19 s2 | missing | game | CAP-01, SIG-03 | no discipline in `Captain` |
 | CAP-03 | Wit sets how often he thinks (3 s to 17 s) | 19 s2 | ported | game | CAP-01 | `ai::command` |
-| CAP-04 | Missions: hold, station, engage, chase, withdraw, close, heave to | 19 s2 | partial | game | CAP-01 | `Mission::{Hold,Engage,Flee,Struck}` |
+| CAP-04 | Missions: hold, station, engage, chase, withdraw, close, heave to | 19 s2 | partial | game | CAP-01 | `Mission::{Cruise,Engage,Flee,Board,Repel,Struck}`; Board (foul and board a crippled or short-handed ship) and Repel (boarders on deck) added in bs-006 (BRD-07). No hold, station, chase, heave to |
 | CAP-05 | Decision order: signal, haul-off check, admiral's order, odds, engage/chase/station | 19 s2 | partial | game | CAP-04 | haul-off and odds yes; signal and admiral steps no |
 | CAP-06 | Laying course: closing on a slant, taking the weather gage, holding the chosen range | 19 s2 | partial | game | CAP-04, ENV-01 | engage at a range; no deliberate weather gage |
 | CAP-07 | Captain knows only what his own contacts show | 19 s2 | missing | game | SGT-02 | `game::tick` builds contacts from true positions |

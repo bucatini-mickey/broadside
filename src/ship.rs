@@ -83,6 +83,8 @@ pub struct Ship {
     pub player: bool,
     pub notes: Vec<Note>,
     pub rng: Rng,
+    /// Seconds until the boarding bill next looks at the deck (`melee::turn_out`).
+    pub turnout_cool: f32,
     rudder: f32,
     last_quarters: bool,
     last_watch: i32,
@@ -133,6 +135,7 @@ impl Ship {
             player,
             notes: Vec::new(),
             rng,
+            turnout_cool: 0.0,
             rudder: 0.0,
             last_quarters: false,
             last_watch: -1,
@@ -280,7 +283,7 @@ impl Ship {
         for i in 0..self.people.len() {
             let p = self.people[i].clone();
             let Some(id) = p.thing else { continue };
-            if p.home.is_some() || p.crossed.is_some() || p.boarding || p.fray.engaged {
+            if p.home.is_some() || p.crossed.is_some() || p.boarding || p.fray.engaged || p.fray.turned_out {
                 continue;
             }
             if self.player && p.role == Role::Captain {

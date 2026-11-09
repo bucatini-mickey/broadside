@@ -143,6 +143,8 @@ pub struct Fray {
     pub swarm: f32,
     /// Called home by his captain: he walks to the rail and does not seek the enemy.
     pub recalled: bool,
+    /// Turned out by the boarding bill: leaves his station to meet the boarders, anywhere on the weather deck.
+    pub turned_out: bool,
 }
 
 /// His will to fight, 0..1: bravery and discipline, less pain, blood lost
@@ -172,6 +174,69 @@ struct Man {
     pos: Pos,
     faction: u16,
     player: bool,
+}
+
+/// Seconds between the quarter bill's looks at the boarders on deck.
+pub const TURNOUT_EVERY: f32 = 3.0;
+
+/// The boarding station bill (LIF-10, partial): with the enemy on her weather
+/// deck, the bill turns out the tops, waisters and mates first, then men from
+/// the guns (never the gun captains), to match the boarders two for every
+/// one, less those already turned out. Returns how many were newly turned out.
+pub fn turn_out(ship: &mut Ship, lines: &mut Vec<String>) -> usize {
+    let (_, foes) = deck_strength(ship);
+    if foes == 0 {
+        return 0;
+    }
+    let out = ship.people.iter().filter(|p| p.fray.turned_out && ship.able(p) && !p.fray.broken).count();
+    let want = (foes * 2).saturating_sub(out);
+    if want == 0 {
+        return 0;
+    }
+    let mut cand: Vec<(u32, usize)> = Vec::new();
+    for (i, p) in ship.people.iter().enumerate() {
+        if p.home.is_some() || p.crossed.is_some() || p.boarding || p.fray.turned_out || p.fray.broken || !ship.able(p) {
+            continue;
+        }
+        let Some(c) = p.thing.and_then(|id| ship.craft.scene.life.get(id)) else { continue };
+        if c.mind.control == Control::Player || c.mind.faction != ship.faction {
+            continue;
+        }
+        let rank = match p.role {
+            Role::Topman | Role::Waister | Role::BosunsMate | Role::Carpenter => 0,
+            Role::Gunner => 1,
+            _ => continue,
+        };
+        cand.push((rank, i));
+    }
+    cand.sort();
+    let mut n = 0;
+    for &(_, i) in cand.iter().take(want) {
+        ship.people[i].fray.turned_out = true;
+        ship.people[i].fray.think = 0.0;
+        n += 1;
+    }
+    if n > 0 && out == 0 {
+        lines.push(format!("The {}: boarders on deck! The bill turns out {n} hands from the guns and tops.", ship.name));
+    }
+    n
+}
+
+/// Men on her weather deck: (her own on their feet, the enemy's). The
+/// measure of whether the deck is held.
+pub fn deck_strength(ship: &Ship) -> (usize, usize) {
+    let z = ship.layout.deck_z;
+    let (mut own, mut foe) = (0, 0);
+    for c in ship.craft.scene.life.creatures.iter().filter(|c| c.alive && !c.out) {
+        if ship.craft.scene.things.get(c.thing).is_some_and(|t| t.pos().z == z) {
+            if c.mind.faction == ship.faction {
+                own += 1;
+            } else {
+                foe += 1;
+            }
+        }
+    }
+    (own, foe)
 }
 
 /// Are there men of another faction alive and on their feet aboard?
@@ -225,10 +290,11 @@ fn stand_down(ship: &mut Ship, p: usize) {
 
 /// No enemy on his feet aboard any more: everyone who was fighting stands down.
 fn calm(ship: &mut Ship) {
-    let busy: Vec<usize> = (0..ship.people.len()).filter(|&i| ship.people[i].fray.engaged || ship.people[i].fray.broken).collect();
+    let busy: Vec<usize> = (0..ship.people.len()).filter(|&i| ship.people[i].fray.engaged || ship.people[i].fray.broken || ship.people[i].fray.turned_out).collect();
     for p in busy {
         ship.people[p].fray.broken = false;
         ship.people[p].fray.provoked = 0.0;
+        ship.people[p].fray.turned_out = false;
         stand_down(ship, p);
     }
 }
@@ -262,9 +328,15 @@ fn tell_fallen(ship: &mut Ship, fleet: &[String], lines: &mut Vec<String>) {
 /// `fleet` is every ship's name by id, to say whose man is whose.
 pub fn step(ship: &mut Ship, rng: &mut Rng, dt: f32, fleet: &[String], lines: &mut Vec<String>) {
     tell_fallen(ship, fleet, lines);
-    if !mixed(ship) {
+    // A ship that has struck is not fought for: arms are laid down.
+    if ship.struck || !mixed(ship) {
         calm(ship);
         return;
+    }
+    ship.turnout_cool -= dt;
+    if ship.turnout_cool <= 0.0 {
+        ship.turnout_cool = TURNOUT_EVERY;
+        turn_out(ship, lines);
     }
     let mut men: Vec<Man> = Vec::new();
     let mut at: HashMap<ThingId, usize> = HashMap::new();
@@ -338,6 +410,20 @@ pub fn step(ship: &mut Ship, rng: &mut Rng, dt: f32, fleet: &[String], lines: &m
             }
         }
         let Some((dist, _, foe)) = near else {
+            // Turned out from below: go up and across the deck to the nearest boarder.
+            if ship.people[p].fray.turned_out && !broken && !player {
+                if ship.people[p].fray.think <= 0.0 {
+                    ship.people[p].fray.think = 2.5;
+                    let z = ship.layout.deck_z;
+                    let reach = ship.people[p].arms.weapon.reach();
+                    let goal = men.iter().filter(|o| o.faction != faction && o.pos.z == z).min_by_key(|o| o.pos.dist2d(pos)).map(|o| o.pos);
+                    if let Some(to) = goal.and_then(|g| approach_tile(ship, pos, g, reach)) {
+                        go(ship, id, to);
+                        ship.people[p].fray.engaged = true;
+                    }
+                }
+                continue;
+            }
             if ship.people[p].fray.engaged {
                 stand_down(ship, p);
             }
@@ -403,7 +489,7 @@ pub fn step(ship: &mut Ship, rng: &mut Rng, dt: f32, fleet: &[String], lines: &m
         }
         // Going to meet him?
         let role = ship.people[p].role;
-        let seeker = matches!(role, Role::Marine | Role::Topman | Role::Waister | Role::BosunsMate | Role::Carpenter | Role::Lieutenant | Role::Midshipman | Role::Captain);
+        let seeker = ship.people[p].fray.turned_out || matches!(role, Role::Marine | Role::Topman | Role::Waister | Role::BosunsMate | Role::Carpenter | Role::Lieutenant | Role::Midshipman | Role::Captain);
         if (seeker || ship.people[p].fray.provoked > 0.0) && dist <= SEEK && !player && !ship.people[p].fray.recalled && ship.people[p].fray.think <= 0.0 {
             ship.people[p].fray.think = 2.0;
             ship.people[p].fray.engaged = true;

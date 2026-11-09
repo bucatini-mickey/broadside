@@ -179,7 +179,7 @@ impl Game {
         self.time += SECS;
         self.sea.step(dt, self.wind);
         // Captains decide.
-        let contacts: Vec<Contact> = self.ships.iter().map(|s| Contact { id: s.id, x: s.craft.x, y: s.craft.y, faction: s.faction, struck: s.struck }).collect();
+        let contacts: Vec<Contact> = self.ships.iter().map(|s| Contact { id: s.id, x: s.craft.x, y: s.craft.y, faction: s.faction, struck: s.struck, hurt: ai::hurt(s), fighters: crate::crew::boarding_party(&s.people, &|i| s.able(&s.people[i]), 999).len() }).collect();
         for i in 0..self.ships.len() {
             if let Some(cap) = self.captains[i].as_mut() {
                 ai::command(cap, &mut self.ships[i], &contacts, &self.sea, self.wind, dt);
@@ -507,7 +507,7 @@ impl Game {
                 if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= board::AI_RESOLVE && mine * 5 >= theirs * 4 && f.party[(k != f.a) as usize].is_none() {
                     s.orders.boarders_away = true;
                 }
-                if self.captains[k].is_some() && !s.player && !s.struck && self.time - f.since >= foul::AI_PATIENCE + if s.orders.boarders_away { 60.0 } else { 0.0 } {
+                if self.captains[k].as_ref().is_some_and(|c| c.mission != crate::ai::Mission::Repel) && !s.player && !s.struck && self.time - f.since >= foul::AI_PATIENCE + if s.orders.boarders_away { 60.0 } else { 0.0 } {
                     s.orders.cut_free = true;
                 }
             }

@@ -20,6 +20,10 @@ pub enum Mission {
     Engage(usize),
     /// Break off and run.
     Flee(usize),
+    /// Close, foul and board a weaker or disabled ship.
+    Board(usize),
+    /// Boarders on deck: hold her steady and fight them off.
+    Repel,
     /// Colours struck.
     Struck,
 }
@@ -34,6 +38,8 @@ pub struct Captain {
     /// Which beam he likes to fight on (+1 starboard).
     pub side: f32,
     next_think: f32,
+    /// Seconds the deck has been theirs (boarders far outnumber his own men on it).
+    pub lost_for: f32,
 }
 
 impl Captain {
@@ -46,6 +52,7 @@ impl Captain {
             mission: Mission::Cruise,
             side: 1.0,
             next_think: 0.0,
+            lost_for: 0.0,
         }
     }
 
@@ -54,6 +61,8 @@ impl Captain {
             Mission::Cruise => "cruising",
             Mission::Engage(_) => "engaging",
             Mission::Flee(_) => "breaking off",
+            Mission::Board(_) => "closing to board",
+            Mission::Repel => "repelling boarders",
             Mission::Struck => "struck",
         };
         format!("{m}; skill {:.0}%, wit {:.0}%, dash {:.0}%, caution {:.0}%", self.skill * 100.0, self.wit * 100.0, self.aggression * 100.0, self.caution * 100.0)
@@ -68,6 +77,9 @@ pub struct Contact {
     pub y: f32,
     pub faction: u16,
     pub struck: bool,
+    /// How hurt she is (`hurt`), and how many fighters she could send over.
+    pub hurt: f32,
+    pub fighters: usize,
 }
 
 /// How hurt a ship is, 0..1: water in her, men down, guns lost.
@@ -84,24 +96,53 @@ pub fn command(cap: &mut Captain, ship: &mut Ship, others: &[Contact], sea: &Sea
     if ship.struck {
         cap.mission = Mission::Struck;
     }
+    // Is the deck lost? Boarders in number, and few of his own left on it.
+    let (own, foe) = crate::melee::deck_strength(ship);
+    if foe >= 3 && foe >= 2 * own + 2 {
+        cap.lost_for += dt;
+    } else {
+        cap.lost_for = (cap.lost_for - dt).max(0.0);
+    }
+    if cap.mission != Mission::Struck && cap.lost_for >= LOST_SECS + 30.0 * (1.0 - cap.caution) {
+        ship.struck = true;
+        cap.mission = Mission::Struck;
+        ship.notes.push(crate::ship::Note { text: format!("The deck is lost; {} strikes her colours!", ship.name), urgent: true });
+    }
     cap.next_think -= dt;
     if cap.next_think <= 0.0 {
         cap.next_think = 3.0 + 12.0 * (1.0 - cap.wit);
-        decide(cap, ship, others);
+        decide(cap, ship, others, foe);
     }
-    let foe = |id: usize| others.iter().find(|c| c.id == id).copied();
+    let foe_ship = |id: usize| others.iter().find(|c| c.id == id).copied();
     match cap.mission {
         Mission::Struck => {
             ship.orders.fire = Fire::Hold;
             ship.orders.sail = 0.0;
             ship.orders.quarters = false;
+            ship.orders.boarders_away = false;
         }
         Mission::Cruise => {
             ship.orders.fire = Fire::Hold;
             ship.orders.sail = 0.75;
         }
+        Mission::Repel => {
+            // Hold her steady and let the bill do its work; no cutting free while the deck is contested.
+            ship.orders.sail = 0.0;
+            ship.orders.cut_free = false;
+        }
+        Mission::Board(id) => {
+            let Some(f) = foe_ship(id) else { return };
+            let (dx, dy) = (f.x - ship.craft.x, f.y - ship.craft.y);
+            let range = dx.hypot(dy);
+            ship.orders.course = Some(sailable(dx.atan2(-dy), ship, sea, wind));
+            // Guns while closing; canvas off in the last cables so the meeting is slow enough to foul.
+            ship.orders.sail = if range > 400.0 { 0.9 } else if range > 120.0 { 0.35 } else { 0.0 };
+            ship.orders.quarters = true;
+            ship.orders.target = Some(id);
+            ship.orders.fire = if range < 1200.0 && range > 60.0 { Fire::AtWill } else { Fire::Hold };
+        }
         Mission::Engage(id) => {
-            let Some(f) = foe(id) else { return };
+            let Some(f) = foe_ship(id) else { return };
             let (dx, dy) = (f.x - ship.craft.x, f.y - ship.craft.y);
             let range = dx.hypot(dy);
             let bearing = dx.atan2(-dy);
@@ -116,7 +157,7 @@ pub fn command(cap: &mut Captain, ship: &mut Ship, others: &[Contact], sea: &Sea
             ship.orders.fire = if range < 1600.0 { Fire::AtWill } else { Fire::Hold };
         }
         Mission::Flee(id) => {
-            let Some(f) = foe(id) else { return };
+            let Some(f) = foe_ship(id) else { return };
             let away = (ship.craft.x - f.x).atan2(-(ship.craft.y - f.y));
             ship.orders.course = Some(sailable(away, ship, sea, wind));
             ship.orders.sail = 1.0;
@@ -125,8 +166,16 @@ pub fn command(cap: &mut Captain, ship: &mut Ship, others: &[Contact], sea: &Sea
     }
 }
 
-fn decide(cap: &mut Captain, ship: &mut Ship, others: &[Contact]) {
+/// Seconds the deck must be lost before even the boldest captain strikes.
+pub const LOST_SECS: f32 = 12.0;
+
+fn decide(cap: &mut Captain, ship: &mut Ship, others: &[Contact], boarders: usize) {
     if cap.mission == Mission::Struck {
+        return;
+    }
+    // Boarders on the deck outrank every other thought.
+    if boarders > 0 {
+        cap.mission = Mission::Repel;
         return;
     }
     let me = (ship.craft.x, ship.craft.y);
@@ -137,6 +186,7 @@ fn decide(cap: &mut Captain, ship: &mut Ship, others: &[Contact]) {
         .filter(|(_, r)| *r < 8000.0)
         .min_by(|a, b| a.1.total_cmp(&b.1));
     let h = hurt(ship);
+    let mine = crate::crew::boarding_party(&ship.people, &|i| ship.able(&ship.people[i]), 999).len();
     cap.mission = match enemy {
         None => Mission::Cruise,
         Some((c, r)) => {
@@ -146,6 +196,12 @@ fn decide(cap: &mut Captain, ship: &mut Ship, others: &[Contact]) {
                 Mission::Struck
             } else if h > 0.55 - 0.3 * cap.caution {
                 Mission::Flee(c.id)
+            } else if r < 1500.0 && h < 0.35 && (c.hurt > 0.45 || (c.fighters * 2 < mine)) && mine * 5 >= c.fighters * 4 && cap.aggression > 0.45 {
+                // She is crippled or short of hands, and we have the men: lay her aboard.
+                Mission::Board(c.id)
+            } else if matches!(cap.mission, Mission::Board(id) if id == c.id) && r < 1500.0 && h < 0.5 && c.hurt > 0.3 {
+                // Keep at it once begun.
+                Mission::Board(c.id)
             } else {
                 Mission::Engage(c.id)
             }
